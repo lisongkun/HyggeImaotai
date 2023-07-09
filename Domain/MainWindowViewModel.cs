@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -121,35 +120,11 @@ namespace hygge_imaotai.Domain
 
 
             yield return new DemoItem(
-                "Rating Bar",
-                typeof(RatingBar),
-                selectedIcon: PackIconKind.Star,
-                unselectedIcon: PackIconKind.StarOutline);
+                "用户管理",
+                typeof(UserManageControl),
+                selectedIcon: PackIconKind.User,
+                unselectedIcon: PackIconKind.User);
 
-
-            yield return new DemoItem(
-                "Typography",
-                typeof(Typography),
-                selectedIcon: PackIconKind.FormatSize,
-                unselectedIcon: PackIconKind.FormatTitle)
-            {
-                HorizontalScrollBarVisibilityRequirement = ScrollBarVisibility.Auto
-            };
-
-            
-
-            yield return new DemoItem(
-                "Expander",
-                typeof(Expander),
-                selectedIcon: PackIconKind.UnfoldMoreHorizontal,
-                unselectedIcon: PackIconKind.UnfoldMoreHorizontal);
-
-
-            yield return new DemoItem(
-                "Elevation",
-                typeof(Elevation),
-                selectedIcon: PackIconKind.BoxShadow,
-                unselectedIcon: PackIconKind.BoxShadow);
         }
 
         private bool DemoItemsFilter(object obj)
