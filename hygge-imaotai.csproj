@@ -6,10 +6,31 @@
     <RootNamespace>hygge_imaotai</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="favicon.ico" />
+    <None Remove="Resources\Chartridge046_small.jpg" />
+    <None Remove="Resources\Contact.png" />
+    <None Remove="Resources\favicon.ico" />
+    <None Remove="Resources\ms-icon-310x310.png" />
+    <None Remove="Resources\ProfilePic.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Chartridge046_small.jpg" />
+    <Resource Include="Resources\Contact.png" />
+    <Resource Include="Resources\favicon.ico" />
+    <Resource Include="Resources\ms-icon-310x310.png" />
+    <Resource Include="Resources\ProfilePic.jpg" />
   </ItemGroup>
 
 </Project>
