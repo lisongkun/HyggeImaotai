@@ -130,7 +130,6 @@
                         </ListBox.Resources>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationDrawerPrimaryListBoxItem}">
-                                <Setter Property="materialDesign:BadgedAssist.Badge" Value="{Binding Notifications}" />
                                 <Setter Property="materialDesign:NavigationDrawerAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
                                 <Setter Property="materialDesign:NavigationDrawerAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
                             </Style>
