@@ -41,9 +41,11 @@
                 </TextBox.Text>
             </TextBox>
             <Button Grid.Column="1"
+                    x:Name="SendPhoneCodeButton"
                 wpf:RippleAssist.IsDisabled="True"
                 Margin="10,15,2,3"
                 Content="发送验证码"
+                Click="SendPhoneCodeButton_OnClick"
                 Style="{StaticResource MaterialDesignRaisedAccentButton}"
                 ToolTip="向手机发送验证码" />
         </Grid>
