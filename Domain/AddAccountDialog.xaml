@@ -66,6 +66,8 @@
                 Orientation="Horizontal">
             <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
               IsDefault="True"
+              x:Name="LoginButton"
+              Click="LoginButton_OnClick"
               Style="{StaticResource MaterialDesignFlatButton}">
                 <Button.CommandParameter>
                     <system:Boolean>True</system:Boolean>

@@ -66,10 +66,23 @@ namespace hygge_imaotai.Domain
                 Console.WriteLine(exception.Message);
                 new MessageBoxCustom($"发送验证码失败!", MessageType.Error, MessageButtons.Ok).ShowDialog();
             }
-
         }
 
 
-
+        private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var phone = _dataContext.Phone;
+            var code = _dataContext.PhoneCode;
+            try
+            {
+                await service.Login(phone, code);
+                new MessageBoxCustom("用户登录成功!", MessageType.Success, MessageButtons.Ok).ShowDialog();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                new MessageBoxCustom($"用户登录失败!", MessageType.Error, MessageButtons.Ok).ShowDialog();
+            }
+        }
     }
 }
