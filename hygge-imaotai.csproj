@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Flurl" Version="3.0.7" />
+    <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
   </ItemGroup>
 
@@ -31,6 +33,10 @@
     <Resource Include="Resources\favicon.ico" />
     <Resource Include="Resources\ms-icon-310x310.png" />
     <Resource Include="Resources\ProfilePic.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Page\" />
   </ItemGroup>
 
 </Project>

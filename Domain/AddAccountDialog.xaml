@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="hygge_imaotai.Domain.AddAccountDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+             d:DataContext="{d:DesignInstance domain:AddAccountDialogViewModel}"
+             d:DesignHeight="600"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <Grid Margin="16">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock>添加\更新用户:</TextBlock>
+        
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="0"
+                     Margin="0,6,0,0"
+                     wpf:HintAssist.Hint="请输入i茅台用户手机号"
+                     FontSize="18"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <TextBox.Text>
+                    <Binding Path="Phone" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Grid.Column="1"
+                    x:Name="SendPhoneCodeButton"
+                wpf:RippleAssist.IsDisabled="True"
+                Margin="10,15,2,3"
+                Content="{Binding RemainingText}"
+                Click="SendPhoneCodeButton_OnClick"
+                Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                ToolTip="向手机发送验证码" />
+        </Grid>
+        <TextBox Grid.Row="3"
+                 wpf:HintAssist.Hint="请输入验证码"
+             FontSize="16"
+             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <TextBox.Text>
+                <Binding Path="PhoneCode">
+                    <Binding.ValidationRules>
+                        <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <StackPanel Grid.Row="4"
+                Margin="0,15,0,0"
+                Orientation="Horizontal">
+            <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+              IsDefault="True"
+              x:Name="LoginButton"
+              Click="LoginButton_OnClick"
+              Style="{StaticResource MaterialDesignFlatButton}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+                登录
+            </Button>
+            <Button Margin="8,0,0,0"
+              Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+              IsCancel="True"
+              Style="{StaticResource MaterialDesignFlatButton}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+                取消
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
