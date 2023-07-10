@@ -85,7 +85,7 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    
+
                     <!-- 第四列内容 -->
                     <materialDesign:PackIcon Grid.Column="6"
                                              Foreground="{Binding ElementName=CityTextBox, Path=BorderBrush}"
@@ -146,6 +146,9 @@
 
         <!-- 第三行内容 -->
         <Grid Grid.Row="2">
+            <Grid.Tag>
+                <domain:DialogsViewModel x:Name="DialogVM" />
+            </Grid.Tag>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -162,9 +165,11 @@
                         <ColumnDefinition Width="{StaticResource GridWidth}" />
                         <ColumnDefinition Width="{StaticResource GridWidth}" />
                     </Grid.ColumnDefinitions>
+
                     <Button
                         Height="{StaticResource ButtonHeight}"
                         Margin="0,0,20,0"
+                        Command="{Binding RunAddAccountDialogCommand,ElementName=DialogVM}"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         Foreground="#6dbbed"
                         Background="#e7f3fd"

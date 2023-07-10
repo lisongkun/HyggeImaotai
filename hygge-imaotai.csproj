@@ -33,4 +33,8 @@
     <Resource Include="Resources\ProfilePic.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Page\" />
+  </ItemGroup>
+
 </Project>
