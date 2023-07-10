@@ -4,6 +4,7 @@ namespace hygge_imaotai.Domain
     {
         private string _phone;
         private string _phoneCode;
+        private string _remainingText = "·¢ËÍÑéÖ¤Âë";
 
 
         public string Phone
@@ -16,6 +17,12 @@ namespace hygge_imaotai.Domain
         {
             get => _phoneCode;
             set => SetProperty(ref _phoneCode, value);
+        }
+
+        public string RemainingText
+        {
+            get => _remainingText;
+            set => SetProperty(ref _remainingText, value);
         }
     }
 }
