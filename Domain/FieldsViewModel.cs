@@ -17,275 +17,22 @@ namespace hygge_imaotai.Domain
             SearchResult = CreateData();
         }
 
-        private static ObservableCollection<SelectableViewModel> CreateData()
+        private static ObservableCollection<UserManageViewModel> CreateData()
         {
-            return new ObservableCollection<SelectableViewModel>
+            return new ObservableCollection<UserManageViewModel>
             {
-                new SelectableViewModel
+                new UserManageViewModel
                 {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'M',
-                    Name = "Material Design",
-                    Description = "Material Design in XAML Toolkit"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'D',
-                    Name = "Dragablz",
-                    Description = "Dragablz Tab Control",
-                    Food = "Fries"
-                },
-                new SelectableViewModel
-                {
-                    Code = 'P',
-                    Name = "Predator",
-                    Description = "If it bleeds, we can kill it"
+                    Phone = "13712345678",
+                    UserId = "1234567890",
+                    Token = "abcdefg",
+                    AppointmentProjectCode = "1001@1002@1003",
+                    Province = "河北省",
+                    City = "石家庄市市",
+                    Latitude = "37N",
+                    Longitude = "119E",
+                    Type = '1',
+                    ExpireTime = "2023-07-15"
                 },
             };
         }
@@ -314,6 +61,6 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _city, value);
         }
 
-        public ObservableCollection<SelectableViewModel> SearchResult { get; }
+        public ObservableCollection<UserManageViewModel> SearchResult { get; }
     }
 }
