@@ -15,6 +15,7 @@
         SizeChanged="Window_SizeChanged"
         Style="{StaticResource MaterialDesignWindow}"
         WindowStartupLocation="CenterScreen"
+        FontFamily="Microsoft YaHei"
         mc:Ignorable="d">
     <Window.CommandBindings>
         <CommandBinding Command="Copy" Executed="OnCopy" />
