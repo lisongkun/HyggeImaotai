@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:hygge_imaotai"
              xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+             xmlns:entity="clr-namespace:hygge_imaotai.Entity"
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:domain1="clr-namespace:hygge_imaotai.Domain"
              d:DataContext="{d:DesignInstance domain:FieldsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -145,6 +147,7 @@
         </StackPanel>
 
         <!-- 第三行内容 -->
+            <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}"/>
         <Grid Grid.Row="2">
             <Grid.Tag>
                 <domain:DialogsViewModel x:Name="DialogVM" />
@@ -225,12 +228,117 @@
                     </Button>
                 </Grid>
             </StackPanel>
-            <DataGrid
-                Grid.Row="1"
+            <DataGrid AutoGenerateColumns="False"
+                      Grid.Row="1"
                 CanUserAddRows="False"
-                ItemsSource="{Binding SearchResult}"
-                SelectionMode="Extended"
-                SelectionUnit="Cell" />
+                HeadersVisibility="All"
+                ItemsSource="{Binding SearchResult}">
+                <DataGrid.Columns>
+                    <!-- 选择框 -->
+                    <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
+                        <DataGridCheckBoxColumn.Header>
+                            <Border Background="Transparent">
+                                <CheckBox IsChecked="{Binding DataContext.IsAllItems1Selected, Source={x:Reference DataContextProxy}}" />
+                            </Border>
+                        </DataGridCheckBoxColumn.Header>
+
+                        <DataGridCheckBoxColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridCheckBoxColumn.HeaderStyle>
+                    </DataGridCheckBoxColumn>
+                    <!-- 手机号 -->
+                    <DataGridTextColumn Binding="{Binding Mobile}"
+                              EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                              ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                              IsReadOnly="True"
+                              Header="手机号" />
+                    <DataGridTextColumn Binding="{Binding UserId}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="I茅台用户id" />
+                    <DataGridTextColumn Binding="{Binding Token}"
+                                        Width="80"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="token" />
+                    <DataGridTextColumn Binding="{Binding ItemCode}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="预约项目Code" />
+
+                    <DataGridTextColumn Binding="{Binding ProvinceName}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="省份" />
+                    <DataGridTextColumn Binding="{Binding CityName}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="城市" />
+                    <DataGridTextColumn Binding="{Binding Lat}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="纬度" />
+                    <DataGridTextColumn Binding="{Binding Lng}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="经度" />
+                    <DataGridTextColumn Binding="{Binding ShopType}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="类型" />
+                    <DataGridTextColumn Binding="{Binding ExpireTime,StringFormat='yyyy-MM-dd'}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        IsReadOnly="True"
+                                        Header="到期时间" />
+                    <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
+                    <!-- <materialDesign:DataGridComboBoxColumn Width="100" -->
+                    <!--                              Header="Food with long header" -->
+                    <!--                              IsEditable="True" -->
+                    <!--                              ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" -->
+                    <!--                              SelectedValueBinding="{Binding Food}"> -->
+                    <!-- </materialDesign:DataGridComboBoxColumn> -->
+                    <DataGridTemplateColumn Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>
+                                        <Hyperlink NavigateUri="{Binding ReserveCommand}">
+                                            <materialDesign:PackIcon Kind="CursorPointer" />
+                                            预约
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Margin="10,0,0,0">
+                                        <Hyperlink NavigateUri="{Binding ModifyCommand}">
+                                            <materialDesign:PackIcon Kind="Pencil" />
+                                            修改
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Margin="10,0,0,0" >
+                                        <Hyperlink Command="{Binding DeleteCommand}" CommandParameter="{Binding}" >
+                                            <materialDesign:PackIcon Kind="Delete" />
+                                            删除
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 
