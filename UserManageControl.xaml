@@ -10,6 +10,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:domain1="clr-namespace:hygge_imaotai.Domain"
+             xmlns:addAccountDialog="clr-namespace:hygge_imaotai.Dialogs.AddAccountDialog"
+             xmlns:dialogs="clr-namespace:hygge_imaotai.Dialogs"
              d:DataContext="{d:DesignInstance domain:FieldsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -150,7 +152,7 @@
             <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}"/>
         <Grid Grid.Row="2">
             <Grid.Tag>
-                <domain:DialogsViewModel x:Name="DialogVM" />
+                <dialogs:DialogsViewModel x:Name="DialogVM" />
             </Grid.Tag>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

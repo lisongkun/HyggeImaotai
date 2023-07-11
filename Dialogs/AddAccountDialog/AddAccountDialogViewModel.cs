@@ -1,4 +1,6 @@
-namespace hygge_imaotai.Domain
+using hygge_imaotai.Domain;
+
+namespace hygge_imaotai.Dialogs.AddAccountDialog
 {
     public class AddAccountDialogViewModel : ViewModelBase
     {
