@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using hygge_imaotai.Entity;
 
 namespace hygge_imaotai.Domain
 {
@@ -12,30 +16,6 @@ namespace hygge_imaotai.Domain
         private string? _province;
         private string? _city;
 
-        public FieldsViewModel()
-        {
-            SearchResult = CreateData();
-        }
-
-        private static ObservableCollection<UserManageViewModel> CreateData()
-        {
-            return new ObservableCollection<UserManageViewModel>
-            {
-                new UserManageViewModel
-                {
-                    Phone = "13712345678",
-                    UserId = "1234567890",
-                    Token = "abcdefg",
-                    AppointmentProjectCode = "1001@1002@1003",
-                    Province = "河北省",
-                    City = "石家庄市市",
-                    Latitude = "37N",
-                    Longitude = "119E",
-                    Type = '1',
-                    ExpireTime = "2023-07-15"
-                },
-            };
-        }
 
         public string? Phone
         {
@@ -61,6 +41,36 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _city, value);
         }
 
-        public ObservableCollection<UserManageViewModel> SearchResult { get; }
+        public static ObservableCollection<UserEntity> SearchResult { get; } =
+            new ObservableCollection<UserEntity>()
+            {
+                new UserEntity(true,1126643307,"18632081130","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY5MTU4MzcyOCwidXNlcklkIjoxMTI2NjQzMzA3LCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4ODk5MTcyOH0.AyRpWs53Wd9QqPXgwLdTRix9UJqbfYnLaTzbIsPu0LA",
+                    "","","","","","",0,"",DateTime.Now, DateTime.Now.AddDays(30))
+            };
+
+        public bool? IsAllItems1Selected
+        {
+            get
+            {
+                var selected = SearchResult.Select(item => item.IsSelected).Distinct().ToList();
+                return selected.Count == 1 ? selected.Single() : null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    SelectAll(value.Value, SearchResult);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private static void SelectAll(bool select, IEnumerable<UserEntity> models)
+        {
+            foreach (var model in models)
+            {
+                model.IsSelected = select;
+            }
+        }
     }
 }
