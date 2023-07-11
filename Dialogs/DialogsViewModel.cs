@@ -1,8 +1,10 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows.Input;
+using hygge_imaotai.Dialogs.AddAccountDialog;
+using hygge_imaotai.Domain;
+using MaterialDesignThemes.Wpf;
 
-namespace hygge_imaotai.Domain
+namespace hygge_imaotai.Dialogs
 {
     public class DialogsViewModel : ViewModelBase
     {
@@ -11,7 +13,7 @@ namespace hygge_imaotai.Domain
         private async void ExecuteRunAddAccountDialog(object? _)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new AddAccountDialog(new AddAccountDialogViewModel());
+            var view = new AddAccountDialog.AddAccountDialog(new AddAccountDialogViewModel());
 
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
