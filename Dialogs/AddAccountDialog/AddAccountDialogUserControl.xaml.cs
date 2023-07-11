@@ -9,14 +9,14 @@ namespace hygge_imaotai.Dialogs.AddAccountDialog
     /// <summary>
     /// Interaction logic for SampleDialog.xaml
     /// </summary>
-    public partial class AddAccountDialog : UserControl
+    public partial class AddAccountDialogUserControl : UserControl
     {
         private IMTService service = new();
         private DispatcherTimer timer;
         private AddAccountDialogViewModel _dataContext;
         private int _remainingTime;
 
-        public AddAccountDialog(AddAccountDialogViewModel dataContext)
+        public AddAccountDialogUserControl(AddAccountDialogViewModel dataContext)
         {
             InitializeComponent();
             DataContext = dataContext;
