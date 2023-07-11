@@ -7,7 +7,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:domain="clr-namespace:hygge_imaotai.Domain"
         Title="i茅台预约小助手"
-        Width="1100"
+        Width="1215"
         Height="800" 
         d:DataContext="{d:DesignInstance domain:MainWindowViewModel}"
         AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"

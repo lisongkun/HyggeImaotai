@@ -1,15 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Flurl;
-using Flurl.Http;
 using hygge_imaotai.CustomMessageBox;
 
-namespace hygge_imaotai.Domain
+namespace hygge_imaotai.Dialogs.AddAccountDialog
 {
     /// <summary>
     /// Interaction logic for SampleDialog.xaml

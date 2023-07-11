@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="hygge_imaotai.Domain.AddAccountDialog"
+﻿<UserControl x:Class="hygge_imaotai.Dialogs.AddAccountDialog.AddAccountDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,8 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:domain="clr-namespace:hygge_imaotai.Domain"
-             d:DataContext="{d:DesignInstance domain:AddAccountDialogViewModel}"
+             xmlns:addAccountDialog="clr-namespace:hygge_imaotai.Dialogs.AddAccountDialog"
+             d:DataContext="{d:DesignInstance addAccountDialog:AddAccountDialogViewModel}"
              d:DesignHeight="600"
              d:DesignWidth="300"
              mc:Ignorable="d">

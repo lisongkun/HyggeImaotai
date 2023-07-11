@@ -1,12 +1,15 @@
 ﻿using Flurl.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using hygge_imaotai.Domain;
+using hygge_imaotai.Entity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -125,8 +128,18 @@ namespace hygge_imaotai
             var responseString = await response.Content.ReadAsStringAsync();
             var responseJson = JObject.Parse(responseString);
             var responseCode = (string)responseJson["code"];
-            if (responseCode == "2000") return true;
-            throw new Exception(responseString);
+            if (responseCode != "2000") throw new Exception(responseString);
+            // 存储一下数据
+            var foundUserEntity = FieldsViewModel.SearchResult.FirstOrDefault(user => user.Mobile == phone);
+            if (foundUserEntity != null)
+            {
+                FieldsViewModel.SearchResult[FieldsViewModel.SearchResult.IndexOf(foundUserEntity)] = new UserEntity(phone, responseJson);
+            }
+            else
+            {
+                FieldsViewModel.SearchResult.Add(new UserEntity(phone,responseJson));
+            }
+            return true;
         }
 
     }
