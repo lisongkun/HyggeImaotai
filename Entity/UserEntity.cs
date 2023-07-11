@@ -164,7 +164,7 @@ private bool _isSelected;
         #endregion
 
         #region Construct Function
-
+        public UserEntity(){}
         public UserEntity(string mobile, JObject jsonObject):base()
         {
             var data = jsonObject["data"];
