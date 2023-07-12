@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="hygge_imaotai.Dialogs.DirectAddAccountDialog.DirectAddAccountDialogUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:entities="clr-namespace:hygge_imaotai.Entity" 
+             xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+             d:DataContext="{d:DesignInstance entities:UserEntity}"
+             d:DesignHeight="900"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <Grid Margin="16">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock>添加i茅台用户:</TextBlock>
+
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="0"
+                     Margin="0,6,0,0"
+                     wpf:HintAssist.Hint="请输入i茅台用户手机号"
+                     FontSize="18"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <TextBox.Text>
+                    <Binding Path="Mobile" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
+        <TextBox Grid.Row="2"
+                 wpf:HintAssist.Hint="请输入i茅台用户id"
+             FontSize="16"
+                 Text="{Binding UserId}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="3"
+                 wpf:HintAssist.Hint="请输入i茅台token"
+                 FontSize="16"
+                 Text="{Binding Token}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="4"
+                 wpf:HintAssist.Hint="请输入商品预约code,用@间隔"
+                 FontSize="16"
+                 Text="{Binding ItemCode}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="5"
+                 wpf:HintAssist.Hint="请输入省份"
+                 FontSize="16"
+                 Text="{Binding ProvinceName}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="6"
+                 wpf:HintAssist.Hint="请输入城市"
+                 FontSize="16"
+                 Text="{Binding CityName}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+        <TextBox Grid.Row="7"
+                 wpf:HintAssist.Hint="类型=>1:预约本市出货量最大的门店;2:预约你的位置(经纬度)附近门店;"
+                 FontSize="16"
+                 Text="{Binding ShopType}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="8"
+                 wpf:HintAssist.Hint="请输入纬度"
+                 FontSize="16"
+                 Text="{Binding Lat}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <TextBox Grid.Row="9"
+                 wpf:HintAssist.Hint="请输入经度"
+                 FontSize="16"
+                 Text="{Binding Lng}"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+        <DatePicker
+            Grid.Row="10"
+            Text="{Binding ExpireTime}"
+            wpf:HintAssist.Hint="请选择到期时间"
+            wpf:TextFieldAssist.HasClearButton="True"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+        <StackPanel Grid.Row="11"
+                Margin="0,15,0,0"
+                Orientation="Horizontal">
+            <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+              IsDefault="True"
+              x:Name="LoginButton"
+              Click="LoginButton_OnClick"
+              Style="{StaticResource MaterialDesignFlatButton}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+                登录
+            </Button>
+            <Button Margin="8,0,0,0"
+              Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+              IsCancel="True"
+              Style="{StaticResource MaterialDesignFlatButton}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+                取消
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

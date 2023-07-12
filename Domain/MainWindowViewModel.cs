@@ -125,6 +125,12 @@ namespace hygge_imaotai.Domain
                 selectedIcon: PackIconKind.User,
                 unselectedIcon: PackIconKind.User);
 
+            yield return new DemoItem(
+                "预约项目",
+                typeof(AppointProjectUserControl),
+                selectedIcon: PackIconKind.FileDocument,
+                unselectedIcon: PackIconKind.FileDocument);
+
         }
 
         private bool DemoItemsFilter(object obj)

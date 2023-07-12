@@ -190,6 +190,7 @@
                             Margin="20,0,0,0"
                             Height="{StaticResource ButtonHeight}"
                             materialDesign:ButtonAssist.CornerRadius="10"
+                            Command="{Binding RunDirectAddAccountDialogCommand,ElementName=DialogVM}"
                             Foreground="White"
                             Background="#359eff"
                             BorderBrush="#359eff"
