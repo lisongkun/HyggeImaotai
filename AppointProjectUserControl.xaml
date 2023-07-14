@@ -4,9 +4,73 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:hygge_imaotai"
+             xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance domain:AppointProjectViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.Resources>
+            <system:Double x:Key="ButtonHeight">40</system:Double>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="16">
+            <Button
+                Height="{StaticResource ButtonHeight}"
+                Margin="0,0,20,0"
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Foreground="Red"
+                Background="#ffeded"
+                BorderBrush="#ffeded"
+                x:Name="RefreshProductButton"
+                Click="RefreshProductButton_OnClick"
+                ToolTip="Refresh Product">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Refresh" />
+                    <TextBlock
+                        Text="刷新i茅台预约商品列表" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <DataGrid AutoGenerateColumns="False"
+                  Grid.Row="1"
+                  CanUserAddRows="False"
+                  HeadersVisibility="All"
+                  ItemsSource="{Binding  ProductList}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Code}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Header="预约商品code" />
+                <DataGridTextColumn Binding="{Binding Title}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Header="标题" />
+                <DataGridTextColumn Binding="{Binding Description}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Width="100"
+                                    Header="内容" />
+                <DataGridTemplateColumn Header="图片" Width="160">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Img}" Width="300" Height="90"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Created,StringFormat='yyyy-MM-dd HH:mm:ss'}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Header="创建时间" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
