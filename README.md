@@ -46,20 +46,6 @@
 
 发起 pull request 请求，提交到 master 分支，等待作者合并
 
-<<<<<<< HEAD
-## 贡献者
-=======
-## Contributors
->>>>>>> 59a38ff7fcba149f02efc08178168c6d2637fc83
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Star历史
 
