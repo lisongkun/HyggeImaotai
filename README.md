@@ -31,19 +31,36 @@
 
 
 
-## 贡献代码
-
-若您有好的想法，发现一些 **BUG** 并修复了，欢迎提交 **Pull Request** 参与开源贡献
-
-发起 pull request 请求，提交到 master 分支，等待作者合并
-
-
 ## 演示图
 | i茅台预约                           |                                         |
 | ----------------------------------- | --------------------------------------- |
 | ![homepage](Resources/homepage.png) | ![usermanage](Resources/usermanage.png) |
 |                                     |                                         |
 | ![img](Resources/product.png)       |                                         |
+
+
+## 贡献代码
+
+
+若您有好的想法，发现一些 **BUG** 并修复了，欢迎提交 **Pull Request** 参与开源贡献
+
+发起 pull request 请求，提交到 master 分支，等待作者合并
+
+## 贡献者
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## Star历史
+
+[![Star History Chart](https://api.star-history.com/svg?repos=lisongkun/hygge-imaotai&type=Date)](https://star-history.com/#lisongkun/hygge-imaotai&Date)
+
 
 ## 鸣谢
 ### 感谢以下组织机构提供开源许可
