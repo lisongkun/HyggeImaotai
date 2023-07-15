@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Page\**" />
+    <EmbeddedResource Remove="Page\**" />
+    <None Remove="Page\**" />
+    <Page Remove="Page\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="favicon.ico" />
     <None Remove="Resources\Chartridge046_small.jpg" />
     <None Remove="Resources\Contact.png" />
