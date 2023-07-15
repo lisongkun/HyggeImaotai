@@ -49,7 +49,6 @@ namespace hygge_imaotai
             if (ActualWidth <= 700)
             {
                 NavRail.Visibility = Visibility.Collapsed;
-                NavBar.Visibility = Visibility.Visible;
                 NavDrawer.OpenMode = DrawerHostOpenMode.Modal;
                 NavDrawer.IsLeftDrawerOpen = false;
                 MenuToggleButton.Visibility = Visibility.Visible;
@@ -59,7 +58,6 @@ namespace hygge_imaotai
             else if (ActualWidth > 700 && ActualWidth <= 1600)
             {
                 NavRail.Visibility = Visibility.Visible;
-                NavBar.Visibility = Visibility.Collapsed;
                 NavDrawer.OpenMode = DrawerHostOpenMode.Modal;
                 NavDrawer.IsLeftDrawerOpen = false;
                 MenuToggleButton.Visibility = Visibility.Visible;
@@ -69,7 +67,6 @@ namespace hygge_imaotai
             else if (ActualWidth > 1600)
             {
                 NavRail.Visibility = Visibility.Collapsed;
-                NavBar.Visibility = Visibility.Collapsed;
                 NavDrawer.OpenMode = DrawerHostOpenMode.Standard;
                 NavDrawer.IsLeftDrawerOpen = true;
                 MenuToggleButton.Visibility = Visibility.Collapsed;

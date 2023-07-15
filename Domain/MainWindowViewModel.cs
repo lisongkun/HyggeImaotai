@@ -23,19 +23,12 @@ namespace hygge_imaotai.Domain
                     unselectedIcon: PackIconKind.HomeOutline)
             };
 
-            foreach (var item in GenerateDemoItems(snackbarMessageQueue).OrderBy(i => i.Name))
+            foreach (var item in GenerateDemoItems(snackbarMessageQueue))
             {
                 DemoItems.Add(item);
             }
 
-            MainDemoItems = new ObservableCollection<DemoItem>
-            {
-                DemoItems.First(x => x.Name == "Home"),
-                //DemoItems.First(x => x.Name == "Buttons"),
-                //DemoItems.First(x => x.Name == "Toggles"),
-                //DemoItems.First(x => x.Name == "Fields"),
-                //DemoItems.First(x => x.Name == "Pickers")
-            };
+
 
             _demoItemsView = CollectionViewSource.GetDefaultView(DemoItems);
             _demoItemsView.Filter = DemoItemsFilter;
@@ -88,7 +81,6 @@ namespace hygge_imaotai.Domain
         }
 
         public ObservableCollection<DemoItem> DemoItems { get; }
-        public ObservableCollection<DemoItem> MainDemoItems { get; }
 
         public DemoItem? SelectedItem
         {
@@ -130,6 +122,13 @@ namespace hygge_imaotai.Domain
                 typeof(AppointProjectUserControl),
                 selectedIcon: PackIconKind.FileDocument,
                 unselectedIcon: PackIconKind.FileDocument);
+
+            yield return new DemoItem(
+                "店铺管理",
+                typeof(StoreManageUserControl),
+                selectedIcon: PackIconKind.Store,
+                unselectedIcon:PackIconKind.Store
+            );
 
         }
 

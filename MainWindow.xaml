@@ -115,6 +115,7 @@
                    DockPanel.Dock="Top"
                    Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <!-- 抽屉中的ListBox -->
                     <ListBox x:Name="DemoItemsListBox"
                    Margin="12,16,12,16"
                    AutomationProperties.Name="DemoPagesListBox"
@@ -292,37 +293,6 @@
                     </Grid>
                 </Grid>
 
-                <Grid x:Name="NavBar" Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <materialDesign:ColorZone Grid.Row="1"
-                                    Height="80"
-                                    Background="{DynamicResource MaterialDesignCardBackground}">
-                        <ListBox ItemsSource="{Binding MainDemoItems}"
-                     SelectedValue="{Binding SelectedItem}"
-                     Style="{StaticResource MaterialDesign3.NavigationBarListBox}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationBarPrimaryListBoxItem}">
-                                    <Setter Property="materialDesign:BadgedAssist.BadgeBackground" Value="#930006" />
-                                    <Setter Property="materialDesign:BadgedAssist.BadgeForeground" Value="#FFDAD4" />
-                                    <Setter Property="materialDesign:NavigationBarAssist.IsTextVisible" Value="True" />
-                                    <Setter Property="materialDesign:NavigationBarAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
-                                    <Setter Property="materialDesign:NavigationBarAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.Resources>
-                                <DataTemplate DataType="{x:Type domain:DemoItem}">
-                                    <TextBlock Text="{Binding Name}"
-                             TextAlignment="Center"
-                             TextWrapping="Wrap" />
-                                </DataTemplate>
-                            </ListBox.Resources>
-                        </ListBox>
-                    </materialDesign:ColorZone>
-                </Grid>
 
                 <Button x:Name="FAB"
                 Grid.Row="1"
