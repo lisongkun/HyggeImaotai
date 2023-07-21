@@ -22,10 +22,10 @@ namespace hygge_imaotai.UserInterface.UserControl
         private async void RefreshProductButton_OnClick(object sender, RoutedEventArgs e)
         {
             AppointProjectViewModel.ProductList.Clear();
-            DateTime midNight = DateTime.Now.Date;
-            DateTimeOffset epochStart = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromHours(8));
-            TimeSpan timeSpan = midNight.AddHours(-8) - epochStart;
-            long milliseconds = (long)timeSpan.TotalMilliseconds;
+            var midNight = DateTime.Now.Date;
+            var epochStart = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromHours(8));
+            var timeSpan = midNight.AddHours(-8) - epochStart;
+            var milliseconds = (long)timeSpan.TotalMilliseconds;
 
             var responseStr = await ("https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/" +
                                      milliseconds)

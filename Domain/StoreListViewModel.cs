@@ -14,6 +14,12 @@ namespace hygge_imaotai.Domain
         private string _city;
         private string _area;
         private string _companyName;
+
+        // 分页数据
+        private int total = 0;
+        private int current = 1;
+        private int pageSize = 10;
+        private int pageCount = 0;
         #endregion
 
         #region Properties
@@ -48,11 +54,31 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _companyName, value);
         }
 
-        public ObservableCollection<StoreEntity> StoreList { get; } = new ObservableCollection<StoreEntity>()
+        public static ObservableCollection<StoreEntity> StoreList { get; } = new ObservableCollection<StoreEntity>();
+
+        public int Total
         {
-            new StoreEntity("143430124001","湖南省","长沙市","宁乡市","长沙市宁乡市城郊街道宁乡大道198号优雅翠园148-158号门面","28.27368","112.565637",
-                "宁乡市宁乡大道贵州茅台专卖店","长沙海斌酒业贸易有限责任公司")
-        };
+            get => total;
+            set => SetProperty(ref total, value);
+        }
+
+        public int Current
+        {
+            get => current;
+            set => SetProperty(ref current, value);
+        }
+
+        public int PageSize
+        {
+            get => pageSize;
+            set => SetProperty(ref pageSize, value);
+        }
+
+        public int PageCount
+        {
+            get => pageCount;
+            set => SetProperty(ref pageCount, value);
+        }
 
         #endregion
 

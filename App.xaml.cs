@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Repository;
 using Newtonsoft.Json;
 
 
@@ -15,6 +16,14 @@ namespace hygge_imaotai
     {
         const string CacheDir = "cache"; 
         private readonly string _productListFile = Path.Combine(CacheDir, "productList.json");
+        /// <summary>
+        /// 订单数据库表名
+        /// </summary>
+        public const string OrderDatabasePath = "imaotai.db";
+        /// <summary>
+        /// 订单数据库连接字符串
+        /// </summary>
+        public const string OrderDatabaseConnectStr = "Data Source=cache/imaotai.db;";
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -31,6 +40,8 @@ namespace hygge_imaotai
                 var json = File.ReadAllText(_productListFile);
                 AppointProjectViewModel.ProductList = JsonConvert.DeserializeObject<ObservableCollection<ProductEntity>>(json);
             }
+            // 开始初始化数据库
+            CommonRepository.CreateDatabase();
         }
 
         public static void WriteCache(string filename,string content)

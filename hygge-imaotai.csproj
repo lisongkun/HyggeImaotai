@@ -29,6 +29,7 @@
     <PackageReference Include="Flurl" Version="3.0.7" />
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
   </ItemGroup>
 
   <ItemGroup>
