@@ -11,7 +11,7 @@
         Height="800" 
         d:DataContext="{d:DesignInstance domain:MainWindowViewModel}"
         AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
-        Icon="./favicon.ico" 
+        Icon="../../favicon.ico" 
         SizeChanged="Window_SizeChanged"
         Style="{StaticResource MaterialDesignWindow}"
         WindowStartupLocation="CenterScreen"
@@ -60,7 +60,7 @@
                         <Image Width="36"
                    Height="36"
                    DockPanel.Dock="Left"
-                   Source="Resources/ms-icon-310x310.png"
+                   Source="/Resources/ms-icon-310x310.png"
                    Stretch="Uniform" />
                         <TextBlock Margin="10,0,10,0"
                        HorizontalAlignment="Center"

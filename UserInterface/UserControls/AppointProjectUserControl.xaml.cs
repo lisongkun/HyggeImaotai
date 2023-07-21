@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using Flurl.Http;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai
+namespace hygge_imaotai.UserInterface.UserControl
 {
     /// <summary>
     /// AppointProjectUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class AppointProjectUserControl : UserControl
+    public partial class AppointProjectUserControl : System.Windows.Controls.UserControl
     {
         public AppointProjectUserControl()
         {

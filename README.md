@@ -36,7 +36,7 @@
 | ----------------------------------- | --------------------------------------- |
 | ![homepage](Resources/homepage.png) | ![usermanage](Resources/usermanage.png) |
 |                                     |                                         |
-| ![img](Resources/product.png)       |                                         |
+| ![productList](Resources/product.png)       | ![storeList](Resources/storeList.png)   |
 
 
 ## ¹±Ï×´úÂë

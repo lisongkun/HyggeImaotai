@@ -1,13 +1,12 @@
-﻿using hygge_imaotai.Domain;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
+using hygge_imaotai.Domain;
 
-namespace hygge_imaotai
+namespace hygge_imaotai.UserInterface.UserControl
 {
     /// <summary>
     /// HomeUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class HomeUserControl : UserControl
+    public partial class HomeUserControl : System.Windows.Controls.UserControl
     {
         public HomeUserControl()
         {
