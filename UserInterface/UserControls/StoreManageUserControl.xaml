@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="hygge_imaotai.UserInterface.UserControl.StoreManageUserControl"
+﻿<UserControl x:Class="hygge_imaotai.UserInterface.UserControls.StoreManageUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -161,6 +161,7 @@
                 Background="#ffeded"
                 BorderBrush="#ffeded"
                 x:Name="RefreshShopButton"
+                Click="RefreshShopButton_OnClick"
                 ToolTip="Refresh Shop">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Refresh" />

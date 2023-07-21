@@ -48,7 +48,7 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _companyName, value);
         }
 
-        public ObservableCollection<StoreEntity> StoreList { get; } = new ObservableCollection<StoreEntity>()
+        public static ObservableCollection<StoreEntity> StoreList { get; } = new ObservableCollection<StoreEntity>()
         {
             new StoreEntity("143430124001","湖南省","长沙市","宁乡市","长沙市宁乡市城郊街道宁乡大道198号优雅翠园148-158号门面","28.27368","112.565637",
                 "宁乡市宁乡大道贵州茅台专卖店","长沙海斌酒业贸易有限责任公司")

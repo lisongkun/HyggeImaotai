@@ -2,6 +2,7 @@
 
 using System;
 using hygge_imaotai.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.Entity
 {
@@ -29,6 +30,21 @@ namespace hygge_imaotai.Entity
 
         public StoreEntity()
         {
+        }
+
+
+        public StoreEntity(string shopId, JObject jObject)
+        {
+            ProductId = shopId;
+            Province =  jObject.GetValue("provinceName").Value<string>();
+            City = jObject.GetValue("cityName").Value<string>();
+            Area = jObject.GetValue("districtName").Value<string>();
+            UnbrokenAddress = jObject.GetValue("fullAddress").Value<string>();
+            Lat = jObject.GetValue("lat").Value<string>();
+            Lng = jObject.GetValue("lng").Value<string>();
+            Name = jObject.GetValue("name").Value<string>();
+            CompanyName = jObject.GetValue("tenantName").Value<string>();
+            CreatedAt = DateTime.Now;
         }
 
         public StoreEntity(string productId, string province, string city, string area, string unbrokenAddress, string lat, string lng, string name, string companyName)
