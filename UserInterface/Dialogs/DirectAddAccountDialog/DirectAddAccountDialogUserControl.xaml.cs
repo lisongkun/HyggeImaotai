@@ -1,18 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using hygge_imaotai.CustomMessageBox;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 
-namespace hygge_imaotai.Dialogs.DirectAddAccountDialog
+namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
 {
     /// <summary>
     /// Interaction logic for SampleDialog.xaml
     /// </summary>
-    public partial class DirectAddAccountDialogUserControl : UserControl
+    public partial class DirectAddAccountDialogUserControl
     {
         private IMTService service = new();
         private UserEntity _dataContext;

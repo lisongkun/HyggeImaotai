@@ -1,12 +1,11 @@
-﻿using System.Windows.Controls;
-using hygge_imaotai.Domain;
+﻿using hygge_imaotai.Domain;
 
-namespace hygge_imaotai
+namespace hygge_imaotai.UserInterface.UserControls
 {
     /// <summary>
     /// UserManageControl.xaml 的交互逻辑
     /// </summary>
-    public partial class UserManageControl : UserControl
+    public partial class UserManageControl
     {
         public UserManageControl()
         {

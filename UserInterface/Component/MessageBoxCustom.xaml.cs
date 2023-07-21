@@ -1,12 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace hygge_imaotai.CustomMessageBox
+namespace hygge_imaotai.UserInterface.Component
 {
     /// <summary>
     /// Interaction logic for MessageBoxCustom.xaml
     /// </summary>
-    public partial class MessageBoxCustom : Window
+    public partial class MessageBoxCustom : System.Windows.Window
     {
         public MessageBoxCustom(string Message, MessageType Type, MessageButtons Buttons)
         {

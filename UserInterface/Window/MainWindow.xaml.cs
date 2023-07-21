@@ -10,12 +10,12 @@ using System.Windows.Media;
 using hygge_imaotai.Domain;
 using MaterialDesignThemes.Wpf;
 
-namespace hygge_imaotai
+namespace hygge_imaotai.UserInterface.Window
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {

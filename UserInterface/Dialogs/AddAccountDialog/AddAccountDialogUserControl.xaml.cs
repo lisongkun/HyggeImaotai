@@ -2,14 +2,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using hygge_imaotai.CustomMessageBox;
+using hygge_imaotai.UserInterface.Component;
 
-namespace hygge_imaotai.Dialogs.AddAccountDialog
+namespace hygge_imaotai.UserInterface.Dialogs.AddAccountDialog
 {
     /// <summary>
     /// Interaction logic for SampleDialog.xaml
     /// </summary>
-    public partial class AddAccountDialogUserControl : UserControl
+    public partial class AddAccountDialogUserControl
     {
         private IMTService service = new();
         private DispatcherTimer timer;
