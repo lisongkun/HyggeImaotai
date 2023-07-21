@@ -7,9 +7,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+             xmlns:component="clr-namespace:hygge_imaotai.UserInterface.Component"
              d:DataContext="{d:DesignInstance domain:StoreListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,6 +22,7 @@
             <!-- 第二行，自适应高度 -->
             <RowDefinition Height="*" />
             <!-- 第三行，占据剩余空间 -->
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!-- 第一行内容 -->
         <GroupBox
@@ -231,5 +236,7 @@
                                     Header="创建时间" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <component:Pagination Grid.Row="3" x:Name="pag1" PageCount="{Binding PageCount}" Height="35" />
     </Grid>
 </UserControl>

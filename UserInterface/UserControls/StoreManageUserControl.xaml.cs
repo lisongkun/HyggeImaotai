@@ -16,9 +16,26 @@ namespace hygge_imaotai.UserInterface.UserControls
         public StoreManageUserControl()
         {
             InitializeComponent();
-            DataContext = new StoreListViewModel();
+            var storeListViewModel = new StoreListViewModel();
+            DataContext = storeListViewModel;
+
+            ShopRepository.GetPageData(1, 10).ForEach(item =>
+            {
+                StoreListViewModel.StoreList.Add(item);
+            });
+
+            // 分页数据
+            var total = ShopRepository.GetTotalCount();
+            var pageCount = total / 10 + 1;
+            storeListViewModel.Total = total;
+            storeListViewModel.PageCount = pageCount;
         }
 
+        /// <summary>
+        /// 刷新Shop数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void RefreshShopButton_OnClick(object sender, RoutedEventArgs e)
         {
             StoreListViewModel.StoreList.Clear();

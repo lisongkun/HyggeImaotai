@@ -84,5 +84,24 @@ namespace hygge_imaotai.Repository
             return list;
         }
 
+        /// <summary>
+        /// 获取数据总数
+        /// </summary>
+        /// <returns></returns>
+        public static int GetTotalCount()
+        {
+            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
+            connection.Open();
+            const string insertSql = @"select count(*) from i_shop";
+            using var command = new SqliteCommand(insertSql, connection);
+            using var reader = command.ExecuteReader();
+            var count = 0;
+            while (reader.Read())
+            {
+                count = reader.GetInt32(0);
+            }
+            return count;
+        }
+
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:hygge_imaotai"
+             xmlns:component="clr-namespace:hygge_imaotai.UserInterface.Component"
              StartupUri="/UserInterface/Window/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -13,6 +14,89 @@
                 <!-- Copy from Demo -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="PageBtn" TargetType="Button">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="MinWidth" Value="35"/>
+                <Setter Property="Margin" Value="3 0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Background" Value="LightBlue"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" CornerRadius="6" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True" SourceName="border">
+                                    <Setter Property="Background" Value="Red" TargetName="border"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="Gray" TargetName="border"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="PageCurrent" TargetType="Button">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="MinWidth" Value="35"/>
+                <Setter Property="Margin" Value="3 0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" CornerRadius="6" Background="Green">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="component:Pagination">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="component:Pagination">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnPrev" Content="上一页"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnOne" Content="1"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnDotPrev" Content="..."></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnCenterOne" Content="1"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnCenterTwo" Content="2"></Button>
+                                <Button Style="{StaticResource PageCurrent}" x:Name="btnCenterThree" Content="3"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnCenterFour" Content="4"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnCenterFive" Content="5"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnDotNext" Content="..."></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnLast" Content="5"></Button>
+                                <Button Style="{StaticResource PageBtn}" x:Name="btnNext" Content="下一页"></Button>
+                            </StackPanel>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSimple" Value="True">
+                        <Setter Property="Template" >
+                            <Setter.Value>
+                                <ControlTemplate TargetType="component:Pagination">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnPrev" Content="上一页"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnCenterOne" Content="1"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnCenterTwo" Content="2"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnCenterThree" Content="3"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnCenterFour" Content="4"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnCenterFive" Content="5"></Button>
+                                        <Button Style="{StaticResource PageBtn}" x:Name="btnNext" Content="下一页"></Button>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
+
+
 </Application>
