@@ -304,25 +304,18 @@
                                         ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                         IsReadOnly="True"
                                         Header="到期时间" />
-                    <!-- use custom combo box column to get better combos. Use ItemsSourceBinding as your binding template to be applied to each combo -->
-                    <!-- <materialDesign:DataGridComboBoxColumn Width="100" -->
-                    <!--                              Header="Food with long header" -->
-                    <!--                              IsEditable="True" -->
-                    <!--                              ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" -->
-                    <!--                              SelectedValueBinding="{Binding Food}"> -->
-                    <!-- </materialDesign:DataGridComboBoxColumn> -->
                     <DataGridTemplateColumn Header="操作">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock>
-                                        <Hyperlink NavigateUri="{Binding ReserveCommand}">
+                                        <Hyperlink Command="{Binding ReserveCommand}" CommandParameter="{Binding}">
                                             <materialDesign:PackIcon Kind="CursorPointer" />
                                             预约
                                         </Hyperlink>
                                     </TextBlock>
                                     <TextBlock Margin="10,0,0,0">
-                                        <Hyperlink NavigateUri="{Binding ModifyCommand}">
+                                        <Hyperlink Command="{Binding ModifyCommand}" CommandParameter="{Binding}">
                                             <materialDesign:PackIcon Kind="Pencil" />
                                             修改
                                         </Hyperlink>

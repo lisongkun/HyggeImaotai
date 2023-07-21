@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 using hygge_imaotai.Domain;
+using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
+using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.Entity
@@ -157,9 +160,26 @@ private bool _isSelected;
         #region Commond
 
         public ICommand DeleteCommand => new AnotherCommandImplementation(DeleteItemFunc);
+        public ICommand ModifyCommand => new AnotherCommandImplementation(ModifyItemFunc);
+        public ICommand ReserveCommand => new AnotherCommandImplementation(ReserveCommandItemFunc);
+
         private static void DeleteItemFunc(object? parameter)
         {
             FieldsViewModel.SearchResult.Remove((parameter as UserEntity)!);
+        }
+
+        private static void ModifyItemFunc(object? parameter)
+        {
+            var userEntity = parameter as UserEntity;
+            // 深拷贝一份userEntity
+            var view = new DirectAddAccountDialogUserControl(JsonConvert.DeserializeObject<UserEntity>(JsonConvert.SerializeObject(userEntity)),true);
+            DialogHost.Show(view, "RootDialog");
+        }
+
+        private static void ReserveCommandItemFunc(object? parameter)
+        {
+            var userEntity = parameter as UserEntity;
+            userEntity!.IsSelected = !userEntity.IsSelected;
         }
         #endregion
 
