@@ -24,6 +24,7 @@ namespace hygge_imaotai.Entity
         private string _companyName;
         private DateTime _createdAt;
 
+
         #endregion
 
         #region Construct
@@ -124,6 +125,8 @@ namespace hygge_imaotai.Entity
             get => _createdAt;
             set => SetProperty(ref _createdAt, value);
         }
+
+        public double Distance { get; set; }
 
         #endregion
     }

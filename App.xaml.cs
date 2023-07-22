@@ -15,7 +15,11 @@ namespace hygge_imaotai
     public partial class App : Application
     {
         const string CacheDir = "cache"; 
+        // 内部使用缓存文件
         private readonly string _productListFile = Path.Combine(CacheDir, "productList.json");
+        private readonly string _sessionIdFile = Path.Combine(CacheDir, "mtSessionId.txt");
+        // 共用缓存文件
+        public static string StoreListFile = Path.Combine(CacheDir, "storeList.json");
         /// <summary>
         /// 订单数据库表名
         /// </summary>
@@ -24,6 +28,11 @@ namespace hygge_imaotai
         /// 订单数据库连接字符串
         /// </summary>
         public const string OrderDatabaseConnectStr = "Data Source=cache/imaotai.db;";
+
+        /// <summary>
+        /// 茅台会话ID
+        /// </summary>
+        public static string MtSessionId = "";
 
 
         protected override void OnStartup(StartupEventArgs e)
@@ -42,6 +51,9 @@ namespace hygge_imaotai
             }
             // 开始初始化数据库
             CommonRepository.CreateDatabase();
+            // 读取会话ID
+            if(File.Exists(_sessionIdFile))
+                MtSessionId = File.ReadAllText(_sessionIdFile);
         }
 
         public static void WriteCache(string filename,string content)
