@@ -170,18 +170,19 @@ namespace hygge_imaotai
 
             var info = new Dictionary<string, object>
             {
-                { "count", 1 },
-                { "itemId", itemId }
+                { "itemId", itemId },
+                { "count", 1 }
             };
 
-            var values = new Dictionary<string, string>
+
+            var values = new Dictionary<string, object>
             {
-                { "itemInfoList", JsonConvert.SerializeObject(new List<Dictionary<string,object>>(){info}) },
+                { "itemInfoList", new List<Dictionary<string, object>>() { info } },
                 { "sessionId",await GetCurrentSessionId() },
-                {"userId",user.UserId + ""},
-                {"shopId",shopId}
+                {"shopId",shopId},
+                {"userId",user.UserId + ""}
             };
-            values.Add("actParam", AesEncrypt(JsonConvert.SerializeObject(values)));
+            values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"","\"")));
 
             client.DefaultRequestHeaders.Add("MT-Lat", user.Lat);
             client.DefaultRequestHeaders.Add("MT-K", "1675213490331");
@@ -215,32 +216,29 @@ namespace hygge_imaotai
             return responseJson;
         }
 
-        private static string AesEncrypt(string serializeObject)
+        /// <summary>
+        /// AES CBC加密函数
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static string EncryptAES_CBC(string input)
         {
-            var temp = EncryptAES_CBC(serializeObject);
-            return temp;
-        }
+            var key = Encoding.UTF8.GetBytes(AES_KEY);
+            var iv = Encoding.UTF8.GetBytes(AES_IV);
 
-        static string EncryptAES_CBC(string input)
-        {
-            byte[] key = Encoding.UTF8.GetBytes(AES_KEY);
-            byte[] iv = Encoding.UTF8.GetBytes(AES_IV);
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = key;
+            aes.IV = iv;
 
-            using (Aes aes = Aes.Create())
-            {
-                aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.PKCS7;
-                aes.Key = key;
-                aes.IV = iv;
+            var encryptor = aes.CreateEncryptor();
 
-                ICryptoTransform encryptor = aes.CreateEncryptor();
+            var inputBytes = Encoding.UTF8.GetBytes(input);
+            var encryptedBytes = encryptor.TransformFinalBlock(inputBytes, 0, inputBytes.Length);
 
-                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-                byte[] encryptedBytes = encryptor.TransformFinalBlock(inputBytes, 0, inputBytes.Length);
-
-                string base64String = Convert.ToBase64String(encryptedBytes);
-                return base64String;
-            }
+            var base64String = Convert.ToBase64String(encryptedBytes);
+            return base64String;
         }
 
         /// <summary>
