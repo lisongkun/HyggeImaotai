@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,22 +10,22 @@ using System.Threading.Tasks;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
+using hygge_imaotai.UserInterface.Component;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
 
 namespace hygge_imaotai
 {
     public class IMTService
     {
-        private static string SALT = "2af72f100c356273d46284f6fd1dfc08";
+        private const string Salt = "2af72f100c356273d46284f6fd1dfc08";
         private static string _mtVersion = "";
-        private static string AES_KEY = "qbhajinldepmucsonaaaccgypwuvcjaa";
-        private static string AES_IV = "2018534749963515";
+        private const string AesKey = "qbhajinldepmucsonaaaccgypwuvcjaa";
+        private const string AesIv = "2018534749963515";
 
         private static string Signature(string content, long timestamp)
         {
-            var text = SALT + content + timestamp;
+            var text = Salt + content + timestamp;
             using var md = MD5.Create();
             var hashBytes = md.ComputeHash(Encoding.UTF8.GetBytes(text));
             var sb = new StringBuilder();
@@ -37,6 +36,10 @@ namespace hygge_imaotai
             return sb.ToString().ToLower();
         }
 
+        /// <summary>
+        /// 获得i茅台版本号
+        /// </summary>
+        /// <returns></returns>
         private static async Task<string> GetMtVersion()
         {
             if (!string.IsNullOrEmpty(_mtVersion)) return _mtVersion;
@@ -52,6 +55,12 @@ namespace hygge_imaotai
             return replace;
         }
 
+        /// <summary>
+        /// 向手机号发送验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> SendCode(string phone)
         {
             var client = new HttpClient();
@@ -92,6 +101,13 @@ namespace hygge_imaotai
             throw new Exception(responseString);
         }
 
+        /// <summary>
+        /// 发送用户登录请求
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> Login(string phone, string code)
         {
             var client = new HttpClient();
@@ -153,27 +169,37 @@ namespace hygge_imaotai
         public static async void Reservation(UserEntity userEntity)
         {
             var items = userEntity.ItemCode.Split("@");
-            foreach (var item in items)
+
+            try
             {
-                var shopId = await ShopRepository.GetShopId(userEntity.ShopType, item, userEntity.ProvinceName, userEntity.CityName, userEntity.Lat, userEntity.Lng);
-                if (!string.IsNullOrEmpty(shopId))
+                foreach (var item in items)
                 {
-                    await Reservation(userEntity, item, shopId);
+                    var shopId = await ShopRepository.GetShopId(userEntity.ShopType, item, userEntity.ProvinceName, userEntity.CityName, userEntity.Lat, userEntity.Lng);
+                    if (!string.IsNullOrEmpty(shopId))
+                    {
+                        await Reservation(userEntity, item, shopId);
+                    }
+
                 }
             }
+            catch (Exception)
+            {
+                new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+            new MessageBoxCustom("手动发起预约成功,响应结果请查看日志", MessageType.Success, MessageButtons.Ok).ShowDialog();
         }
 
-        public static async Task<JObject> Reservation(UserEntity user, string itemId, string shopId)
+
+        public static async Task Reservation(UserEntity user, string itemId, string shopId)
         {
             var client = new HttpClient();
-
 
             var info = new Dictionary<string, object>
             {
                 { "itemId", itemId },
                 { "count", 1 }
             };
-
 
             var values = new Dictionary<string, object>
             {
@@ -182,7 +208,7 @@ namespace hygge_imaotai
                 {"shopId",shopId},
                 {"userId",user.UserId + ""}
             };
-            values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"","\"")));
+            values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"", "\"")));
 
             client.DefaultRequestHeaders.Add("MT-Lat", user.Lat);
             client.DefaultRequestHeaders.Add("MT-K", "1675213490331");
@@ -213,7 +239,15 @@ namespace hygge_imaotai
                 .PostAsync("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", content);
             var responseString = await response.Content.ReadAsStringAsync();
             var responseJson = JObject.Parse(responseString);
-            return responseJson;
+
+            LogRepository.InsertLog(new LogEntity()
+            {
+                CreateTime = DateTime.Now,
+                MobilePhone = user.Mobile,
+                Content = $"[userId:{user.UserId} [shopId]:{itemId}",
+                Response = responseString,
+                Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
+            });
         }
 
         /// <summary>
@@ -223,8 +257,8 @@ namespace hygge_imaotai
         /// <returns></returns>
         private static string EncryptAES_CBC(string input)
         {
-            var key = Encoding.UTF8.GetBytes(AES_KEY);
-            var iv = Encoding.UTF8.GetBytes(AES_IV);
+            var key = Encoding.UTF8.GetBytes(AesKey);
+            var iv = Encoding.UTF8.GetBytes(AesIv);
 
             using var aes = Aes.Create();
             aes.Mode = CipherMode.CBC;
