@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Repository;
 
 namespace hygge_imaotai.Domain
 {
@@ -82,5 +84,22 @@ namespace hygge_imaotai.Domain
 
         #endregion
 
+        #region Constructor
+
+        public StoreListViewModel()
+        {
+            CurrentPageChangeCommand = new AnotherCommandImplementation(UpdateData);
+        }
+#endregion
+
+        #region DelegateCommand
+        public ICommand CurrentPageChangeCommand { get; private set; }
+        private static void UpdateData(object parameter)
+        {
+            StoreList.Clear();
+            ShopRepository.GetPageData((int)parameter, 10).ForEach(StoreList.Add);
+        }
+
+        #endregion
     }
 }
