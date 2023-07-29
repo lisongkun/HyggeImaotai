@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using hygge_imaotai.UserInterface.Component;
+using NLog;
 
 namespace hygge_imaotai.UserInterface.Dialogs.AddAccountDialog
 {
@@ -11,6 +12,12 @@ namespace hygge_imaotai.UserInterface.Dialogs.AddAccountDialog
     /// </summary>
     public partial class AddAccountDialogUserControl
     {
+        #region Fields
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+
+        #endregion
+
         private IMTService service = new();
         private DispatcherTimer timer;
         private AddAccountDialogViewModel _dataContext;
@@ -75,7 +82,7 @@ namespace hygge_imaotai.UserInterface.Dialogs.AddAccountDialog
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                Logger.Error($"用户登录失败!原因:{exception.Message}");
                 new MessageBoxCustom($"用户登录失败!", MessageType.Error, MessageButtons.Ok).ShowDialog();
             }
         }

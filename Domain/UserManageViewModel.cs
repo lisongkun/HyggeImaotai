@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Printing;
 using System.Linq;
 using hygge_imaotai.Entity;
 
@@ -9,13 +10,26 @@ namespace hygge_imaotai.Domain
     /// <summary>
     /// 用户管理 - 搜索的condition
     /// </summary>
-    public class FieldsViewModel : ViewModelBase
+    public class UserManageViewModel : ViewModelBase
     {
+        #region Fields
+
+        // 搜索条件
         private string? _phone;
         private string? _userId;
         private string? _province;
         private string? _city;
 
+        // 分页数据
+        // 分页数据
+        private int _total = 0;
+        private int _current = 1;
+        private int _pageSize = 10;
+        private int _pageCount = 0;
+
+        #endregion
+
+        #region Properties
 
         public string? Phone
         {
@@ -41,32 +55,61 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _city, value);
         }
 
-        public static ObservableCollection<UserEntity> SearchResult { get; } =
-            new ObservableCollection<UserEntity>()
-            {
-                new UserEntity(true,1126643307,"18632081130","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY5MTYzNDQzMCwidXNlcklkIjoxMTI2NjQzMzA3LCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4OTA0MjQzMH0.LT12uC1UCOMWt5roHthrP31Xf8OgJet1giwfO1pOpCM",
-                    "10213","河北省","邯郸市","","36.594911","114.506586",1,"",DateTime.Now, DateTime.Now.AddDays(30)),
-                new UserEntity(true,1234567890,"13712345678","eyJ0eXAiOiJKV1QxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxIsPu0xxxxLxBAx",
-                    "","","","","","",0,"",DateTime.Now, DateTime.Now.AddDays(30))
-            };
+        public static ObservableCollection<UserEntity> UserList { get; } =
+            new ObservableCollection<UserEntity>();
 
         public bool? IsAllItems1Selected
         {
             get
             {
-                var selected = SearchResult.Select(item => item.IsSelected).Distinct().ToList();
+                var selected = UserList.Select(item => item.IsSelected).Distinct().ToList();
                 return selected.Count == 1 ? selected.Single() : null;
             }
             set
             {
                 if (value.HasValue)
                 {
-                    SelectAll(value.Value, SearchResult);
+                    SelectAll(value.Value, UserList);
                     OnPropertyChanged();
                 }
             }
         }
 
+        public int Total
+        {
+            get => _total;
+            set => SetProperty(ref _total, value);
+        }
+
+        public int Current
+        {
+            get => _current;
+            set => SetProperty(ref _current, value);
+        }
+
+        public int PageSize
+        {
+            get => _pageSize;
+            set => SetProperty(ref _pageSize, value);
+        }
+
+        public int PageCount
+        {
+            get => _pageCount;
+            set => SetProperty(ref _pageCount, value);
+        }
+
+        #endregion
+
+
+
+        #region Functions
+
+        /// <summary>
+        /// 列表进行全选
+        /// </summary>
+        /// <param name="select"></param>
+        /// <param name="models"></param>
         private static void SelectAll(bool select, IEnumerable<UserEntity> models)
         {
             foreach (var model in models)
@@ -74,5 +117,7 @@ namespace hygge_imaotai.Domain
                 model.IsSelected = select;
             }
         }
+
+        #endregion
     }
 }

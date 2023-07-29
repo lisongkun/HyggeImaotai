@@ -4,7 +4,6 @@ using Flurl.Http;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
-using hygge_imaotai.UserInterface.Component;
 using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.UserInterface.UserControls
@@ -40,27 +39,7 @@ namespace hygge_imaotai.UserInterface.UserControls
         /// <param name="e"></param>
         private async void RefreshShopButton_OnClick(object sender, RoutedEventArgs e)
         {
-            StoreListViewModel.StoreList.Clear();
-            ShopRepository.TruncateTable();
-
-            var responseStr = await "https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get"
-                .GetStringAsync();
-            var jObject = JObject.Parse(responseStr);
-            var shopsUrl = jObject.GetValue("data").Value<JObject>().GetValue("mtshops_pc").Value<JObject>().GetValue("url").Value<string>();
-            var shopInnerJson = await shopsUrl.GetStringAsync();
-
-            var shopInnerJObject = JObject.Parse(shopInnerJson);
-            var thread = new Thread(() =>
-            {
-                foreach (var property in shopInnerJObject.Properties())
-                {
-                    var shopId = property.Name;
-                    var nestedObject = (JObject)property.Value;
-                    ShopRepository.InsertShop(new StoreEntity(shopId, nestedObject));
-                }
-            });
-            thread.Start();
-            thread.Join();
+            await IMTService.RefreshShop();
             RefreshData();
         }
 

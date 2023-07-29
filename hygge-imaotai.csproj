@@ -36,6 +36,8 @@
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
+    <PackageReference Include="NLog" Version="5.2.2" />
+    <PackageReference Include="Quartz" Version="3.6.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +49,12 @@
     <Resource Include="Resources\favicon.ico" />
     <Resource Include="Resources\ms-icon-310x310.png" />
     <Resource Include="Resources\ProfilePic.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -21,12 +21,14 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
             DataContext = dataContext;
             _dataContext = (dataContext as UserEntity)!;
             willFindPhone = isUpadte ? dataContext.Mobile : _dataContext.Mobile;
+            TitleBlock.Text = isUpadte ? "更新i茅台用户:" : "添加i茅台用户:";
+            LoginButton.Content = isUpadte ? "更新" : "添加";
         }
 
         private void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
             var foundUserEntity =
-                FieldsViewModel.SearchResult.FirstOrDefault(user => user.Mobile == willFindPhone);
+                UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == willFindPhone);
             if (foundUserEntity != null)
             {
                 // 更新寻找到的用户信息
@@ -42,7 +44,7 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
                 foundUserEntity.ExpireTime = _dataContext.ExpireTime;
                 return;
             }
-            FieldsViewModel.SearchResult.Add(_dataContext);
+            UserManageViewModel.UserList.Add(_dataContext);
         }
     }
 }

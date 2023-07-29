@@ -10,7 +10,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:dialogs="clr-namespace:hygge_imaotai.UserInterface.Dialogs"
-             d:DataContext="{d:DesignInstance domain:FieldsViewModel}"
+             d:DataContext="{d:DesignInstance domain:UserManageViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -233,7 +233,7 @@
                       Grid.Row="1"
                 CanUserAddRows="False"
                 HeadersVisibility="All"
-                ItemsSource="{Binding SearchResult}">
+                ItemsSource="{Binding UserList}">
                 <DataGrid.Columns>
                     <!-- 选择框 -->
                     <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"

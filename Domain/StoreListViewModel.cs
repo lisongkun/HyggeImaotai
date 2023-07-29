@@ -19,10 +19,10 @@ namespace hygge_imaotai.Domain
         private string _companyName;
 
         // 分页数据
-        private int total = 0;
-        private int current = 1;
-        private int pageSize = 10;
-        private int pageCount = 0;
+        private int _total = 0;
+        private int _current = 1;
+        private int _pageSize = 10;
+        private int _pageCount = 0;
         #endregion
 
         #region Properties
@@ -61,26 +61,26 @@ namespace hygge_imaotai.Domain
 
         public int Total
         {
-            get => total;
-            set => SetProperty(ref total, value);
+            get => _total;
+            set => SetProperty(ref _total, value);
         }
 
         public int Current
         {
-            get => current;
-            set => SetProperty(ref current, value);
+            get => _current;
+            set => SetProperty(ref _current, value);
         }
 
         public int PageSize
         {
-            get => pageSize;
-            set => SetProperty(ref pageSize, value);
+            get => _pageSize;
+            set => SetProperty(ref _pageSize, value);
         }
 
         public int PageCount
         {
-            get => pageCount;
-            set => SetProperty(ref pageCount, value);
+            get => _pageCount;
+            set => SetProperty(ref _pageCount, value);
         }
 
         #endregion

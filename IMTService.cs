@@ -13,11 +13,21 @@ using hygge_imaotai.Repository;
 using hygge_imaotai.UserInterface.Component;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
+using System.Threading;
 
 namespace hygge_imaotai
 {
     public class IMTService
     {
+
+        #region Fields
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+
+        #endregion
+
+
         private const string Salt = "2af72f100c356273d46284f6fd1dfc08";
         private static string _mtVersion = "";
         private const string AesKey = "qbhajinldepmucsonaaaccgypwuvcjaa";
@@ -148,16 +158,16 @@ namespace hygge_imaotai
             var responseString = await response.Content.ReadAsStringAsync();
             var responseJson = JObject.Parse(responseString);
             var responseCode = (string)responseJson["code"];
-            if (responseCode != "2000") throw new Exception(responseString);
+            if (responseCode != "2000") throw new Exception(responseJson.TryGetValue("message", out var value) ? value.Value<string>() : responseString);
             // 存储一下数据
-            var foundUserEntity = FieldsViewModel.SearchResult.FirstOrDefault(user => user.Mobile == phone);
+            var foundUserEntity = UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == phone);
             if (foundUserEntity != null)
             {
-                FieldsViewModel.SearchResult[FieldsViewModel.SearchResult.IndexOf(foundUserEntity)] = new UserEntity(phone, responseJson);
+                UserRepository.UpdateUser(new UserEntity(phone,responseJson));
             }
             else
             {
-                FieldsViewModel.SearchResult.Add(new UserEntity(phone, responseJson));
+                UserRepository.InsertUser(new UserEntity(phone, responseJson));
             }
             return true;
         }
@@ -318,6 +328,68 @@ namespace hygge_imaotai
             }
 
             return mtSessionId;
+        }
+
+        /// <summary>
+        /// 批量预约
+        /// </summary>
+        public static void ReservationBatch()
+        {
+            var users = UserRepository.GetReservationUser();
+            foreach (var userEntity in users)
+            {
+                try
+                {
+                    Logger.Info($"「开始预约用户」{userEntity.Mobile}");
+                    Reservation(userEntity);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"用户{userEntity.Mobile}预约产生异常,错误原因:{e.Message}");
+                    LogRepository.InsertLog(new LogEntity()
+                    {
+                        CreateTime = DateTime.Now,
+                        MobilePhone = userEntity.Mobile,
+                        Content = $"[userId]:{userEntity.UserId}",
+                        Response = e.Message,
+                        Status = "异常"
+                    });
+                }
+            }
+        }
+
+        public static async void RefreshAll()
+        {
+            _mtVersion = string.Empty;
+            await GetMtVersion();
+            await RefreshShop();
+            App.MtSessionId = string.Empty;
+            await GetCurrentSessionId();
+        }
+
+        public static async Task RefreshShop()
+        {
+            StoreListViewModel.StoreList.Clear();
+            ShopRepository.TruncateTable();
+
+            var responseStr = await "https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get"
+                .GetStringAsync();
+            var jObject = JObject.Parse(responseStr);
+            var shopsUrl = jObject.GetValue("data").Value<JObject>().GetValue("mtshops_pc").Value<JObject>().GetValue("url").Value<string>();
+            var shopInnerJson = await shopsUrl.GetStringAsync();
+
+            var shopInnerJObject = JObject.Parse(shopInnerJson);
+            var thread = new Thread(() =>
+            {
+                foreach (var property in shopInnerJObject.Properties())
+                {
+                    var shopId = property.Name;
+                    var nestedObject = (JObject)property.Value;
+                    ShopRepository.InsertShop(new StoreEntity(shopId, nestedObject));
+                }
+            });
+            thread.Start();
+            thread.Join();
         }
     }
 }

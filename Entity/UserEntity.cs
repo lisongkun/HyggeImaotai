@@ -9,12 +9,12 @@ using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.Entity
 {
-    public class UserEntity:ViewModelBase
+    public class UserEntity : ViewModelBase
     {
         #region Field
 
-        
-private bool _isSelected;
+
+        private bool _isSelected;
 
         private long _userId;
         private string _mobile;
@@ -52,6 +52,10 @@ private bool _isSelected;
         /// 类型
         /// </summary>
         private int _shopType;
+        /// <summary>
+        /// 对接推送令牌
+        /// </summary>
+        private string _pushPlusToken;
 
         /// <summary>
         /// 返回参数
@@ -68,7 +72,7 @@ private bool _isSelected;
         /// </summary>
         private DateTime _expireTime;
         #endregion
-        
+
 
         #region Properties
 
@@ -90,6 +94,11 @@ private bool _isSelected;
             set => SetProperty(ref _mobile, value);
         }
 
+        public string PushPlusToken
+        {
+            get => _pushPlusToken;
+            set => SetProperty(ref _pushPlusToken, value);
+        }
         public string Token
         {
             get => _token;
@@ -166,14 +175,14 @@ private bool _isSelected;
 
         private static void DeleteItemFunc(object? parameter)
         {
-            FieldsViewModel.SearchResult.Remove((parameter as UserEntity)!);
+            UserManageViewModel.UserList.Remove((parameter as UserEntity)!);
         }
 
         private static void ModifyItemFunc(object? parameter)
         {
             var userEntity = parameter as UserEntity;
             // 深拷贝一份userEntity
-            var view = new DirectAddAccountDialogUserControl(JsonConvert.DeserializeObject<UserEntity>(JsonConvert.SerializeObject(userEntity)),true);
+            var view = new DirectAddAccountDialogUserControl(JsonConvert.DeserializeObject<UserEntity>(JsonConvert.SerializeObject(userEntity)), true);
             DialogHost.Show(view, "RootDialog");
         }
 
@@ -192,20 +201,32 @@ private bool _isSelected;
         #endregion
 
         #region Construct Function
-        public UserEntity(){}
-        public UserEntity(string mobile, JObject jsonObject):base()
+
+        public UserEntity()
+        {
+        }
+
+        public UserEntity(string mobile, JObject jsonObject) : base()
         {
             var data = jsonObject["data"];
             this.UserId = data["userId"].Value<long>();
             this.Mobile = mobile;
             this.Token = data["token"].Value<string>();
-            this.JsonResult = jsonObject.ToString()[..2000];
+            this.JsonResult = jsonObject.ToString();
 
             this.CreateTime = DateTime.Now;
             this.ExpireTime = DateTime.Now.AddDays(30);
+
+            this.ItemCode = string.Empty;
+            this.ProvinceName = string.Empty;
+            this.CityName = string.Empty;
+            this.Address = string.Empty;
+            this.Lat = string.Empty;
+            this.Lng = string.Empty;
+            this.PushPlusToken = string.Empty;
         }
 
-        public UserEntity(bool isSelected, long userId, string mobile, string token, string itemCode, string provinceName, string cityName, string address, string lat, string lng, int shopType, string jsonResult, DateTime createTime, DateTime expireTime):base()
+        public UserEntity(bool isSelected, long userId, string mobile, string token, string itemCode, string provinceName, string cityName, string address, string lat, string lng, int shopType,string pushToken, string jsonResult, DateTime createTime, DateTime expireTime) : base()
         {
             _isSelected = isSelected;
             _userId = userId;
@@ -220,10 +241,11 @@ private bool _isSelected;
             _shopType = shopType;
             _jsonResult = jsonResult;
             _createTime = createTime;
+            _pushPlusToken = pushToken;
             _expireTime = expireTime;
         }
 
         #endregion
-        
+
     }
 }
