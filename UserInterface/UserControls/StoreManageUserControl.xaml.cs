@@ -23,10 +23,11 @@ namespace hygge_imaotai.UserInterface.UserControls
 
         private void RefreshData()
         {
-            ShopRepository.GetPageData(1, 10).ForEach(StoreListViewModel.StoreList.Add);
             var storeListViewModel = (StoreListViewModel)DataContext;
+            StoreListViewModel.StoreList.Clear();
+            ShopRepository.GetPageData(1, 10,storeListViewModel).ForEach(StoreListViewModel.StoreList.Add);
             // 分页数据
-            var total = ShopRepository.GetTotalCount();
+            var total = ShopRepository.GetTotalCount((StoreListViewModel)DataContext);
             var pageCount = total / 10 + 1;
             storeListViewModel.Total = total;
             storeListViewModel.PageCount = pageCount;
@@ -60,6 +61,21 @@ namespace hygge_imaotai.UserInterface.UserControls
             });
             thread.Start();
             thread.Join();
+            RefreshData();
+        }
+
+        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var storeListViewModel = (StoreListViewModel)DataContext;
+            storeListViewModel.ShopId = "";
+            storeListViewModel.Province = "";
+            storeListViewModel.City = "";
+            storeListViewModel.Area = "";
+            storeListViewModel.CompanyName = "";
+        }
+
+        private void SearchButton_OnClick(object sender, RoutedEventArgs e)
+        {
             RefreshData();
         }
     }

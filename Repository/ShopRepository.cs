@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using Flurl.Http;
+using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -58,15 +59,35 @@ namespace hygge_imaotai.Repository
         /// </summary>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
+        /// <param name="storeListViewModel"></param>
         /// <returns></returns>
-        public static List<StoreEntity> GetPageData(int page, int pageSize)
+        public static List<StoreEntity> GetPageData(int page, int pageSize, StoreListViewModel? storeListViewModel = null)
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select * from i_shop limit @pageSize OFFSET @offset";
+            var insertSql = @"select * from i_shop where 1 = 1 ";
+            if (storeListViewModel != null)
+            {
+                if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) insertSql += "And i_shop_id = @shopId ";
+                if (!string.IsNullOrEmpty(storeListViewModel.Province)) insertSql += "And province_name = @provinceName ";
+                if (!string.IsNullOrEmpty(storeListViewModel.City)) insertSql += "And city_name = @cityName ";
+                if (!string.IsNullOrEmpty(storeListViewModel.Area)) insertSql += "And district_name = @districtName ";
+                if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) insertSql += "And name = @name ";
+            }
+
+            insertSql += "limit @pageSize OFFSET @offset";
+
             using var command = new SqliteCommand(insertSql, connection);
             command.Parameters.AddWithValue("@offset", (page - 1) * pageSize);
             command.Parameters.AddWithValue("@pageSize", pageSize);
+            if (storeListViewModel != null)
+            {
+                if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) command.Parameters.AddWithValue("@shopId", storeListViewModel.ShopId);
+                if (!string.IsNullOrEmpty(storeListViewModel.Province)) command.Parameters.AddWithValue("@provinceName", storeListViewModel.Province);
+                if (!string.IsNullOrEmpty(storeListViewModel.City)) command.Parameters.AddWithValue("@cityName", storeListViewModel.City);
+                if (!string.IsNullOrEmpty(storeListViewModel.Area)) command.Parameters.AddWithValue("@districtName", storeListViewModel.Area);
+                if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) command.Parameters.AddWithValue("@name", storeListViewModel.CompanyName);
+            }
             using var reader = command.ExecuteReader();
             var list = new List<StoreEntity>();
             while (reader.Read())
@@ -92,13 +113,27 @@ namespace hygge_imaotai.Repository
         /// <summary>
         /// 获取数据总数
         /// </summary>
+        /// <param name="storeListViewModel"></param>
         /// <returns></returns>
-        public static int GetTotalCount()
+        public static int GetTotalCount(StoreListViewModel storeListViewModel)
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select count(*) from i_shop";
+            var insertSql = @"select count(*) from i_shop where 1 = 1 ";
+            if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) insertSql += "And i_shop_id = @shopId ";
+            if (!string.IsNullOrEmpty(storeListViewModel.Province)) insertSql += "And province_name = @provinceName ";
+            if (!string.IsNullOrEmpty(storeListViewModel.City)) insertSql += "And city_name = @cityName ";
+            if (!string.IsNullOrEmpty(storeListViewModel.Area)) insertSql += "And district_name = @districtName ";
+            if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) insertSql += "And name = @name ";
+
+
             using var command = new SqliteCommand(insertSql, connection);
+            if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) command.Parameters.AddWithValue("@shopId", storeListViewModel.ShopId);
+            if (!string.IsNullOrEmpty(storeListViewModel.Province)) command.Parameters.AddWithValue("@provinceName", storeListViewModel.Province);
+            if (!string.IsNullOrEmpty(storeListViewModel.City)) command.Parameters.AddWithValue("@cityName", storeListViewModel.City);
+            if (!string.IsNullOrEmpty(storeListViewModel.Area)) command.Parameters.AddWithValue("@districtName", storeListViewModel.Area);
+            if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) command.Parameters.AddWithValue("@name", storeListViewModel.CompanyName);
+
             using var reader = command.ExecuteReader();
             var count = 0;
             while (reader.Read())

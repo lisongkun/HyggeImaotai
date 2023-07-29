@@ -44,7 +44,8 @@ namespace hygge_imaotai.Domain
         public static ObservableCollection<UserEntity> SearchResult { get; } =
             new ObservableCollection<UserEntity>()
             {
-                
+                new UserEntity(true,1126643307,"18632081130","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY5MTYzNDQzMCwidXNlcklkIjoxMTI2NjQzMzA3LCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4OTA0MjQzMH0.LT12uC1UCOMWt5roHthrP31Xf8OgJet1giwfO1pOpCM",
+                    "10213","河北省","邯郸市","","36.594911","114.506586",1,"",DateTime.Now, DateTime.Now.AddDays(30)),
                 new UserEntity(true,1234567890,"13712345678","eyJ0eXAiOiJKV1QxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxIsPu0xxxxLxBAx",
                     "","","","","","",0,"",DateTime.Now, DateTime.Now.AddDays(30))
             };

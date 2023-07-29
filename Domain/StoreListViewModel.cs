@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
+using hygge_imaotai.UserInterface.UserControls;
 
 namespace hygge_imaotai.Domain
 {
@@ -94,10 +95,10 @@ namespace hygge_imaotai.Domain
 
         #region DelegateCommand
         public ICommand CurrentPageChangeCommand { get; private set; }
-        private static void UpdateData(object parameter)
+        private void UpdateData(object parameter)
         {
             StoreList.Clear();
-            ShopRepository.GetPageData((int)parameter, 10).ForEach(StoreList.Add);
+            ShopRepository.GetPageData((int)parameter, 10,this).ForEach(StoreList.Add);
         }
 
         #endregion
