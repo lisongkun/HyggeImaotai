@@ -49,8 +49,4 @@
     <Resource Include="Resources\ProfilePic.jpg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Command\" />
-  </ItemGroup>
-
 </Project>

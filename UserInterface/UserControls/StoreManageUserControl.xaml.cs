@@ -17,18 +17,19 @@ namespace hygge_imaotai.UserInterface.UserControls
         public StoreManageUserControl()
         {
             InitializeComponent();
-            var storeListViewModel = new StoreListViewModel();
-            DataContext = storeListViewModel;
+            DataContext = new StoreListViewModel();
+            RefreshData();
+        }
 
+        private void RefreshData()
+        {
             ShopRepository.GetPageData(1, 10).ForEach(StoreListViewModel.StoreList.Add);
-
+            var storeListViewModel = (StoreListViewModel)DataContext;
             // 分页数据
             var total = ShopRepository.GetTotalCount();
             var pageCount = total / 10 + 1;
             storeListViewModel.Total = total;
             storeListViewModel.PageCount = pageCount;
-            // 初始化分页器
-            // Pagination = new Pagination();
         }
 
         /// <summary>
@@ -59,10 +60,7 @@ namespace hygge_imaotai.UserInterface.UserControls
             });
             thread.Start();
             thread.Join();
-            ShopRepository.GetPageData(1, 20).ForEach(item =>
-            {
-                StoreListViewModel.StoreList.Add(item);
-            });
+            RefreshData();
         }
     }
 }

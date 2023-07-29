@@ -33,10 +33,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -47,10 +47,10 @@
                     x:Name="ShopIdTextBox"
                     Margin="5"
                     materialDesign:TransitionAssist.DisableTransitions="True"
-                    materialDesign:HintAssist.Hint="请输入商品ID">
+                    materialDesign:HintAssist.Hint="请输入手机号">
                             <TextBox.Text>
                                 <Binding
-                            Path="ShopId"
+                            Path="Mobile"
                             UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
@@ -61,62 +61,28 @@
                         Grid.Column="1"
                         Margin="5"
                         x:Name="ProvinceTextBox"
-                        materialDesign:HintAssist.Hint="请输入省份">
+                        materialDesign:HintAssist.Hint="请输入状态">
                             <TextBox.Text>
                                 <Binding
-                                Path="Province"
+                                Path="Status"
                                 UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
-
-                        <!-- 第三列内容 -->
-                        <TextBox
-                        Grid.Column="2"
-                        Margin="5"
-                        x:Name="CityTextBox"
-                        materialDesign:HintAssist.Hint="请输入城市">
+                        <TextBox Grid.Column="2" Margin="5" x:Name="ContentTextBox" materialDesign:HintAssist.Hint="请输入模糊匹配的内容">
                             <TextBox.Text>
-                                <Binding
-                                Path="City"
-                                UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="SearchContent" UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
 
-                        <TextBox
-                        Grid.Column="3"
-                        Margin="5"
-                        x:Name="AreaTextBox"
-                        materialDesign:HintAssist.Hint="请输入地区">
-                            <TextBox.Text>
-                                <Binding Path="Area" UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <!-- 第一列内容 -->
-                        <TextBox
-                            Grid.Column="0"
-                            x:Name="CompanyTextBox"
-                            Margin="5"
-                            materialDesign:TransitionAssist.DisableTransitions="True"
-                            materialDesign:HintAssist.Hint="请输入公司名称">
-                            <TextBox.Text>
-                                <Binding
-                                    Path="CompanyName"
-                                    UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <GridLength x:Key="GridWidth">150</GridLength>
                                 <system:Double x:Key="ButtonHeight">40</system:Double>
@@ -153,7 +119,26 @@
 
         </GroupBox>
 
-        
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button
+                Height="30"
+                Width="150"
+                Margin="0,0,20,0"
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Foreground="Red"
+                Background="#ffeded"
+                BorderBrush="#ffeded"
+                Click="RefreshLogButton_OnClick"
+                ToolTip="Refresh Shop">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Refresh" />
+                    <TextBlock
+                        Text="刷新日志列表" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+
         <DataGrid AutoGenerateColumns="False"
                   Grid.Row="2"
                   Margin="8"
@@ -182,6 +167,11 @@
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
                                     Header="日志内容"/>
+                <DataGridTextColumn Binding="{Binding Response}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Width="350"
+                                    Header="响应信息"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding CreateTime,StringFormat='yyyy-MM-dd HH:mm:ss'}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
@@ -190,6 +180,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <component:Pagination Grid.Row="3" x:Name="pag1" PageCount="{Binding PageCount}" Height="35" />
+        <component:Pagination Grid.Row="3" PageCount="{Binding PageCount}" Height="35"  CurrentPage="{Binding Current}"
+                              UpdatePageCommand="{Binding CurrentPageChangeCommand}"/>
     </Grid>
 </UserControl>

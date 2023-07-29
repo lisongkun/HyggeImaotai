@@ -182,8 +182,16 @@ namespace hygge_imaotai
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogRepository.InsertLog(new LogEntity()
+                {
+                    CreateTime = DateTime.Now,
+                    MobilePhone = userEntity.Mobile,
+                    Content = $"[userId]:{userEntity.UserId}",
+                    Response = ex.Message,
+                    Status = "异常"
+                });
                 new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
                 return;
             }
@@ -244,7 +252,7 @@ namespace hygge_imaotai
             {
                 CreateTime = DateTime.Now,
                 MobilePhone = user.Mobile,
-                Content = $"[userId:{user.UserId} [shopId]:{itemId}",
+                Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
                 Response = responseString,
                 Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
             });

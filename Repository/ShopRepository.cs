@@ -63,9 +63,9 @@ namespace hygge_imaotai.Repository
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select * from i_shop limit @page,@pageSize";
+            const string insertSql = @"select * from i_shop limit @pageSize OFFSET @offset";
             using var command = new SqliteCommand(insertSql, connection);
-            command.Parameters.AddWithValue("@page", page);
+            command.Parameters.AddWithValue("@offset", (page - 1) * pageSize);
             command.Parameters.AddWithValue("@pageSize", pageSize);
             using var reader = command.ExecuteReader();
             var list = new List<StoreEntity>();
