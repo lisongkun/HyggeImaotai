@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:hygge_imaotai"
              xmlns:component="clr-namespace:hygge_imaotai.UserInterface.Component"
              StartupUri="/UserInterface/Window/MainWindow.xaml">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,7 +15,7 @@
                 <!-- Copy from Demo -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="PageBtn" TargetType="Button">
+            <Style x:Key="PageBtn" TargetType="{x:Type Button}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="MinWidth" Value="35"/>
                 <Setter Property="Margin" Value="3 0"/>
@@ -22,7 +23,7 @@
                 <Setter Property="Background" Value="LightBlue"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="border" CornerRadius="6" Background="{TemplateBinding Background}">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                             </Border>
@@ -38,14 +39,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="PageCurrent" TargetType="Button">
+            <Style x:Key="PageCurrent" TargetType="{x:Type Button}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="MinWidth" Value="35"/>
                 <Setter Property="Margin" Value="3 0"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="Button">
+                        <ControlTemplate TargetType="{x:Type Button}">
                             <Border x:Name="border" CornerRadius="6" Background="Green">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                             </Border>
@@ -53,11 +54,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style TargetType="component:Pagination">
+            <Style TargetType="{x:Type component:Pagination}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="component:Pagination">
+                        <ControlTemplate TargetType="{x:Type component:Pagination}">
                             <StackPanel Orientation="Horizontal">
                                 <Button Style="{StaticResource PageBtn}" x:Name="btnPrev" Content="上一页"></Button>
                                 <Button Style="{StaticResource PageBtn}" x:Name="btnOne" Content="1"></Button>
@@ -71,7 +72,6 @@
                                 <Button Style="{StaticResource PageBtn}" x:Name="btnLast" Content="5"></Button>
                                 <Button Style="{StaticResource PageBtn}" x:Name="btnNext" Content="下一页"></Button>
                             </StackPanel>
-
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

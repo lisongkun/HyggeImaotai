@@ -19,7 +19,7 @@
         TextElement.FontSize="10"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="Microsoft YaHei">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="197*" />

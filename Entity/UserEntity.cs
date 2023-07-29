@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using hygge_imaotai.Domain;
+using hygge_imaotai.UserInterface.Component;
 using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
@@ -179,7 +180,14 @@ private bool _isSelected;
         private static void ReserveCommandItemFunc(object? parameter)
         {
             var userEntity = parameter as UserEntity;
-            userEntity!.IsSelected = !userEntity.IsSelected;
+            if (string.IsNullOrEmpty(userEntity?.ItemCode))
+            {
+                new MessageBoxCustom("预约商品码未填写", MessageType.Error, MessageButtons.Ok).ShowDialog();
+            }
+            else
+            {
+                IMTService.Reservation(userEntity);
+            }
         }
         #endregion
 

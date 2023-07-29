@@ -4,6 +4,7 @@ using Flurl.Http;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
+using hygge_imaotai.UserInterface.Component;
 using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.UserInterface.UserControls
@@ -16,14 +17,14 @@ namespace hygge_imaotai.UserInterface.UserControls
         public StoreManageUserControl()
         {
             InitializeComponent();
-            var storeListViewModel = new StoreListViewModel();
-            DataContext = storeListViewModel;
+            DataContext = new StoreListViewModel();
+            RefreshData();
+        }
 
-            ShopRepository.GetPageData(1, 10).ForEach(item =>
-            {
-                StoreListViewModel.StoreList.Add(item);
-            });
-
+        private void RefreshData()
+        {
+            ShopRepository.GetPageData(1, 10).ForEach(StoreListViewModel.StoreList.Add);
+            var storeListViewModel = (StoreListViewModel)DataContext;
             // 分页数据
             var total = ShopRepository.GetTotalCount();
             var pageCount = total / 10 + 1;
@@ -59,10 +60,7 @@ namespace hygge_imaotai.UserInterface.UserControls
             });
             thread.Start();
             thread.Join();
-            ShopRepository.GetPageData(1, 20).ForEach(item =>
-            {
-                StoreListViewModel.StoreList.Add(item);
-            });
+            RefreshData();
         }
     }
 }

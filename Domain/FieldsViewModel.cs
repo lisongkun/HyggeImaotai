@@ -44,6 +44,7 @@ namespace hygge_imaotai.Domain
         public static ObservableCollection<UserEntity> SearchResult { get; } =
             new ObservableCollection<UserEntity>()
             {
+                
                 new UserEntity(true,1234567890,"13712345678","eyJ0eXAiOiJKV1QxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxIsPu0xxxxLxBAx",
                     "","","","","","",0,"",DateTime.Now, DateTime.Now.AddDays(30))
             };

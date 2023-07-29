@@ -1,19 +1,16 @@
-﻿<UserControl x:Class="hygge_imaotai.UserInterface.UserControls.StoreManageUserControl"
+﻿<UserControl x:Class="hygge_imaotai.UserInterface.UserControls.LogUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:hygge_imaotai"
+             xmlns:local="clr-namespace:hygge_imaotai.UserInterface.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:domain="clr-namespace:hygge_imaotai.Domain"
              xmlns:component="clr-namespace:hygge_imaotai.UserInterface.Component"
-             d:DataContext="{d:DesignInstance domain:StoreListViewModel}"
+             d:DataContext="{d:DesignInstance domain:LogListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -36,10 +33,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -50,10 +47,10 @@
                     x:Name="ShopIdTextBox"
                     Margin="5"
                     materialDesign:TransitionAssist.DisableTransitions="True"
-                    materialDesign:HintAssist.Hint="请输入商品ID">
+                    materialDesign:HintAssist.Hint="请输入手机号">
                             <TextBox.Text>
                                 <Binding
-                            Path="ShopId"
+                            Path="Mobile"
                             UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
@@ -64,62 +61,28 @@
                         Grid.Column="1"
                         Margin="5"
                         x:Name="ProvinceTextBox"
-                        materialDesign:HintAssist.Hint="请输入省份">
+                        materialDesign:HintAssist.Hint="请输入状态">
                             <TextBox.Text>
                                 <Binding
-                                Path="Province"
+                                Path="Status"
                                 UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
-
-                        <!-- 第三列内容 -->
-                        <TextBox
-                        Grid.Column="2"
-                        Margin="5"
-                        x:Name="CityTextBox"
-                        materialDesign:HintAssist.Hint="请输入城市">
+                        <TextBox Grid.Column="2" Margin="5" x:Name="ContentTextBox" materialDesign:HintAssist.Hint="请输入模糊匹配的内容">
                             <TextBox.Text>
-                                <Binding
-                                Path="City"
-                                UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="SearchContent" UpdateSourceTrigger="PropertyChanged">
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
 
-                        <TextBox
-                        Grid.Column="3"
-                        Margin="5"
-                        x:Name="AreaTextBox"
-                        materialDesign:HintAssist.Hint="请输入地区">
-                            <TextBox.Text>
-                                <Binding Path="Area" UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <!-- 第一列内容 -->
-                        <TextBox
-                            Grid.Column="0"
-                            x:Name="CompanyTextBox"
-                            Margin="5"
-                            materialDesign:TransitionAssist.DisableTransitions="True"
-                            materialDesign:HintAssist.Hint="请输入公司名称">
-                            <TextBox.Text>
-                                <Binding
-                                    Path="CompanyName"
-                                    UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <GridLength x:Key="GridWidth">150</GridLength>
                                 <system:Double x:Key="ButtonHeight">40</system:Double>
@@ -165,80 +128,59 @@
                 Foreground="Red"
                 Background="#ffeded"
                 BorderBrush="#ffeded"
-                x:Name="RefreshShopButton"
-                Click="RefreshShopButton_OnClick"
+                Click="RefreshLogButton_OnClick"
                 ToolTip="Refresh Shop">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Refresh" />
                     <TextBlock
-                        Text="刷新商店列表" />
+                        Text="刷新日志列表" />
                 </StackPanel>
             </Button>
         </StackPanel>
+
 
         <DataGrid AutoGenerateColumns="False"
                   Grid.Row="2"
                   Margin="8"
                   CanUserAddRows="False"
                   HeadersVisibility="All"
-                  ItemsSource="{Binding  StoreList}">
+                  ItemsSource="{Binding  LogList}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ProductId}"
+                <DataGridTextColumn Binding="{Binding Id}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
-                                    Header="商品ID" />
-                <DataGridTextColumn Binding="{Binding Province}"
+                                    Header="日志ID" />
+                <DataGridTextColumn Binding="{Binding MobilePhone}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
-                                    Header="省份" />
-                <DataGridTextColumn Binding="{Binding City}"
+                                    Header="手机号" />
+                <DataGridTextColumn Binding="{Binding Status}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
                                     Width="100"
-                                    Header="城市" />
-                <DataGridTextColumn Binding="{Binding Area}"
+                                    Header="状态" />
+                <DataGridTextColumn Binding="{Binding Content}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
-                                    Header="地区"/>
-                <DataGridTextColumn Binding="{Binding UnbrokenAddress}"
+                                    Header="日志内容"/>
+                <DataGridTextColumn Binding="{Binding Response}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                    IsReadOnly="True"
+                                    Width="350"
+                                    Header="响应信息"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding CreateTime,StringFormat='yyyy-MM-dd HH:mm:ss'}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
                                     IsReadOnly="True"
-                                    Header="完整地址"/>
-                <DataGridTextColumn Binding="{Binding Lat}"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                    IsReadOnly="True"
-                                    Header="纬度"/>
-                <DataGridTextColumn Binding="{Binding Lng}"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                    IsReadOnly="True"
-                                    Header="经度"/>
-                <DataGridTextColumn Binding="{Binding Name}"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                    IsReadOnly="True"
-                                    Header="名称"/>
-                <DataGridTextColumn Binding="{Binding CompanyName}"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                    IsReadOnly="True"
-                                    Header="公司名称"/>
-                <DataGridTextColumn Binding="{Binding CreatedAt,StringFormat='yyyy-MM-dd HH:mm:ss'}"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                                    IsReadOnly="True"
-                                    Header="创建时间" />
+                                    Header="操作日期" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <component:Pagination Grid.Row="3" x:Name="Pagination" PageCount="{Binding PageCount}" 
-                              UpdatePageCommand="{Binding CurrentPageChangeCommand}"
-                              CurrentPage="{Binding Current}" Height="45" />
+        <component:Pagination Grid.Row="3" PageCount="{Binding PageCount}" Height="35"  CurrentPage="{Binding Current}"
+                              UpdatePageCommand="{Binding CurrentPageChangeCommand}"/>
     </Grid>
 </UserControl>

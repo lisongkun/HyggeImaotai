@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Repository;
+using hygge_imaotai.UserInterface.Component;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,12 +18,14 @@ namespace hygge_imaotai
 {
     public class IMTService
     {
-        private static string SALT = "2af72f100c356273d46284f6fd1dfc08";
+        private const string Salt = "2af72f100c356273d46284f6fd1dfc08";
         private static string _mtVersion = "";
+        private const string AesKey = "qbhajinldepmucsonaaaccgypwuvcjaa";
+        private const string AesIv = "2018534749963515";
 
         private static string Signature(string content, long timestamp)
         {
-            var text = SALT + content + timestamp;
+            var text = Salt + content + timestamp;
             using var md = MD5.Create();
             var hashBytes = md.ComputeHash(Encoding.UTF8.GetBytes(text));
             var sb = new StringBuilder();
@@ -33,7 +36,11 @@ namespace hygge_imaotai
             return sb.ToString().ToLower();
         }
 
-        private async Task<string> GetMtVersion()
+        /// <summary>
+        /// 获得i茅台版本号
+        /// </summary>
+        /// <returns></returns>
+        private static async Task<string> GetMtVersion()
         {
             if (!string.IsNullOrEmpty(_mtVersion)) return _mtVersion;
             var htmlSource = await "https://apps.apple.com/cn/app/i%E8%8C%85%E5%8F%B0/id1600482450"
@@ -48,6 +55,12 @@ namespace hygge_imaotai
             return replace;
         }
 
+        /// <summary>
+        /// 向手机号发送验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> SendCode(string phone)
         {
             var client = new HttpClient();
@@ -88,6 +101,13 @@ namespace hygge_imaotai
             throw new Exception(responseString);
         }
 
+        /// <summary>
+        /// 发送用户登录请求
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> Login(string phone, string code)
         {
             var client = new HttpClient();
@@ -137,10 +157,167 @@ namespace hygge_imaotai
             }
             else
             {
-                FieldsViewModel.SearchResult.Add(new UserEntity(phone,responseJson));
+                FieldsViewModel.SearchResult.Add(new UserEntity(phone, responseJson));
             }
             return true;
         }
 
+        /// <summary>
+        /// 预约方法
+        /// </summary>
+        /// <param name="userEntity"></param>
+        public static async void Reservation(UserEntity userEntity)
+        {
+            var items = userEntity.ItemCode.Split("@");
+
+            try
+            {
+                foreach (var item in items)
+                {
+                    var shopId = await ShopRepository.GetShopId(userEntity.ShopType, item, userEntity.ProvinceName, userEntity.CityName, userEntity.Lat, userEntity.Lng);
+                    if (!string.IsNullOrEmpty(shopId))
+                    {
+                        await Reservation(userEntity, item, shopId);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                LogRepository.InsertLog(new LogEntity()
+                {
+                    CreateTime = DateTime.Now,
+                    MobilePhone = userEntity.Mobile,
+                    Content = $"[userId]:{userEntity.UserId}",
+                    Response = ex.Message,
+                    Status = "异常"
+                });
+                new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                return;
+            }
+            new MessageBoxCustom("手动发起预约成功,响应结果请查看日志", MessageType.Success, MessageButtons.Ok).ShowDialog();
+        }
+
+
+        public static async Task Reservation(UserEntity user, string itemId, string shopId)
+        {
+            var client = new HttpClient();
+
+            var info = new Dictionary<string, object>
+            {
+                { "itemId", itemId },
+                { "count", 1 }
+            };
+
+            var values = new Dictionary<string, object>
+            {
+                { "itemInfoList", new List<Dictionary<string, object>>() { info } },
+                { "sessionId",await GetCurrentSessionId() },
+                {"shopId",shopId},
+                {"userId",user.UserId + ""}
+            };
+            values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"", "\"")));
+
+            client.DefaultRequestHeaders.Add("MT-Lat", user.Lat);
+            client.DefaultRequestHeaders.Add("MT-K", "1675213490331");
+            client.DefaultRequestHeaders.Add("MT-Lng", user.Lng);
+            client.DefaultRequestHeaders.Add("Host", "app.moutai519.com.cn");
+            client.DefaultRequestHeaders.Add("MT-User-Tag", "0");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
+            client.DefaultRequestHeaders.Add("MT-Network-Type", "WIFI");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("MT-Token", user.Token);
+            client.DefaultRequestHeaders.TryAddWithoutValidation("MT-Team-ID", "");
+            client.DefaultRequestHeaders.Add("MT-Info", "028e7f96f6369cafe1d105579c5b9377");
+            client.DefaultRequestHeaders.Add("MT-Device-ID", "2F2075D0-B66C-4287-A903-DBFF6358342A");
+            client.DefaultRequestHeaders.Add("MT-Bundle-ID", "com.moutai.mall");
+            client.DefaultRequestHeaders.Add("Accept-Language", "en-CN;q=1, zh-Hans-CN;q=0.9");
+            client.DefaultRequestHeaders.Add("MT-Request-ID", "167560018873318465");
+            client.DefaultRequestHeaders.Add("MT-APP-Version", await GetMtVersion());
+            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "iOS;16.3;Apple;?unrecognized?");
+            client.DefaultRequestHeaders.Add("MT-R", "clips_OlU6TmFRag5rCXwbNAQ/Tz1SKlN8THcecBp/HGhHdw==");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Length", "93");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("userId", user.UserId + "");
+
+            var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
+
+            var response = await client
+                .PostAsync("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", content);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseJson = JObject.Parse(responseString);
+
+            LogRepository.InsertLog(new LogEntity()
+            {
+                CreateTime = DateTime.Now,
+                MobilePhone = user.Mobile,
+                Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
+                Response = responseString,
+                Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
+            });
+        }
+
+        /// <summary>
+        /// AES CBC加密函数
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static string EncryptAES_CBC(string input)
+        {
+            var key = Encoding.UTF8.GetBytes(AesKey);
+            var iv = Encoding.UTF8.GetBytes(AesIv);
+
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = key;
+            aes.IV = iv;
+
+            var encryptor = aes.CreateEncryptor();
+
+            var inputBytes = Encoding.UTF8.GetBytes(input);
+            var encryptedBytes = encryptor.TransformFinalBlock(inputBytes, 0, inputBytes.Length);
+
+            var base64String = Convert.ToBase64String(encryptedBytes);
+            return base64String;
+        }
+
+        /// <summary>
+        /// 获取当前会话的专属ID,并更新商品列表数据
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<string> GetCurrentSessionId()
+        {
+            var mtSessionId = App.MtSessionId;
+            if (!string.IsNullOrEmpty(mtSessionId)) return mtSessionId;
+
+            var midNight = DateTime.Now.Date;
+            var epochStart = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromHours(8));
+            var timeSpan = midNight.AddHours(-8) - epochStart;
+            var milliseconds = (long)timeSpan.TotalMilliseconds;
+
+            var responseStr = await ("https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/" +
+                                    milliseconds)
+                .GetStringAsync();
+            var jObject = JObject.Parse(responseStr);
+            if (jObject.GetValue("code").Value<int>() == 2000)
+            {
+                var dataJObject = jObject["data"];
+                App.MtSessionId = dataJObject["sessionId"].Value<string>();
+                var itemList = (JArray)dataJObject["itemList"];
+                foreach (var itemElement in itemList)
+                {
+                    AppointProjectViewModel.ProductList.Add(new ProductEntity(itemElement["itemCode"].Value<string>(),
+                        itemElement["title"].Value<string>(),
+                        itemElement["content"].Value<string>(),
+                        itemElement["picture"].Value<string>(), DateTime.Now));
+                }
+                App.WriteCache("productList.json", JsonConvert.SerializeObject(AppointProjectViewModel.ProductList));
+                App.WriteCache("mtSessionId.txt", App.MtSessionId);
+            }
+
+            return mtSessionId;
+        }
     }
 }

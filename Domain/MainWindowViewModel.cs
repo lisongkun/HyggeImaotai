@@ -132,6 +132,12 @@ namespace hygge_imaotai.Domain
                 unselectedIcon:PackIconKind.Store
             );
 
+            yield return new DemoItem(
+                "日志管理",
+                typeof(LogUserControl),
+                selectedIcon: PackIconKind.Book,
+                unselectedIcon: PackIconKind.Book);
+
         }
 
         private bool DemoItemsFilter(object obj)
