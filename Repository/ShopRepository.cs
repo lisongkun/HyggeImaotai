@@ -245,10 +245,12 @@ namespace hygge_imaotai.Repository
         /// <returns></returns>
         private static List<StoreEntity> GetAllShopList()
         {
-            List<StoreEntity> list = new List<StoreEntity>();
+            var list = new List<StoreEntity>();
             if (File.Exists(App.StoreListFile))
             {
                 list = JsonConvert.DeserializeObject<List<StoreEntity>>(File.ReadAllText(App.StoreListFile));
+                if (list.Count == 0)
+                    throw new Exception("未获取到可用商店列表,请先尝试刷新商店列表");
                 return list;
             }
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
@@ -273,7 +275,10 @@ namespace hygge_imaotai.Repository
                 };
                 list.Add(storeEntity);
             }
-            File.WriteAllText(App.StoreListFile, JsonConvert.SerializeObject(list));
+            if(list.Count != 0)
+                File.WriteAllText(App.StoreListFile, JsonConvert.SerializeObject(list));
+            if (list.Count == 0)
+                throw new Exception("未获取到可用商店列表,请先尝试刷新商店列表");
             return list;
         }
 

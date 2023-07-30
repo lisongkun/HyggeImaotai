@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Threading;
 using System.Windows;
 using Flurl.Http;
 using hygge_imaotai.Domain;
@@ -39,6 +40,11 @@ namespace hygge_imaotai.UserInterface.UserControls
         /// <param name="e"></param>
         private async void RefreshShopButton_OnClick(object sender, RoutedEventArgs e)
         {
+            // 判断App.StoreListFile是否存在,存在则删除
+            if (File.Exists(App.StoreListFile))
+            {
+                File.Delete(App.StoreListFile);
+            }
             await IMTService.RefreshShop();
             RefreshData();
         }
