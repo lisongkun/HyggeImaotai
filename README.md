@@ -31,6 +31,11 @@
 
 
 
+
+本程序是对该项目(**SpringBoot使用Docker部署版本**:[https://github.com/oddfar/campus-imaotai](https://github.com/oddfar/campus-imaotai))的WPF客户端实现
+
+
+
 ## 演示图
 | i茅台预约                           |                                         |
 | ----------------------------------- | --------------------------------------- |
