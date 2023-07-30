@@ -85,10 +85,10 @@ namespace hygge_imaotai.Domain
 
         #region DelegateCommand
         public ICommand CurrentPageChangeCommand { get; private set; }
-        private static void UpdateData(object parameter)
+        private void UpdateData(object parameter)
         {
             LogList.Clear();
-            LogRepository.GetPageData((int)parameter, 10).ForEach(LogList.Add);
+            LogRepository.GetPageData((int)parameter, 10,this).ForEach(LogList.Add);
         }
 
         #endregion

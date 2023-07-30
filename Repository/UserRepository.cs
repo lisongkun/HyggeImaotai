@@ -192,6 +192,16 @@ shop_type=@shop_type,push_plus_token=@push_plus_token,json_result=@json_result,c
             command.Parameters.AddWithValue("@expire_time", user.ExpireTime);
             command.ExecuteNonQuery();
         }
+        public static void Delete(UserEntity parameter)
+        {
+            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
+            connection.Open();
+            const string insertSql = @"delete from i_user where mobile_phone=@mobile;";
+            using var command = new SqliteCommand(insertSql, connection);
+            command.Parameters.AddWithValue("@mobile", parameter.Mobile);
+            command.ExecuteNonQuery();
+        }
         #endregion
+
     }
 }

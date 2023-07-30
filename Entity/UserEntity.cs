@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using hygge_imaotai.Domain;
+using hygge_imaotai.Repository;
 using hygge_imaotai.UserInterface.Component;
 using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
 using MaterialDesignThemes.Wpf;
@@ -22,55 +23,55 @@ namespace hygge_imaotai.Entity
         /// <summary>
         /// 商品预约code，用@间隔
         /// </summary>
-        private string _itemCode;
+        private string _itemCode = string.Empty;
         /// <summary>
         /// 省份
         /// </summary>
-        private string _provinceName;
+        private string _provinceName = string.Empty;
 
         /// <summary>
         /// 城市
         /// </summary>
-        private string _cityName;
+        private string _cityName = string.Empty;
 
         /// <summary>
         /// 完整地址
         /// </summary>
-        private string _address;
+        private string _address = string.Empty;
 
         /// <summary>
         /// 纬度
         /// </summary>
-        private string _lat;
+        private string _lat = string.Empty;
 
         /// <summary>
         /// 经度
         /// </summary>
-        private string _lng;
+        private string _lng = string.Empty;
 
         /// <summary>
         /// 类型
         /// </summary>
-        private int _shopType;
+        private int _shopType =  1;
         /// <summary>
         /// 对接推送令牌
         /// </summary>
-        private string _pushPlusToken;
+        private string _pushPlusToken = string.Empty;
 
         /// <summary>
         /// 返回参数
         /// </summary>
-        private string _jsonResult;
+        private string _jsonResult = string.Empty;
 
         /// <summary>
         /// 创建时间
         /// </summary>
-        private DateTime _createTime;
+        private DateTime _createTime = DateTime.Now;
 
         /// <summary>
         /// token过期时间
         /// </summary>
-        private DateTime _expireTime;
+        private DateTime _expireTime = DateTime.Now.AddDays(30);
         #endregion
 
 
@@ -175,6 +176,7 @@ namespace hygge_imaotai.Entity
 
         private static void DeleteItemFunc(object? parameter)
         {
+            UserRepository.Delete((parameter as UserEntity)!);
             UserManageViewModel.UserList.Remove((parameter as UserEntity)!);
         }
 

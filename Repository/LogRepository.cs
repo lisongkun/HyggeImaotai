@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using hygge_imaotai.Domain;
 
 namespace hygge_imaotai.Repository
 {
@@ -37,12 +38,22 @@ namespace hygge_imaotai.Repository
         /// 获取数据总数
         /// </summary>
         /// <returns></returns>
-        public static int GetTotalCount()
+        public static int GetTotalCount(LogListViewModel viewModel)
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select count(*) from i_logs";
+            var insertSql = @"select count(*) from i_logs where 1 = 1 ";
+            if (!string.IsNullOrEmpty(viewModel.Mobile)) insertSql += " and mobilePhone like @mobilePhone";
+            if (!string.IsNullOrEmpty(viewModel.Status)) insertSql += " and status like @status";
+            if (!string.IsNullOrEmpty(viewModel.SearchContent)) insertSql += " and content like @content";
+
+
             using var command = new SqliteCommand(insertSql, connection);
+
+            if (!string.IsNullOrEmpty(viewModel.Mobile)) command.Parameters.AddWithValue("@mobilePhone", $"%{viewModel.Mobile}%");
+            if (!string.IsNullOrEmpty(viewModel.Status)) command.Parameters.AddWithValue("@status", $"%{viewModel.Status}%");
+            if (!string.IsNullOrEmpty(viewModel.SearchContent)) command.Parameters.AddWithValue("@content", $"%{viewModel.SearchContent}%");
+
             using var reader = command.ExecuteReader();
             var count = 0;
             while (reader.Read())
@@ -57,15 +68,26 @@ namespace hygge_imaotai.Repository
         /// </summary>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
-        public static List<LogEntity> GetPageData(int page, int pageSize)
+        public static List<LogEntity> GetPageData(int page, int pageSize,LogListViewModel viewModel)
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select * from i_logs ORDER BY id limit @pageSize OFFSET @offset";
+            var insertSql = @"select * from i_logs where 1 = 1 ";
+
+            if (!string.IsNullOrEmpty(viewModel.Mobile)) insertSql += " and mobilePhone like @mobilePhone";
+            if (!string.IsNullOrEmpty(viewModel.Status)) insertSql += " and status like @status";
+            if (!string.IsNullOrEmpty(viewModel.SearchContent)) insertSql += " and content like @content";
+
+            insertSql += " limit @pageSize OFFSET @offset";
             using var command = new SqliteCommand(insertSql, connection);
             command.Parameters.AddWithValue("@offset", (page - 1) * pageSize);
             command.Parameters.AddWithValue("@pageSize", pageSize);
+            if (!string.IsNullOrEmpty(viewModel.Mobile)) command.Parameters.AddWithValue("@mobilePhone", $"%{viewModel.Mobile}%");
+            if (!string.IsNullOrEmpty(viewModel.Status)) command.Parameters.AddWithValue("@status", $"%{viewModel.Status}%");
+            if (!string.IsNullOrEmpty(viewModel.SearchContent)) command.Parameters.AddWithValue("@content", $"%{viewModel.SearchContent}%");
+
             using var reader = command.ExecuteReader();
             var list = new List<LogEntity>();
             while (reader.Read())
