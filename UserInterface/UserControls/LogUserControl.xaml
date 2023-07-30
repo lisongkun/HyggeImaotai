@@ -44,7 +44,6 @@
                         <!-- 第一列内容 -->
                         <TextBox
                     Grid.Column="0"
-                    x:Name="ShopIdTextBox"
                     Margin="5"
                     materialDesign:TransitionAssist.DisableTransitions="True"
                     materialDesign:HintAssist.Hint="请输入手机号">
@@ -60,7 +59,6 @@
                         <TextBox
                         Grid.Column="1"
                         Margin="5"
-                        x:Name="ProvinceTextBox"
                         materialDesign:HintAssist.Hint="请输入状态">
                             <TextBox.Text>
                                 <Binding
@@ -93,7 +91,9 @@
                                 Margin="0,0,20,0"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                                ToolTip="Query Store by Conditions">
+                                x:Name="QueryButton"
+                                Click="QueryButton_OnClick"
+                                ToolTip="Query Log by Conditions">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Magnify" />
                                     <TextBlock
@@ -105,6 +105,8 @@
                                     Height="{StaticResource ButtonHeight}"
                                     materialDesign:ButtonAssist.CornerRadius="10"
                                     Style="{StaticResource MaterialDesignPaperLightButton}"
+                                    x:Name="ResetButton"
+                                    Click="ResetButton_OnClick"
                                     ToolTip="Reset Query Conditions">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Autorenew" />

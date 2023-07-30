@@ -128,6 +128,8 @@
                                 Width="100"
                                 Height="{StaticResource ButtonHeight}"
                                 Margin="0,0,20,0"
+                                x:Name="SearchButton"
+                                Click="SearchButton_OnClick"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                                 ToolTip="Query Store by Conditions">
@@ -138,6 +140,8 @@
                                 </StackPanel>
                             </Button>
                             <Button Width="100"
+                                    x:Name="ResetButton"
+                                    Click="ResetButton_OnClick"
                                     Margin="20,0,0,0"
                                     Height="{StaticResource ButtonHeight}"
                                     materialDesign:ButtonAssist.CornerRadius="10"

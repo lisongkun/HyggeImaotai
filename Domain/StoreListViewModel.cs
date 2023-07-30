@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
+using hygge_imaotai.UserInterface.UserControls;
 
 namespace hygge_imaotai.Domain
 {
@@ -18,10 +19,10 @@ namespace hygge_imaotai.Domain
         private string _companyName;
 
         // 分页数据
-        private int total = 0;
-        private int current = 1;
-        private int pageSize = 10;
-        private int pageCount = 0;
+        private int _total = 0;
+        private int _current = 1;
+        private int _pageSize = 10;
+        private int _pageCount = 0;
         #endregion
 
         #region Properties
@@ -60,26 +61,26 @@ namespace hygge_imaotai.Domain
 
         public int Total
         {
-            get => total;
-            set => SetProperty(ref total, value);
+            get => _total;
+            set => SetProperty(ref _total, value);
         }
 
         public int Current
         {
-            get => current;
-            set => SetProperty(ref current, value);
+            get => _current;
+            set => SetProperty(ref _current, value);
         }
 
         public int PageSize
         {
-            get => pageSize;
-            set => SetProperty(ref pageSize, value);
+            get => _pageSize;
+            set => SetProperty(ref _pageSize, value);
         }
 
         public int PageCount
         {
-            get => pageCount;
-            set => SetProperty(ref pageCount, value);
+            get => _pageCount;
+            set => SetProperty(ref _pageCount, value);
         }
 
         #endregion
@@ -94,10 +95,10 @@ namespace hygge_imaotai.Domain
 
         #region DelegateCommand
         public ICommand CurrentPageChangeCommand { get; private set; }
-        private static void UpdateData(object parameter)
+        private void UpdateData(object parameter)
         {
             StoreList.Clear();
-            ShopRepository.GetPageData((int)parameter, 10).ForEach(StoreList.Add);
+            ShopRepository.GetPageData((int)parameter, 10,this).ForEach(StoreList.Add);
         }
 
         #endregion

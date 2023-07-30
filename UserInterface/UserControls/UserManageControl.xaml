@@ -10,7 +10,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:dialogs="clr-namespace:hygge_imaotai.UserInterface.Dialogs"
-             d:DataContext="{d:DesignInstance domain:FieldsViewModel}"
+             xmlns:component="clr-namespace:hygge_imaotai.UserInterface.Component"
+             d:DataContext="{d:DesignInstance domain:UserManageViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -19,6 +20,7 @@
             <RowDefinition Height="Auto" />
             <!-- 第二行，自适应高度 -->
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <!-- 第三行，占据剩余空间 -->
         </Grid.RowDefinitions>
 
@@ -124,6 +126,8 @@
                     Margin="0,0,20,0"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                    x:Name="QueryButton"
+                    Click="QueryButton_OnClick"
                     ToolTip="Query User by Conditions">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Magnify" />
@@ -134,6 +138,8 @@
                 <Button Grid.Column="1"
                         Margin="20,0,0,0"
                         Height="{StaticResource ButtonHeight}"
+                        x:Name="ResetButton"
+                        Click="ResetButton_OnClick"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     Style="{StaticResource MaterialDesignPaperLightButton}"
                     ToolTip="Reset Query Conditions">
@@ -147,7 +153,7 @@
         </StackPanel>
 
         <!-- 第三行内容 -->
-            <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}"/>
+        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}"/>
         <Grid Grid.Row="2">
             <Grid.Tag>
                 <dialogs:DialogsViewModel x:Name="DialogVM" />
@@ -199,41 +205,41 @@
                                 Text="直接新增" />
                         </StackPanel>
                     </Button>
-                    <Button Grid.Column="2"
-                            Margin="20,0,0,0"
-                            Height="{StaticResource ButtonHeight}"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            Foreground="#92d5b3"
-                            Background="#e4f7ed"
-                            BorderBrush="#e4f7ed"
-                            ToolTip="edit account">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Pencil" />
-                            <TextBlock
-                                Text="修改" />
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="3"
-                            Margin="20,0,0,0"
-                            Height="{StaticResource ButtonHeight}"
-                            materialDesign:ButtonAssist.CornerRadius="10"
-                            Foreground="#efc3b7"
-                            Background="#ffeeea"
-                            BorderBrush="#ffeeea"
-                            ToolTip="delete account">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Delete" />
-                            <TextBlock
-                                Text="删除" />
-                        </StackPanel>
-                    </Button>
+                    <!-- <Button Grid.Column="2" -->
+                    <!--         Margin="20,0,0,0" -->
+                    <!--         Height="{StaticResource ButtonHeight}" -->
+                    <!--         materialDesign:ButtonAssist.CornerRadius="10" -->
+                    <!--         Foreground="#92d5b3" -->
+                    <!--         Background="#e4f7ed" -->
+                    <!--         BorderBrush="#e4f7ed" -->
+                    <!--         ToolTip="edit account"> -->
+                    <!--     <StackPanel Orientation="Horizontal"> -->
+                    <!--         <materialDesign:PackIcon Kind="Pencil" /> -->
+                    <!--         <TextBlock -->
+                    <!--             Text="修改" /> -->
+                    <!--     </StackPanel> -->
+                    <!-- </Button> -->
+                    <!-- <Button Grid.Column="3" -->
+                    <!--         Margin="20,0,0,0" -->
+                    <!--         Height="{StaticResource ButtonHeight}" -->
+                    <!--         materialDesign:ButtonAssist.CornerRadius="10" -->
+                    <!--         Foreground="#efc3b7" -->
+                    <!--         Background="#ffeeea" -->
+                    <!--         BorderBrush="#ffeeea" -->
+                    <!--         ToolTip="delete account"> -->
+                    <!--     <StackPanel Orientation="Horizontal"> -->
+                    <!--         <materialDesign:PackIcon Kind="Delete" /> -->
+                    <!--         <TextBlock -->
+                    <!--             Text="删除" /> -->
+                    <!--     </StackPanel> -->
+                    <!-- </Button> -->
                 </Grid>
             </StackPanel>
             <DataGrid AutoGenerateColumns="False"
                       Grid.Row="1"
                 CanUserAddRows="False"
                 HeadersVisibility="All"
-                ItemsSource="{Binding SearchResult}">
+                ItemsSource="{Binding UserList}">
                 <DataGrid.Columns>
                     <!-- 选择框 -->
                     <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
@@ -334,6 +340,9 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <component:Pagination Grid.Row="3" x:Name="Pagination" PageCount="{Binding PageCount}" 
+                                  UpdatePageCommand="{Binding CurrentPageChangeCommand}"
+                                  CurrentPage="{Binding Current}" Height="45" />
     </Grid>
 
 </UserControl>

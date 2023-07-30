@@ -20,9 +20,9 @@ namespace hygge_imaotai.UserInterface.UserControls
         {
             var logListViewModel = (LogListViewModel)DataContext;
             LogListViewModel.LogList.Clear();
-            LogRepository.GetPageData(1, 10).ForEach(LogListViewModel.LogList.Add);
+            LogRepository.GetPageData(1, 10,logListViewModel).ForEach(LogListViewModel.LogList.Add);
             // 分页数据
-            var total = LogRepository.GetTotalCount();
+            var total = LogRepository.GetTotalCount(logListViewModel);
             var pageCount = total / 10 + 1;
             logListViewModel.Total = total;
             logListViewModel.PageCount = pageCount;
@@ -31,6 +31,19 @@ namespace hygge_imaotai.UserInterface.UserControls
         private void RefreshLogButton_OnClick(object sender, RoutedEventArgs e)
         {
             RefreshData();
+        }
+
+        private void QueryButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var logListViewModel = (LogListViewModel)DataContext;
+            logListViewModel.Mobile = "";
+            logListViewModel.Status = "";
+            logListViewModel.SearchContent = "";
         }
     }
 }

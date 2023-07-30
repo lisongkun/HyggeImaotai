@@ -6,7 +6,7 @@ namespace hygge_imaotai.Repository
     /// <summary>
     /// 共用或基本的数据库操作
     /// </summary>
-    class CommonRepository
+    internal class CommonRepository
     {
         /// <summary>
         /// 创建订单数据库
@@ -21,6 +21,38 @@ namespace hygge_imaotai.Repository
             // 判断表是否存在
             CreateShopTable(connection);
             CreateLogTable(connection);
+            CreateUserTable(connection);
+        }
+
+        private static void CreateUserTable(SqliteConnection connection)
+        {
+            const string checkTableSql = "SELECT name FROM sqlite_master WHERE type='table' AND name='i_user';";
+            using var checkTableCommand = new SqliteCommand(checkTableSql, connection);
+            using var reader = checkTableCommand.ExecuteReader();
+            if (reader.HasRows)// 表存在，不需要创建
+                return;
+
+            // 创建新的表
+            const string createTableSql = @"CREATE TABLE i_user (
+  mobile_phone TEXT PRIMARY KEY NOT NULL,
+  user_id TEXT,
+  token TEXT,
+  item_code TEXT,
+  province_name TEXT,
+     city_name TEXT,
+address TEXT,
+lat TEXT,
+lng TEXT,
+shop_type TEXT,
+push_plus_token TEXT,
+json_result TEXT,
+create_time TEXT,
+expire_time TEXT
+);
+";
+            using var command = new SqliteCommand(createTableSql, connection);
+
+            command.ExecuteNonQuery();
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using hygge_imaotai.Domain;
+using hygge_imaotai.Repository;
 using hygge_imaotai.UserInterface.Component;
 using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
 using MaterialDesignThemes.Wpf;
@@ -9,12 +10,12 @@ using Newtonsoft.Json.Linq;
 
 namespace hygge_imaotai.Entity
 {
-    public class UserEntity:ViewModelBase
+    public class UserEntity : ViewModelBase
     {
         #region Field
 
-        
-private bool _isSelected;
+
+        private bool _isSelected;
 
         private long _userId;
         private string _mobile;
@@ -22,53 +23,57 @@ private bool _isSelected;
         /// <summary>
         /// 商品预约code，用@间隔
         /// </summary>
-        private string _itemCode;
+        private string _itemCode = string.Empty;
         /// <summary>
         /// 省份
         /// </summary>
-        private string _provinceName;
+        private string _provinceName = string.Empty;
 
         /// <summary>
         /// 城市
         /// </summary>
-        private string _cityName;
+        private string _cityName = string.Empty;
 
         /// <summary>
         /// 完整地址
         /// </summary>
-        private string _address;
+        private string _address = string.Empty;
 
         /// <summary>
         /// 纬度
         /// </summary>
-        private string _lat;
+        private string _lat = string.Empty;
 
         /// <summary>
         /// 经度
         /// </summary>
-        private string _lng;
+        private string _lng = string.Empty;
 
         /// <summary>
         /// 类型
         /// </summary>
-        private int _shopType;
+        private int _shopType =  1;
+        /// <summary>
+        /// 对接推送令牌
+        /// </summary>
+        private string _pushPlusToken = string.Empty;
 
         /// <summary>
         /// 返回参数
         /// </summary>
-        private string _jsonResult;
+        private string _jsonResult = string.Empty;
 
         /// <summary>
         /// 创建时间
         /// </summary>
-        private DateTime _createTime;
+        private DateTime _createTime = DateTime.Now;
 
         /// <summary>
         /// token过期时间
         /// </summary>
-        private DateTime _expireTime;
+        private DateTime _expireTime = DateTime.Now.AddDays(30);
         #endregion
-        
+
 
         #region Properties
 
@@ -90,6 +95,11 @@ private bool _isSelected;
             set => SetProperty(ref _mobile, value);
         }
 
+        public string PushPlusToken
+        {
+            get => _pushPlusToken;
+            set => SetProperty(ref _pushPlusToken, value);
+        }
         public string Token
         {
             get => _token;
@@ -166,14 +176,15 @@ private bool _isSelected;
 
         private static void DeleteItemFunc(object? parameter)
         {
-            FieldsViewModel.SearchResult.Remove((parameter as UserEntity)!);
+            UserRepository.Delete((parameter as UserEntity)!);
+            UserManageViewModel.UserList.Remove((parameter as UserEntity)!);
         }
 
         private static void ModifyItemFunc(object? parameter)
         {
             var userEntity = parameter as UserEntity;
             // 深拷贝一份userEntity
-            var view = new DirectAddAccountDialogUserControl(JsonConvert.DeserializeObject<UserEntity>(JsonConvert.SerializeObject(userEntity)),true);
+            var view = new DirectAddAccountDialogUserControl(JsonConvert.DeserializeObject<UserEntity>(JsonConvert.SerializeObject(userEntity)), true);
             DialogHost.Show(view, "RootDialog");
         }
 
@@ -192,20 +203,32 @@ private bool _isSelected;
         #endregion
 
         #region Construct Function
-        public UserEntity(){}
-        public UserEntity(string mobile, JObject jsonObject):base()
+
+        public UserEntity()
+        {
+        }
+
+        public UserEntity(string mobile, JObject jsonObject) : base()
         {
             var data = jsonObject["data"];
             this.UserId = data["userId"].Value<long>();
             this.Mobile = mobile;
             this.Token = data["token"].Value<string>();
-            this.JsonResult = jsonObject.ToString()[..2000];
+            this.JsonResult = jsonObject.ToString();
 
             this.CreateTime = DateTime.Now;
             this.ExpireTime = DateTime.Now.AddDays(30);
+
+            this.ItemCode = string.Empty;
+            this.ProvinceName = string.Empty;
+            this.CityName = string.Empty;
+            this.Address = string.Empty;
+            this.Lat = string.Empty;
+            this.Lng = string.Empty;
+            this.PushPlusToken = string.Empty;
         }
 
-        public UserEntity(bool isSelected, long userId, string mobile, string token, string itemCode, string provinceName, string cityName, string address, string lat, string lng, int shopType, string jsonResult, DateTime createTime, DateTime expireTime):base()
+        public UserEntity(bool isSelected, long userId, string mobile, string token, string itemCode, string provinceName, string cityName, string address, string lat, string lng, int shopType,string pushToken, string jsonResult, DateTime createTime, DateTime expireTime) : base()
         {
             _isSelected = isSelected;
             _userId = userId;
@@ -220,10 +243,11 @@ private bool _isSelected;
             _shopType = shopType;
             _jsonResult = jsonResult;
             _createTime = createTime;
+            _pushPlusToken = pushToken;
             _expireTime = expireTime;
         }
 
         #endregion
-        
+
     }
 }

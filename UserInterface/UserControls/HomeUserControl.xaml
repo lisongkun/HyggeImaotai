@@ -34,7 +34,7 @@
 
             <Image Width="100"
              Height="100"
-             Source="Resources/ms-icon-310x310.png"
+             Source="/Resources/ms-icon-310x310.png"
              Stretch="Uniform" />
 
             <StackPanel Grid.Column="1"
@@ -43,7 +43,14 @@
                 <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                    Text="欢迎使用i茅台预约小助手"
                    TextWrapping="Wrap" />
-
+                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           Text="作者:Hygge QQ交流群:376936495"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           Text="生活中的Hygge:lisok.cn"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
                 <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                 CommandParameter="{x:Static Dock.Left}"
                 Style="{StaticResource MaterialDesignFlatButton}">

@@ -1,10 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Jobs;
 using hygge_imaotai.Repository;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Quartz;
+using Quartz.Impl;
 
 
 namespace hygge_imaotai
@@ -35,7 +40,7 @@ namespace hygge_imaotai
         public static string MtSessionId = "";
 
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
  
@@ -54,6 +59,16 @@ namespace hygge_imaotai
             // 读取会话ID
             if(File.Exists(_sessionIdFile))
                 MtSessionId = File.ReadAllText(_sessionIdFile);
+
+            // 创建任务调度器
+            var stdSchedulerFactory = new StdSchedulerFactory();
+            var scheduler = await stdSchedulerFactory.GetScheduler();
+            await scheduler.Start();
+            Console.WriteLine("任务调度器已启动");
+            var jobDetail = JobBuilder.Create<ReservationJob>().Build();
+            var trigger = TriggerBuilder.Create().WithCronSchedule("0 5 9 ? * * ").Build();
+            // 添加调度
+            await scheduler.ScheduleJob(jobDetail, trigger);
         }
 
         public static void WriteCache(string filename,string content)

@@ -2,6 +2,7 @@
 using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Repository;
 
 namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
 {
@@ -21,14 +22,17 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
             DataContext = dataContext;
             _dataContext = (dataContext as UserEntity)!;
             willFindPhone = isUpadte ? dataContext.Mobile : _dataContext.Mobile;
+            TitleBlock.Text = isUpadte ? "更新i茅台用户:" : "添加i茅台用户:";
+            LoginButton.Content = isUpadte ? "更新" : "添加";
         }
 
         private void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
             var foundUserEntity =
-                FieldsViewModel.SearchResult.FirstOrDefault(user => user.Mobile == willFindPhone);
+                UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == willFindPhone);
             if (foundUserEntity != null)
             {
+                // 此处执行更新操作o
                 // 更新寻找到的用户信息
                 foundUserEntity.Mobile = _dataContext.Mobile;
                 foundUserEntity.UserId = _dataContext.UserId;
@@ -40,9 +44,10 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
                 foundUserEntity.Lng = _dataContext.Lng;
                 foundUserEntity.ShopType = _dataContext.ShopType;
                 foundUserEntity.ExpireTime = _dataContext.ExpireTime;
+                UserRepository.UpdateUser(foundUserEntity);
                 return;
             }
-            FieldsViewModel.SearchResult.Add(_dataContext);
+            UserRepository.InsertUser(_dataContext);
         }
     }
 }

@@ -28,7 +28,7 @@
             <RowDefinition  Height="Auto"/>
             <RowDefinition  Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock>添加i茅台用户:</TextBlock>
+        <TextBlock x:Name="TitleBlock">添加i茅台用户:</TextBlock>
 
         <Grid Grid.Row="1" >
             <Grid.ColumnDefinitions>
