@@ -59,8 +59,16 @@ namespace hygge_imaotai.Repository
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select count(*) from i_user";
+            var insertSql = @"select count(*) from i_user where 1 = 1 ";
+            if (!string.IsNullOrEmpty(viewModel.Phone)) insertSql += "and mobile_phone like @phone ";
+            if (!string.IsNullOrEmpty(viewModel.UserId)) insertSql += "and user_id like @userId ";
+            if (!string.IsNullOrEmpty(viewModel.Province)) insertSql += "and province_name like @province ";
+            if (!string.IsNullOrEmpty(viewModel.City)) insertSql += "and city_name like @city ";
             using var command = new SqliteCommand(insertSql, connection);
+            if (!string.IsNullOrEmpty(viewModel.Phone)) command.Parameters.AddWithValue("@phone", $"%{viewModel.Phone}%");
+            if (!string.IsNullOrEmpty(viewModel.UserId)) command.Parameters.AddWithValue("@userId", $"%{viewModel.UserId}%");
+            if (!string.IsNullOrEmpty(viewModel.Province)) command.Parameters.AddWithValue("@province", $"%{viewModel.Province}%");
+            if (!string.IsNullOrEmpty(viewModel.City)) command.Parameters.AddWithValue("@city", $"%{viewModel.City}%");
             using var reader = command.ExecuteReader();
             var count = 0;
             while (reader.Read())
@@ -113,15 +121,28 @@ namespace hygge_imaotai.Repository
         /// </summary>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
         public static List<UserEntity> GetPageData(int page, int pageSize, UserManageViewModel viewModel)
         {
             using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
             connection.Open();
-            const string insertSql = @"select * from i_user limit @pageSize OFFSET @offset";
+            string insertSql = @"select * from i_user where 1 = 1 ";
+            if(!string.IsNullOrEmpty(viewModel.Phone)) insertSql += "and mobile_phone like @phone ";
+            if(!string.IsNullOrEmpty(viewModel.UserId)) insertSql += "and user_id like @userId ";
+            if(!string.IsNullOrEmpty(viewModel.Province)) insertSql += "and province_name like @province ";
+            if(!string.IsNullOrEmpty(viewModel.City)) insertSql += "and city_name like @city ";
+            insertSql += "limit @pageSize OFFSET @offset";
+
             using var command = new SqliteCommand(insertSql, connection);
             command.Parameters.AddWithValue("@offset", (page - 1) * pageSize);
             command.Parameters.AddWithValue("@pageSize", pageSize);
+
+            if(!string.IsNullOrEmpty(viewModel.Phone)) command.Parameters.AddWithValue("@phone", $"%{viewModel.Phone}%");
+            if(!string.IsNullOrEmpty(viewModel.UserId)) command.Parameters.AddWithValue("@userId", $"%{viewModel.UserId}%");
+            if(!string.IsNullOrEmpty(viewModel.Province)) command.Parameters.AddWithValue("@province", $"%{viewModel.Province}%");
+            if(!string.IsNullOrEmpty(viewModel.City)) command.Parameters.AddWithValue("@city", $"%{viewModel.City}%");
+
             using var reader = command.ExecuteReader();
             var list = new List<UserEntity>();
             while (reader.Read())

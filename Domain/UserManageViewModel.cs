@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Windows.Input;
 using hygge_imaotai.Entity;
+using hygge_imaotai.Repository;
 
 namespace hygge_imaotai.Domain
 {
@@ -20,7 +22,6 @@ namespace hygge_imaotai.Domain
         private string? _province;
         private string? _city;
 
-        // 分页数据
         // 分页数据
         private int _total = 0;
         private int _current = 1;
@@ -101,7 +102,14 @@ namespace hygge_imaotai.Domain
 
         #endregion
 
+        #region Constructor
 
+        public UserManageViewModel()
+        {
+            CurrentPageChangeCommand = new AnotherCommandImplementation(UpdateData);
+        }
+
+        #endregion
 
         #region Functions
 
@@ -116,6 +124,16 @@ namespace hygge_imaotai.Domain
             {
                 model.IsSelected = select;
             }
+        }
+
+        #endregion
+
+        #region DelegateCommand
+        public ICommand CurrentPageChangeCommand { get; private set; }
+        private void UpdateData(object parameter)
+        {
+            UserList.Clear();
+            UserRepository.GetPageData((int)parameter, 10, this).ForEach(UserList.Add);
         }
 
         #endregion

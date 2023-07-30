@@ -1,4 +1,5 @@
-﻿using hygge_imaotai.Domain;
+﻿using System.Windows;
+using hygge_imaotai.Domain;
 using hygge_imaotai.Repository;
 
 namespace hygge_imaotai.UserInterface.UserControls
@@ -25,6 +26,20 @@ namespace hygge_imaotai.UserInterface.UserControls
             var pageCount = total / 10 + 1;
             userListViewModel.Total = total;
             userListViewModel.PageCount = pageCount;
+        }
+
+        private void QueryButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var userListViewModel = (UserManageViewModel)DataContext;
+            userListViewModel.Phone = "";
+            userListViewModel.UserId = "";
+            userListViewModel.Province = "";
+            userListViewModel.City = "";
         }
     }
 }
