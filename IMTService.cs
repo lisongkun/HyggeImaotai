@@ -379,7 +379,7 @@ namespace hygge_imaotai
             var shopInnerJson = await shopsUrl.GetStringAsync();
 
             var shopInnerJObject = JObject.Parse(shopInnerJson);
-            var thread = new Thread(() =>
+            Task task = Task.Run(() =>
             {
                 foreach (var property in shopInnerJObject.Properties())
                 {
@@ -388,8 +388,7 @@ namespace hygge_imaotai
                     ShopRepository.InsertShop(new StoreEntity(shopId, nestedObject));
                 }
             });
-            thread.Start();
-            thread.Join();
+            await task;
         }
     }
 }
