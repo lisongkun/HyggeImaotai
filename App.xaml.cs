@@ -19,7 +19,7 @@ namespace hygge_imaotai
     /// </summary>
     public partial class App : Application
     {
-        const string CacheDir = "cache"; 
+        const string CacheDir = "cache";
         // 内部使用缓存文件
         private readonly string _productListFile = Path.Combine(CacheDir, "productList.json");
         private readonly string _sessionIdFile = Path.Combine(CacheDir, "mtSessionId.txt");
@@ -43,9 +43,9 @@ namespace hygge_imaotai
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
- 
+
             // 判断cache文件夹是否存在
-            if(!Directory.Exists(CacheDir))
+            if (!Directory.Exists(CacheDir))
                 Directory.CreateDirectory(CacheDir);
 
             // 判断productListFile是否存在,存在则读入缓存
@@ -57,7 +57,7 @@ namespace hygge_imaotai
             // 开始初始化数据库
             CommonRepository.CreateDatabase();
             // 读取会话ID
-            if(File.Exists(_sessionIdFile))
+            if (File.Exists(_sessionIdFile))
                 MtSessionId = File.ReadAllText(_sessionIdFile);
 
             // 创建任务调度器
@@ -65,16 +65,22 @@ namespace hygge_imaotai
             var scheduler = await stdSchedulerFactory.GetScheduler();
             await scheduler.Start();
             Console.WriteLine("任务调度器已启动");
+
+            // 创建抢购预约的任务
             var jobDetail = JobBuilder.Create<ReservationJob>().Build();
             var trigger = TriggerBuilder.Create().WithCronSchedule("0 5 9 ? * * ").Build();
+            // 创建刷新数据的任务
+            var refreshJobDetail = JobBuilder.Create<RefreshJob>().Build();
+            var refreshTrigger = TriggerBuilder.Create().WithCronSchedule("0 25,55 6,7,8 ? * * ").Build();
             // 添加调度
             await scheduler.ScheduleJob(jobDetail, trigger);
+            await scheduler.ScheduleJob(refreshJobDetail, refreshTrigger);
         }
 
-        public static void WriteCache(string filename,string content)
+        public static void WriteCache(string filename, string content)
         {
             var path = Path.Combine(CacheDir, filename);
-            File.WriteAllText(path,content);
+            File.WriteAllText(path, content);
         }
     }
 }

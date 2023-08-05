@@ -189,7 +189,7 @@ namespace hygge_imaotai
         /// 预约方法
         /// </summary>
         /// <param name="userEntity"></param>
-        public static async void Reservation(UserEntity userEntity)
+        public static async Task Reservation(UserEntity userEntity)
         {
             var items = userEntity.ItemCode.Split("@");
 
@@ -215,11 +215,7 @@ namespace hygge_imaotai
                     Response = ex.Message,
                     Status = "异常"
                 }).ExecuteAffrowsAsync();
-
-                new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
-                return;
             }
-            new MessageBoxCustom("手动发起预约成功,响应结果请查看日志", MessageType.Success, MessageButtons.Ok).ShowDialog();
         }
 
 
@@ -345,6 +341,7 @@ namespace hygge_imaotai
                 var dataJObject = jObject["data"];
                 App.MtSessionId = dataJObject["sessionId"].Value<string>();
                 var itemList = (JArray)dataJObject["itemList"];
+                AppointProjectViewModel.ProductList.Clear();
                 foreach (var itemElement in itemList)
                 {
                     AppointProjectViewModel.ProductList.Add(new ProductEntity(itemElement["itemCode"].Value<string>(),

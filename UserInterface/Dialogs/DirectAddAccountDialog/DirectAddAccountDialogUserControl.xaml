@@ -81,12 +81,12 @@
                  Text="{Binding ShopType}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox Grid.Row="8"
-                 wpf:HintAssist.Hint="请输入纬度"
+                 wpf:HintAssist.Hint="请输入纬度(eg:110.21)"
                  FontSize="16"
                  Text="{Binding Lat}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox Grid.Row="9"
-                 wpf:HintAssist.Hint="请输入经度"
+                 wpf:HintAssist.Hint="请输入经度(eg:36.62)"
                  FontSize="16"
                  Text="{Binding Lng}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
@@ -100,8 +100,7 @@
         <StackPanel Grid.Row="11"
                 Margin="0,15,0,0"
                 Orientation="Horizontal">
-            <Button Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
-              IsDefault="True"
+            <Button IsDefault="True" Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
               x:Name="LoginButton"
               Click="LoginButton_OnClick"
               Style="{StaticResource MaterialDesignFlatButton}">

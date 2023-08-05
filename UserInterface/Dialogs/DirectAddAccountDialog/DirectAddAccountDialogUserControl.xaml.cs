@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
+using MaterialDesignThemes.Wpf;
 
 namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
 {
@@ -28,6 +31,24 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
 
         private void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
+            // 判断经纬度是否符合规范
+            bool latIsInteger = Regex.IsMatch(_dataContext.Lat, @"^\d+$");
+            bool latIsFloat = Regex.IsMatch(_dataContext.Lat, @"^\d+(\.\d+)?$");
+            if (!latIsFloat && !latIsInteger)
+            {
+                MessageBox.Show("纬度不符合规范");
+                return;
+            }
+
+            bool lngIsInteger = Regex.IsMatch(_dataContext.Lng, @"^\d+$");
+            bool lngIsFloat = Regex.IsMatch(_dataContext.Lng, @"^\d+(\.\d+)?$");
+            if (!latIsFloat && !latIsInteger)
+            {
+                MessageBox.Show("经度不符合规范");
+                return;
+            }
+
+
             var foundUserEntity =
                 UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == _dataContext.Mobile);
             if (foundUserEntity != null)

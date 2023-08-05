@@ -190,7 +190,7 @@ namespace hygge_imaotai.Entity
             DialogHost.Show(view, "RootDialog");
         }
 
-        private static void ReserveCommandItemFunc(object? parameter)
+        private static async void ReserveCommandItemFunc(object? parameter)
         {
             var userEntity = parameter as UserEntity;
             if (string.IsNullOrEmpty(userEntity?.ItemCode))
@@ -199,7 +199,15 @@ namespace hygge_imaotai.Entity
             }
             else
             {
-                IMTService.Reservation(userEntity);
+                try
+                {
+                    await IMTService.Reservation(userEntity);
+                    new MessageBoxCustom("手动发起预约成功,响应结果请查看日志", MessageType.Success, MessageButtons.Ok).ShowDialog();
+                }
+                catch (Exception e)
+                {
+                    new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
+                }
             }
         }
         #endregion
