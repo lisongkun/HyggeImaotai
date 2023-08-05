@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using Flurl.Http;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
-using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,130 +16,7 @@ namespace hygge_imaotai.Repository
     /// </summary>
     public class ShopRepository
     {
-        /// <summary>
-        /// 清空数据表数据
-        /// </summary>
-        public static void TruncateTable()
-        {
-            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
-            connection.Open();
-            const string truncateTableSql = "DELETE FROM i_shop;";
-            using var command = new SqliteCommand(truncateTableSql, connection);
-            command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        /// 向表中添加一行数据
-        /// </summary>
-        /// <param name="storeEntity"></param>
-        public static void InsertShop(StoreEntity storeEntity)
-        {
-            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
-            connection.Open();
-            const string insertSql = @"INSERT INTO i_shop (i_shop_id,province_name,city_name,district_name,full_address,lat,lng,name,tenant_name,create_time)" +
-                                     "VALUES (@i_shop_id,@province_name,@city_name,@district_name,@full_address,@lat,@lng,@name,@tenant_name,@create_time);";
-            using var command = new SqliteCommand(insertSql, connection);
-            command.Parameters.AddWithValue("@i_shop_id", storeEntity.ProductId);
-            command.Parameters.AddWithValue("@province_name", storeEntity.Province);
-            command.Parameters.AddWithValue("@city_name", storeEntity.City);
-            command.Parameters.AddWithValue("@district_name", storeEntity.Area);
-            command.Parameters.AddWithValue("@full_address", storeEntity.UnbrokenAddress);
-            command.Parameters.AddWithValue("@lat", storeEntity.Lat);
-            command.Parameters.AddWithValue("@lng", storeEntity.Lng);
-            command.Parameters.AddWithValue("@name", storeEntity.Name);
-            command.Parameters.AddWithValue("@tenant_name", storeEntity.CompanyName);
-            command.Parameters.AddWithValue("@create_time", storeEntity.CreatedAt);
-            command.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        /// 分页获取数据
-        /// </summary>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="storeListViewModel"></param>
-        /// <returns></returns>
-        public static List<StoreEntity> GetPageData(int page, int pageSize, StoreListViewModel? storeListViewModel = null)
-        {
-            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
-            connection.Open();
-            var insertSql = @"select * from i_shop where 1 = 1 ";
-            if (storeListViewModel != null)
-            {
-                if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) insertSql += "And i_shop_id = @shopId ";
-                if (!string.IsNullOrEmpty(storeListViewModel.Province)) insertSql += "And province_name = @provinceName ";
-                if (!string.IsNullOrEmpty(storeListViewModel.City)) insertSql += "And city_name = @cityName ";
-                if (!string.IsNullOrEmpty(storeListViewModel.Area)) insertSql += "And district_name = @districtName ";
-                if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) insertSql += "And name = @name ";
-            }
-
-            insertSql += "limit @pageSize OFFSET @offset";
-
-            using var command = new SqliteCommand(insertSql, connection);
-            command.Parameters.AddWithValue("@offset", (page - 1) * pageSize);
-            command.Parameters.AddWithValue("@pageSize", pageSize);
-            if (storeListViewModel != null)
-            {
-                if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) command.Parameters.AddWithValue("@shopId", storeListViewModel.ShopId);
-                if (!string.IsNullOrEmpty(storeListViewModel.Province)) command.Parameters.AddWithValue("@provinceName", storeListViewModel.Province);
-                if (!string.IsNullOrEmpty(storeListViewModel.City)) command.Parameters.AddWithValue("@cityName", storeListViewModel.City);
-                if (!string.IsNullOrEmpty(storeListViewModel.Area)) command.Parameters.AddWithValue("@districtName", storeListViewModel.Area);
-                if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) command.Parameters.AddWithValue("@name", storeListViewModel.CompanyName);
-            }
-            using var reader = command.ExecuteReader();
-            var list = new List<StoreEntity>();
-            while (reader.Read())
-            {
-                var storeEntity = new StoreEntity
-                {
-                    ProductId = reader.GetString(1),
-                    Province = reader.GetString(2),
-                    City = reader.GetString(3),
-                    Area = reader.GetString(4),
-                    UnbrokenAddress = reader.GetString(5),
-                    Lat = reader.GetString(6),
-                    Lng = reader.GetString(7),
-                    Name = reader.GetString(8),
-                    CompanyName = reader.GetString(9),
-                    CreatedAt = DateTime.Parse(reader.GetString(10))
-                };
-                list.Add(storeEntity);
-            }
-            return list;
-        }
-
-        /// <summary>
-        /// 获取数据总数
-        /// </summary>
-        /// <param name="storeListViewModel"></param>
-        /// <returns></returns>
-        public static int GetTotalCount(StoreListViewModel storeListViewModel)
-        {
-            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
-            connection.Open();
-            var insertSql = @"select count(*) from i_shop where 1 = 1 ";
-            if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) insertSql += "And i_shop_id = @shopId ";
-            if (!string.IsNullOrEmpty(storeListViewModel.Province)) insertSql += "And province_name = @provinceName ";
-            if (!string.IsNullOrEmpty(storeListViewModel.City)) insertSql += "And city_name = @cityName ";
-            if (!string.IsNullOrEmpty(storeListViewModel.Area)) insertSql += "And district_name = @districtName ";
-            if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) insertSql += "And name = @name ";
-
-
-            using var command = new SqliteCommand(insertSql, connection);
-            if (!string.IsNullOrEmpty(storeListViewModel.ShopId)) command.Parameters.AddWithValue("@shopId", storeListViewModel.ShopId);
-            if (!string.IsNullOrEmpty(storeListViewModel.Province)) command.Parameters.AddWithValue("@provinceName", storeListViewModel.Province);
-            if (!string.IsNullOrEmpty(storeListViewModel.City)) command.Parameters.AddWithValue("@cityName", storeListViewModel.City);
-            if (!string.IsNullOrEmpty(storeListViewModel.Area)) command.Parameters.AddWithValue("@districtName", storeListViewModel.Area);
-            if (!string.IsNullOrEmpty(storeListViewModel.CompanyName)) command.Parameters.AddWithValue("@name", storeListViewModel.CompanyName);
-
-            using var reader = command.ExecuteReader();
-            var count = 0;
-            while (reader.Read())
-            {
-                count = reader.GetInt32(0);
-            }
-            return count;
-        }
+        
 
         /// <summary>
         /// 获取预约的店铺id
@@ -159,7 +34,7 @@ namespace hygge_imaotai.Repository
             var shopIdList = shopList.Select(i => i.ShopId).ToList();
             var iShops = GetAllShopList();
             // 获取今日的门店信息列表
-            var filteredShop = iShops.Where(i => shopIdList.Contains(i.ProductId)).ToList();
+            var filteredShop = iShops.Where(i => shopIdList.Contains(i.ShopId)).ToList();
 
             var shopId = "";
             if (userEntityShopType == 1)
@@ -189,7 +64,7 @@ namespace hygge_imaotai.Repository
         /// <param name="userEntityLat"></param>
         /// <param name="userEntityLng"></param>
         /// <returns></returns>
-        private static string GetMinDistanceShopId(List<StoreEntity> filteredShop, string userEntityProvinceName, string userEntityLat, string userEntityLng)
+        private static string GetMinDistanceShopId(List<ShopEntity> filteredShop, string userEntityProvinceName, string userEntityLat, string userEntityLng)
         {
             var iShopList = filteredShop.Where(i => i.Province.Contains(userEntityProvinceName)).ToList();
             var mapPoint = new MapPoint(double.Parse(userEntityLat), double.Parse(userEntityLng));
@@ -199,7 +74,7 @@ namespace hygge_imaotai.Repository
                 storeEntity.Distance = GetDistance(mapPoint, point);
             }
             var minDistance = iShopList.Min(i => i.Distance);
-            var shopId = iShopList.FirstOrDefault(i => i.Distance == minDistance)?.ProductId;
+            var shopId = iShopList.FirstOrDefault(i => i.Distance == minDistance)?.ShopId;
             return shopId;
         }
 
@@ -227,10 +102,10 @@ namespace hygge_imaotai.Repository
         /// <param name="filteredShop"></param>
         /// <param name="userEntityCityName"></param>
         /// <returns></returns>
-        private static string GetMaxInventoryShopId(List<IMTItemInfo> shopIdList, List<StoreEntity> filteredShop, string userEntityCityName)
+        private static string GetMaxInventoryShopId(List<IMTItemInfo> shopIdList, List<ShopEntity> filteredShop, string userEntityCityName)
         {
             // 本城市的shopId集合
-            var cityShopIdList = filteredShop.Where(i => i.City.Contains(userEntityCityName)).Select(i => i.ProductId)
+            var cityShopIdList = filteredShop.Where(i => i.City.Contains(userEntityCityName)).Select(i => i.ShopId)
                 .ToList();
 
             var collect = shopIdList.Where(i => cityShopIdList.Contains(i.ShopId)).ToList();
@@ -243,38 +118,18 @@ namespace hygge_imaotai.Repository
         /// 获取所有StoreEntity
         /// </summary>
         /// <returns></returns>
-        private static List<StoreEntity> GetAllShopList()
+        private static List<ShopEntity> GetAllShopList()
         {
-            var list = new List<StoreEntity>();
+            var list = new List<ShopEntity>();
             if (File.Exists(App.StoreListFile))
             {
-                list = JsonConvert.DeserializeObject<List<StoreEntity>>(File.ReadAllText(App.StoreListFile));
+                list = JsonConvert.DeserializeObject<List<ShopEntity>>(File.ReadAllText(App.StoreListFile));
                 if (list.Count == 0)
                     throw new Exception("未获取到可用商店列表,请先尝试刷新商店列表");
                 return list;
             }
-            using var connection = new SqliteConnection(App.OrderDatabaseConnectStr);
-            connection.Open();
-            const string queryAllSql = @"select * from i_shop";
-            using var command = new SqliteCommand(queryAllSql, connection);
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                var storeEntity = new StoreEntity
-                {
-                    ProductId = reader.GetString(1),
-                    Province = reader.GetString(2),
-                    City = reader.GetString(3),
-                    Area = reader.GetString(4),
-                    UnbrokenAddress = reader.GetString(5),
-                    Lat = reader.GetString(6),
-                    Lng = reader.GetString(7),
-                    Name = reader.GetString(8),
-                    CompanyName = reader.GetString(9),
-                    CreatedAt = DateTime.Parse(reader.GetString(10))
-                };
-                list.Add(storeEntity);
-            }
+
+            list = DB.Sqlite.Select<ShopEntity>().ToList();
             if(list.Count != 0)
                 File.WriteAllText(App.StoreListFile, JsonConvert.SerializeObject(list));
             if (list.Count == 0)

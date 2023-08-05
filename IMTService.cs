@@ -163,11 +163,24 @@ namespace hygge_imaotai
             var foundUserEntity = UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == phone);
             if (foundUserEntity != null)
             {
-                UserRepository.UpdateUser(new UserEntity(phone,responseJson));
+                await DB.Sqlite.Update<UserEntity>().Set(i => i.UserId, foundUserEntity.UserId)
+                    .Set(i => i.Token, foundUserEntity.Token)
+                    .Set(i => i.ItemCode, foundUserEntity.ItemCode)
+                    .Set(i => i.ProvinceName, foundUserEntity.ProvinceName)
+                    .Set(i => i.CityName, foundUserEntity.CityName)
+                    .Set(i => i.Address, foundUserEntity.Address)
+                    .Set(i => i.Lat, foundUserEntity.Lat)
+                    .Set(i => i.Lng, foundUserEntity.Lng)
+                    .Set(i => i.ShopType, foundUserEntity.ShopType)
+                    .Set(i => i.PushPlusToken, foundUserEntity.PushPlusToken)
+                    .Set(i => i.JsonResult, foundUserEntity.JsonResult)
+                    .Set(i => i.CreateTime, foundUserEntity.CreateTime)
+                    .Set(i => i.ExpireTime, foundUserEntity.ExpireTime)
+                    .Where(i => i.Mobile == foundUserEntity.Mobile).ExecuteAffrowsAsync();
             }
             else
             {
-                UserRepository.InsertUser(new UserEntity(phone, responseJson));
+                await DB.Sqlite.Insert(new UserEntity(phone, responseJson)).ExecuteAffrowsAsync();
             }
             return true;
         }
@@ -194,14 +207,15 @@ namespace hygge_imaotai
             }
             catch (Exception ex)
             {
-                LogRepository.InsertLog(new LogEntity()
+                await DB.Sqlite.Insert<LogEntity>(new LogEntity()
                 {
                     CreateTime = DateTime.Now,
                     MobilePhone = userEntity.Mobile,
                     Content = $"[userId]:{userEntity.UserId}",
                     Response = ex.Message,
                     Status = "异常"
-                });
+                }).ExecuteAffrowsAsync();
+
                 new MessageBoxCustom("预约请求失败,响应结果详细请查看日志", MessageType.Error, MessageButtons.Ok).ShowDialog();
                 return;
             }
@@ -211,8 +225,6 @@ namespace hygge_imaotai
 
         public static async Task Reservation(UserEntity user, string itemId, string shopId)
         {
-            var client = new HttpClient();
-
             var info = new Dictionary<string, object>
             {
                 { "itemId", itemId },
@@ -227,45 +239,62 @@ namespace hygge_imaotai
                 {"userId",user.UserId + ""}
             };
             values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"", "\"")));
+            var requestBody = JsonConvert.SerializeObject(values);
 
-            client.DefaultRequestHeaders.Add("MT-Lat", user.Lat);
-            client.DefaultRequestHeaders.Add("MT-K", "1675213490331");
-            client.DefaultRequestHeaders.Add("MT-Lng", user.Lng);
-            client.DefaultRequestHeaders.Add("Host", "app.moutai519.com.cn");
-            client.DefaultRequestHeaders.Add("MT-User-Tag", "0");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-            client.DefaultRequestHeaders.Add("MT-Network-Type", "WIFI");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("MT-Token", user.Token);
-            client.DefaultRequestHeaders.TryAddWithoutValidation("MT-Team-ID", "");
-            client.DefaultRequestHeaders.Add("MT-Info", "028e7f96f6369cafe1d105579c5b9377");
-            client.DefaultRequestHeaders.Add("MT-Device-ID", "2F2075D0-B66C-4287-A903-DBFF6358342A");
-            client.DefaultRequestHeaders.Add("MT-Bundle-ID", "com.moutai.mall");
-            client.DefaultRequestHeaders.Add("Accept-Language", "en-CN;q=1, zh-Hans-CN;q=0.9");
-            client.DefaultRequestHeaders.Add("MT-Request-ID", "167560018873318465");
-            client.DefaultRequestHeaders.Add("MT-APP-Version", await GetMtVersion());
-            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "iOS;16.3;Apple;?unrecognized?");
-            client.DefaultRequestHeaders.Add("MT-R", "clips_OlU6TmFRag5rCXwbNAQ/Tz1SKlN8THcecBp/HGhHdw==");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Length", "93");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("userId", user.UserId + "");
-
-            var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
-
-            var response = await client
-                .PostAsync("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", content);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var responseJson = JObject.Parse(responseString);
-
-            LogRepository.InsertLog(new LogEntity()
+            var response = await "https://app.moutai519.com.cn/xhr/front/mall/reservation/add"
+                .WithHeader("userId", user.UserId + "")
+                .WithHeader("Content-Type", "application/json")
+                .WithHeader("Connection", "keep-alive")
+                .WithHeader("MT-Bundle-ID", "com.moutai.mall")
+                .WithHeader("MT-R", "clips_OlU6TmFRag5rCXwbNAQ/Tz1SKlN8THcecBp/HGhHdw==")
+                .WithHeader("Accept-Encoding", "gzip, deflate, br")
+                .WithHeader("Accept-Language", "en-CN;q=1, zh-Hans-CN;q=0.9")
+                .WithHeader("MT-Lat", user.Lat)
+                .WithHeader("MT-K", "1675213490331")
+                .WithHeader("MT-Lng", user.Lng)
+                .WithHeader("Host", "app.moutai519.com.cn")
+                .WithHeader("MT-User-Tag", "0")
+                .WithHeader("Accept", "*/*")
+                .WithHeader("MT-Network-Type", "WIFI")
+                .WithHeader("MT-Token", user.Token)
+                .WithHeader("MT-Team-ID", "")
+                .WithHeader("MT-Info", "028e7f96f6369cafe1d105579c5b9377")
+                .WithHeader("MT-Device-ID", "2F2075D0-B66C-4287-A903-DBFF6358342A")
+                .WithHeader("MT-Request-ID", "167560018873318465")
+                .WithHeader("MT-APP-Version", await GetMtVersion())
+                .WithHeader("User-Agent", "iOS;16.3;Apple;?unrecognized?")
+                .AllowAnyHttpStatus()
+                .PostStringAsync(requestBody);
+            if (response.StatusCode is 200 or 480)
             {
-                CreateTime = DateTime.Now,
-                MobilePhone = user.Mobile,
-                Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
-                Response = responseString,
-                Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
-            });
+                var responseString = await response.GetStringAsync();
+                var responseJson = JObject.Parse(responseString);
+                await DB.Sqlite.Insert<LogEntity>(new LogEntity()
+                {
+                    CreateTime = DateTime.Now,
+                    MobilePhone = user.Mobile,
+                    Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
+                    Response = responseString,
+                    Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
+                }).ExecuteAffrowsAsync();
+            }
+            else
+            {
+                var logEntity = new LogEntity()
+                {
+                    CreateTime = DateTime.Now,
+                    MobilePhone = user.Mobile,
+                    Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
+                    Response = $"本次抢购会话已过期,请手动刷新一下商品列表和店铺列表后重试",
+                    Status = "预约失败"
+                };
+                if (response.StatusCode != 404)
+                {
+                    logEntity.Response = await response.GetStringAsync();
+                }
+                await DB.Sqlite.Insert<LogEntity>(logEntity).ExecuteAffrowsAsync();
+            }
+
         }
 
         /// <summary>
@@ -335,7 +364,10 @@ namespace hygge_imaotai
         /// </summary>
         public static void ReservationBatch()
         {
-            var users = UserRepository.GetReservationUser();
+            var users = DB.Sqlite.Select<UserEntity>().Where(i =>
+                    i.ExpireTime > DateTime.Now && !string.IsNullOrEmpty(i.Lat) && !string.IsNullOrEmpty(i.Lng) &&
+                    !string.IsNullOrEmpty(i.ShopType + "") && !string.IsNullOrEmpty(i.ItemCode))
+                .ToList();
             foreach (var userEntity in users)
             {
                 try
@@ -346,14 +378,14 @@ namespace hygge_imaotai
                 catch (Exception e)
                 {
                     Logger.Error($"用户{userEntity.Mobile}预约产生异常,错误原因:{e.Message}");
-                    LogRepository.InsertLog(new LogEntity()
+                    DB.Sqlite.Insert(new LogEntity()
                     {
                         CreateTime = DateTime.Now,
                         MobilePhone = userEntity.Mobile,
                         Content = $"[userId]:{userEntity.UserId}",
                         Response = e.Message,
                         Status = "异常"
-                    });
+                    }).ExecuteAffrows();
                 }
             }
         }
@@ -369,8 +401,8 @@ namespace hygge_imaotai
 
         public static async Task RefreshShop()
         {
-            StoreListViewModel.StoreList.Clear();
-            ShopRepository.TruncateTable();
+            ShopListViewModel.StoreList.Clear();
+            await DB.Sqlite.Delete<ShopEntity>().ExecuteAffrowsAsync();
 
             var responseStr = await "https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get"
                 .GetStringAsync();
@@ -379,13 +411,13 @@ namespace hygge_imaotai
             var shopInnerJson = await shopsUrl.GetStringAsync();
 
             var shopInnerJObject = JObject.Parse(shopInnerJson);
-            Task task = Task.Run(() =>
+            var task = Task.Run(() =>
             {
                 foreach (var property in shopInnerJObject.Properties())
                 {
                     var shopId = property.Name;
                     var nestedObject = (JObject)property.Value;
-                    ShopRepository.InsertShop(new StoreEntity(shopId, nestedObject));
+                    DB.Sqlite.Insert(new ShopEntity(shopId, nestedObject)).ExecuteAffrows();
                 }
             });
             await task;

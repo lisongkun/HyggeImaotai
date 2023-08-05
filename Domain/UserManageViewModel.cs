@@ -23,10 +23,10 @@ namespace hygge_imaotai.Domain
         private string? _city;
 
         // 分页数据
-        private int _total = 0;
+        private long _total = 0;
         private int _current = 1;
         private int _pageSize = 10;
-        private int _pageCount = 0;
+        private long _pageCount = 0;
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace hygge_imaotai.Domain
             }
         }
 
-        public int Total
+        public long Total
         {
             get => _total;
             set => SetProperty(ref _total, value);
@@ -94,7 +94,7 @@ namespace hygge_imaotai.Domain
             set => SetProperty(ref _pageSize, value);
         }
 
-        public int PageCount
+        public long PageCount
         {
             get => _pageCount;
             set => SetProperty(ref _pageCount, value);
@@ -133,7 +133,15 @@ namespace hygge_imaotai.Domain
         private void UpdateData(object parameter)
         {
             UserList.Clear();
-            UserRepository.GetPageData((int)parameter, 10, this).ForEach(UserList.Add);
+            DB.Sqlite.Select<UserEntity>()
+                .WhereIf(!string.IsNullOrEmpty(this.Phone),
+                    i => i.Mobile.Contains(this.Phone))
+                .WhereIf(!string.IsNullOrEmpty(this.UserId),
+                    i => (i.UserId + "").Contains(this.UserId))
+                .WhereIf(!string.IsNullOrEmpty(this.Province),
+                    i => i.ProvinceName.Contains(this.Province))
+                .WhereIf(!string.IsNullOrEmpty(this.City),i => i.CityName.Contains(this.City))
+                .Page((int)parameter, 10).ToList().ForEach(UserList.Add);
         }
 
         #endregion

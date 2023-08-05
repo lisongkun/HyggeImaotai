@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using FreeSql.DataAnnotations;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Repository;
 using hygge_imaotai.UserInterface.Component;
@@ -76,7 +77,7 @@ namespace hygge_imaotai.Entity
 
 
         #region Properties
-
+        [Column(IsIgnore = true)]
         public bool IsSelected
         {
             get => _isSelected;
@@ -176,7 +177,8 @@ namespace hygge_imaotai.Entity
 
         private static void DeleteItemFunc(object? parameter)
         {
-            UserRepository.Delete((parameter as UserEntity)!);
+            var userEntity = (parameter as UserEntity)!;
+            DB.Sqlite.Delete<UserEntity>().Where(i => i.Mobile == userEntity.Mobile).ExecuteAffrows();
             UserManageViewModel.UserList.Remove((parameter as UserEntity)!);
         }
 

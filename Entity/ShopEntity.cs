@@ -1,6 +1,5 @@
-﻿
-
-using System;
+﻿using System;
+using FreeSql.DataAnnotations;
 using hygge_imaotai.Domain;
 using Newtonsoft.Json.Linq;
 
@@ -9,11 +8,11 @@ namespace hygge_imaotai.Entity
     /// <summary>
     /// 店铺的实体类
     /// </summary>
-    public class StoreEntity:ViewModelBase
+    public class ShopEntity:ViewModelBase
     {
         #region Field
 
-        private string _productId;
+        private string _shopId;
         private string _province;
         private string _city;
         private string _area;
@@ -29,14 +28,14 @@ namespace hygge_imaotai.Entity
 
         #region Construct
 
-        public StoreEntity()
+        public ShopEntity()
         {
         }
 
 
-        public StoreEntity(string shopId, JObject jObject)
+        public ShopEntity(string shopId, JObject jObject)
         {
-            ProductId = shopId;
+            ShopId = shopId;
             Province =  jObject.GetValue("provinceName").Value<string>();
             City = jObject.GetValue("cityName").Value<string>();
             Area = jObject.GetValue("districtName").Value<string>();
@@ -48,9 +47,9 @@ namespace hygge_imaotai.Entity
             CreatedAt = DateTime.Now;
         }
 
-        public StoreEntity(string productId, string province, string city, string area, string unbrokenAddress, string lat, string lng, string name, string companyName)
+        public ShopEntity(string shopId, string province, string city, string area, string unbrokenAddress, string lat, string lng, string name, string companyName)
         {
-            _productId = productId;
+            _shopId = shopId;
             _province = province;
             _city = city;
             _area = area;
@@ -66,10 +65,10 @@ namespace hygge_imaotai.Entity
 
         #region Properties
 
-        public string ProductId
+        public string ShopId
         {
-            get => _productId;
-            set => SetProperty(ref _productId, value);
+            get => _shopId;
+            set => SetProperty(ref _shopId, value);
         }
 
         public string Province
@@ -126,6 +125,7 @@ namespace hygge_imaotai.Entity
             set => SetProperty(ref _createdAt, value);
         }
 
+        [Column(IsIgnore = true)]
         public double Distance { get; set; }
 
         #endregion

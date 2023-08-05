@@ -28,7 +28,7 @@ namespace hygge_imaotai
         /// <summary>
         /// 订单数据库表名
         /// </summary>
-        public const string OrderDatabasePath = "imaotai.db";
+        public const string OrderDatabasePath = "cache/imaotai.db";
         /// <summary>
         /// 订单数据库连接字符串
         /// </summary>

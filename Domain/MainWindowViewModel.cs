@@ -127,7 +127,7 @@ namespace hygge_imaotai.Domain
 
             yield return new DemoItem(
                 "店铺管理",
-                typeof(StoreManageUserControl),
+                typeof(ShopManageUserControl),
                 selectedIcon: PackIconKind.Store,
                 unselectedIcon:PackIconKind.Store
             );
