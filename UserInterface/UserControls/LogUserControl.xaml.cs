@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using hygge_imaotai.Domain;
+using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
 
 namespace hygge_imaotai.UserInterface.UserControls
@@ -20,11 +21,20 @@ namespace hygge_imaotai.UserInterface.UserControls
         {
             var logListViewModel = (LogListViewModel)DataContext;
             LogListViewModel.LogList.Clear();
-            LogRepository.GetPageData(1, 10,logListViewModel).ForEach(LogListViewModel.LogList.Add);
+
+            DB.Sqlite.Select<LogEntity>()
+                .WhereIf(!string.IsNullOrEmpty(logListViewModel.Mobile),
+                    i => i.MobilePhone.Contains(logListViewModel.Mobile))
+                .WhereIf(!string.IsNullOrEmpty(logListViewModel.SearchContent),
+                    i => i.Content.Contains(logListViewModel.SearchContent))
+                .WhereIf(!string.IsNullOrEmpty(logListViewModel.Status),
+                    i => i.Status.Contains(logListViewModel.Status))
+                .Count(out var count)
+                .Page(1, 10).ToList().ForEach(LogListViewModel.LogList.Add);
+
             // 分页数据
-            var total = LogRepository.GetTotalCount(logListViewModel);
-            var pageCount = total / 10 + 1;
-            logListViewModel.Total = total;
+            var pageCount = count / 10 + 1;
+            logListViewModel.Total = count;
             logListViewModel.PageCount = pageCount;
         }
 

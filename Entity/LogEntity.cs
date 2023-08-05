@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Principal;
+using FreeSql.DataAnnotations;
 using hygge_imaotai.Domain;
 
 namespace hygge_imaotai.Entity
@@ -19,7 +21,7 @@ namespace hygge_imaotai.Entity
 
         #endregion
         #region Properties
-
+        [Column(IsIdentity = true, IsPrimary = true)]
         public int Id
         {
             get => _id;

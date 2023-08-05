@@ -34,8 +34,9 @@
     </PackageReference>
     <PackageReference Include="Flurl" Version="3.0.7" />
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
+    <PackageReference Include="FreeSql" Version="3.2.698" />
+    <PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.698" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
     <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="Quartz" Version="3.6.3" />
   </ItemGroup>
