@@ -28,6 +28,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <COMReference Include="{d37e2a3e-8545-3a39-9f4f-31827c9124ab}">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>4</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>d37e2a3e-8545-3a39-9f4f-31827c9124ab</Guid>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -36,6 +45,7 @@
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="FreeSql" Version="3.2.698" />
     <PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.698" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="Quartz" Version="3.6.3" />

@@ -7,6 +7,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:domain="clr-namespace:hygge_imaotai.Domain"
         xmlns:entity="clr-namespace:hygge_imaotai.Entity"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="i茅台预约小助手"
         Width="1215"
         Height="800" 
@@ -21,6 +22,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="Copy" Executed="OnCopy" />
     </Window.CommandBindings>
+
 
     <Window.Resources>
         <ResourceDictionary>
@@ -145,6 +147,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <materialDesign:ColorZone Padding="16"
@@ -311,7 +314,17 @@
                                    Height="36"
                                    Kind="Github" />
                 </Button>
+
+                <tb:TaskbarIcon Grid.Row="3"
+                    IconSource="/Resources/favicon.ico"
+                    PopupActivation="LeftClick"
+                    TrayLeftMouseUp="TaskbarIcon_OnTrayLeftMouseUp"
+                    ToolTipText="茅台预约器"/>
             </Grid>
+
+
         </materialDesign:DrawerHost>
+
+
     </materialDesign:DialogHost>
 </Window>
