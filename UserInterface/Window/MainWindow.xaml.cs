@@ -10,6 +10,8 @@ using System.Windows.Media;
 using hygge_imaotai.Domain;
 using MaterialDesignThemes.Wpf;
 
+
+
 namespace hygge_imaotai.UserInterface.Window
 {
     /// <summary>
@@ -17,6 +19,8 @@ namespace hygge_imaotai.UserInterface.Window
     /// </summary>
     public partial class MainWindow
     {
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -133,5 +137,9 @@ namespace hygge_imaotai.UserInterface.Window
         private void OnSelectedItemChanged(object sender, DependencyPropertyChangedEventArgs e)
             => MainScrollViewer.ScrollToHome();
 
+        private void TaskbarIcon_OnTrayLeftMouseUp(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = this.Visibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
+        }
     }
 }

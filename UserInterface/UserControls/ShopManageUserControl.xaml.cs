@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection.Metadata;
 using System.Threading;
 using System.Windows;
 using Flurl.Http;

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
-using MaterialDesignThemes.Wpf;
+using hygge_imaotai.UserInterface.UserControls;
 
 namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
 {
@@ -71,6 +70,9 @@ namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
             }
 
             DB.Sqlite.Insert(_dataContext).ExecuteAffrows();
+
+            // 刷新用户列表
+            UserManageControl.RefreshData(UserManageControl.UserListViewModel);
         }
     }
 }
