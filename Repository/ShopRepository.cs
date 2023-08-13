@@ -159,8 +159,16 @@ namespace hygge_imaotai.Repository
             var response =
                 await
                     requestUrl
-                        .GetStringAsync();
-            var responseJObject = JObject.Parse(response);
+                        .AllowAnyHttpStatus()
+                        .GetAsync();
+            if (response.StatusCode == 404)
+            {
+                throw new Exception("本次抢购会话已过期,请手动刷新一下商品列表和店铺列表后重试");
+            }
+
+            var responseText = await response.GetStringAsync();
+
+            var responseJObject = JObject.Parse(responseText);
             if (responseJObject["code"].Value<int>() != 2000)
             {
                 Console.WriteLine($"查询所在省市的投放产品和数量error,{province}-{itemId}");
