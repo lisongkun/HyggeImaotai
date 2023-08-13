@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using System.Windows;
+﻿using System.Windows;
 using hygge_imaotai.Domain;
 using hygge_imaotai.Entity;
 using hygge_imaotai.Repository;
@@ -11,16 +10,21 @@ namespace hygge_imaotai.UserInterface.UserControls
     /// </summary>
     public partial class UserManageControl
     {
+        #region Properties
+
+        public static UserManageViewModel UserListViewModel { get; } = new();
+
+        #endregion
         public UserManageControl()
         {
             InitializeComponent();
-            DataContext = new UserManageViewModel();
-            RefreshData();
+            DataContext = UserListViewModel;
+
+            RefreshData(UserListViewModel);
         }
 
-        private void RefreshData()
+        public static void RefreshData(UserManageViewModel userListViewModel)
         {
-            var userListViewModel = (UserManageViewModel)DataContext;
             UserManageViewModel.UserList.Clear();
 
             DB.Sqlite.Select<UserEntity>()
@@ -41,7 +45,7 @@ namespace hygge_imaotai.UserInterface.UserControls
 
         private void QueryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            RefreshData();
+            RefreshData((UserManageViewModel)DataContext);
         }
 
         private void ResetButton_OnClick(object sender, RoutedEventArgs e)
@@ -52,5 +56,6 @@ namespace hygge_imaotai.UserInterface.UserControls
             userListViewModel.Province = "";
             userListViewModel.City = "";
         }
+
     }
 }

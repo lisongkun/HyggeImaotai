@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:domain="clr-namespace:hygge_imaotai.Domain"
+        xmlns:entity="clr-namespace:hygge_imaotai.Entity"
         Title="i茅台预约小助手"
         Width="1215"
         Height="800" 
@@ -126,7 +127,7 @@
                         <ListBox.Resources>
                             <Style TargetType="ScrollViewer" BasedOn="{StaticResource MaterialDesignScrollViewer}" />
                             <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
-                            <DataTemplate DataType="{x:Type domain:DemoItem}">
+                            <DataTemplate DataType="{x:Type entity:DemoItem}">
                                 <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </ListBox.Resources>

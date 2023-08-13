@@ -81,12 +81,12 @@
                  Text="{Binding ShopType}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox Grid.Row="8"
-                 wpf:HintAssist.Hint="请输入纬度(eg:110.21)"
+                 wpf:HintAssist.Hint="请输入纬度(eg:36.62)"
                  FontSize="16"
                  Text="{Binding Lat}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox Grid.Row="9"
-                 wpf:HintAssist.Hint="请输入经度(eg:36.62)"
+                 wpf:HintAssist.Hint="请输入经度(eg:114.48)"
                  FontSize="16"
                  Text="{Binding Lng}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
