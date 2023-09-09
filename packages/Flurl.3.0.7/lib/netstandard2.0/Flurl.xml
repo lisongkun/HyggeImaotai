@@ -1,0 +1,883 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Flurl</name>
+    </assembly>
+    <members>
+        <member name="T:Flurl.GeneratedExtensions">
+            <summary>
+            Fluent URL-building extension methods on String and Uri.
+            </summary>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegment(System.String,System.Object,System.Boolean)">
+            <summary>
+            Creates a new Url object from the string and appends a segment to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="segment">The segment to append</param>
+            <param name="fullyEncode">If true, URL-encodes reserved characters such as '/', '+', and '%'. Otherwise, only encodes strictly illegal characters (including '%' but only when not followed by 2 hex characters).</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegments(System.String,System.Object[])">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="segments">The segments to append</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegments(System.String,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="segments">The segments to append</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemovePathSegment(System.String)">
+            <summary>
+            Removes the last path segment from the URL.
+            </summary>
+            <param name="url">This URL.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemovePath(System.String)">
+            <summary>
+            Removes the entire path component of the URL.
+            </summary>
+            <param name="url">This URL.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.String,System.String,System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.String,System.String,System.String,System.Boolean,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="isEncoded">Set to true to indicate the value is already URL-encoded. Defaults to false.</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing).</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.String,System.String)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter without a value to the query, removing any existing value.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="name">Name of query parameter</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.String,System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string, parses values object into name/value pairs, and adds them to the query, overwriting any that already exist.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="values">Typically an anonymous object, ie: new { x = 1, y = 2 }</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new Url object from the string and adds multiple parameters without values to the query.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="names">Names of query parameters.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.String,System.String[])">
+            <summary>
+            Creates a new Url object from the string and adds multiple parameters without values to the query.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="names">Names of query parameters</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParam(System.String,System.String)">
+            <summary>
+            Creates a new Url object from the string and removes a name/value pair from the query by name.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="name">Query string parameter name to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParams(System.String,System.String[])">
+            <summary>
+            Creates a new Url object from the string and removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParams(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new Url object from the string and removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQuery(System.String)">
+            <summary>
+            Removes the entire query component of the URL.
+            </summary>
+            <param name="url">This URL.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetFragment(System.String,System.String)">
+            <summary>
+            Set the URL fragment fluently.
+            </summary>
+            <param name="url">This URL.</param>
+            <param name="fragment">The part of the URL after #</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveFragment(System.String)">
+            <summary>
+            Removes the URL fragment including the #.
+            </summary>
+            <param name="url">This URL.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.ResetToRoot(System.String)">
+            <summary>
+            Trims the URL to its root, including the scheme, any user info, host, and port (if specified).
+            </summary>
+            <param name="url">This URL.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegment(System.Uri,System.Object,System.Boolean)">
+            <summary>
+            Creates a new Url object from the string and appends a segment to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="segment">The segment to append</param>
+            <param name="fullyEncode">If true, URL-encodes reserved characters such as '/', '+', and '%'. Otherwise, only encodes strictly illegal characters (including '%' but only when not followed by 2 hex characters).</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegments(System.Uri,System.Object[])">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="segments">The segments to append</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.AppendPathSegments(System.Uri,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="segments">The segments to append</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemovePathSegment(System.Uri)">
+            <summary>
+            Removes the last path segment from the URL.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemovePath(System.Uri)">
+            <summary>
+            Removes the entire path component of the URL.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.Uri,System.String,System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.Uri,System.String,System.String,System.Boolean,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="isEncoded">Set to true to indicate the value is already URL-encoded. Defaults to false.</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing).</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParam(System.Uri,System.String)">
+            <summary>
+            Creates a new Url object from the string and adds a parameter without a value to the query, removing any existing value.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="name">Name of query parameter</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.Uri,System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Creates a new Url object from the string, parses values object into name/value pairs, and adds them to the query, overwriting any that already exist.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="values">Typically an anonymous object, ie: new { x = 1, y = 2 }</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.Uri,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new Url object from the string and adds multiple parameters without values to the query.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="names">Names of query parameters.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetQueryParams(System.Uri,System.String[])">
+            <summary>
+            Creates a new Url object from the string and adds multiple parameters without values to the query.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="names">Names of query parameters</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParam(System.Uri,System.String)">
+            <summary>
+            Creates a new Url object from the string and removes a name/value pair from the query by name.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="name">Query string parameter name to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParams(System.Uri,System.String[])">
+            <summary>
+            Creates a new Url object from the string and removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQueryParams(System.Uri,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new Url object from the string and removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveQuery(System.Uri)">
+            <summary>
+            Removes the entire query component of the URL.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.SetFragment(System.Uri,System.String)">
+            <summary>
+            Set the URL fragment fluently.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <param name="fragment">The part of the URL after #</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.RemoveFragment(System.Uri)">
+            <summary>
+            Removes the URL fragment including the #.
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="M:Flurl.GeneratedExtensions.ResetToRoot(System.Uri)">
+            <summary>
+            Trims the URL to its root, including the scheme, any user info, host, and port (if specified).
+            </summary>
+            <param name="uri">This System.Uri.</param>
+            <returns>A new Flurl.Url object.</returns>
+        </member>
+        <member name="T:Flurl.NullValueHandling">
+            <summary>
+            Describes how to handle null values in query parameters.
+            </summary>
+        </member>
+        <member name="F:Flurl.NullValueHandling.NameOnly">
+            <summary>
+            Set as name without value in query string.
+            </summary>
+        </member>
+        <member name="F:Flurl.NullValueHandling.Remove">
+            <summary>
+            Don't add to query string, remove any existing value.
+            </summary>
+        </member>
+        <member name="F:Flurl.NullValueHandling.Ignore">
+            <summary>
+            Don't add to query string, but leave any existing value unchanged.
+            </summary>
+        </member>
+        <member name="T:Flurl.QueryParamCollection">
+            <summary>
+            Represents a URL query as a collection of name/value pairs. Insertion order is preserved.
+            </summary>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.#ctor(System.String)">
+            <summary>
+            Returns a new instance of QueryParamCollection
+            </summary>
+            <param name="query">Optional query string to parse.</param>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.ToString">
+            <summary>
+            Returns serialized, encoded query string. Insertion order is preserved.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.ToString(System.Boolean)">
+            <summary>
+            Returns serialized, encoded query string. Insertion order is preserved.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.Add(System.String,System.Object,System.Boolean,Flurl.NullValueHandling)">
+            <summary>
+            Appends a query parameter. If value is a collection type (array, IEnumerable, etc.), multiple parameters are added, i.e. x=1&amp;x=2.
+            To overwrite existing parameters of the same name, use AddOrReplace instead.
+            </summary>
+            <param name="name">Name of the parameter.</param>
+            <param name="value">Value of the parameter. If it's a collection, multiple parameters of the same name are added.</param>
+            <param name="isEncoded">If true, assume value(s) already URL-encoded.</param>
+            <param name="nullValueHandling">Describes how to handle null values.</param>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.AddOrReplace(System.String,System.Object,System.Boolean,Flurl.NullValueHandling)">
+            <summary>
+            Replaces existing query parameter(s) or appends to the end. If value is a collection type (array, IEnumerable, etc.),
+            multiple parameters are added, i.e. x=1&amp;x=2. If any of the same name already exist, they are overwritten one by one
+            (preserving order) and any remaining are appended to the end. If fewer values are specified than already exist,
+            remaining existing values are removed.
+            </summary>
+            <param name="name">Name of the parameter.</param>
+            <param name="value">Value of the parameter. If it's a collection, multiple parameters of the same name are added/replaced.</param>
+            <param name="isEncoded">If true, assume value(s) already URL-encoded.</param>
+            <param name="nullValueHandling">Describes how to handle null values.</param>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.Remove(System.String)">
+            <summary>
+            Removes all query parameters of the given name.
+            </summary>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.Clear">
+            <summary>
+            Clears all query parameters from this collection.
+            </summary>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.GetEnumerator">
+            <inheritdoc />>
+        </member>
+        <member name="P:Flurl.QueryParamCollection.Count">
+            <inheritdoc />>
+        </member>
+        <member name="P:Flurl.QueryParamCollection.Item(System.Int32)">
+            <inheritdoc />>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.FirstOrDefault(System.String)">
+            <inheritdoc />>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.TryGetFirst(System.String,System.Object@)">
+            <inheritdoc />>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.GetAll(System.String)">
+            <inheritdoc />>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.Contains(System.String)">
+            <inheritdoc />>
+        </member>
+        <member name="M:Flurl.QueryParamCollection.Contains(System.String,System.Object)">
+            <inheritdoc />>
+        </member>
+        <member name="T:Flurl.QueryParamValue">
+            <summary>
+            Represents a query parameter value with the ability to track whether it was already encoded when created.
+            </summary>
+        </member>
+        <member name="T:Flurl.Url">
+            <summary>
+            A mutable object for fluently building and parsing URLs.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Scheme">
+            <summary>
+            The scheme of the URL, i.e. "http". Does not include ":" delimiter. Empty string if the URL is relative.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.UserInfo">
+            <summary>
+            i.e. "user:pass" in "https://user:pass@www.site.com". Empty string if not present.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Host">
+            <summary>
+            i.e. "www.site.com" in "https://www.site.com:8080/path". Does not include user info or port.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Port">
+            <summary>
+            Port number of the URL. Null if not explicitly specified.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Authority">
+            <summary>
+            i.e. "www.site.com:8080" in "https://www.site.com:8080/path". Includes both user info and port, if included.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Root">
+            <summary>
+            i.e. "https://www.site.com:8080" in "https://www.site.com:8080/path" (everything before the path).
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Path">
+            <summary>
+            i.e. "/path" in "https://www.site.com/path". Empty string if not present. Leading and trailing "/" retained exactly as specified by user.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.PathSegments">
+            <summary>
+            The "/"-delimited segments of the path, not including leading or trailing "/" characters.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Query">
+            <summary>
+            i.e. "x=1&amp;y=2" in "https://www.site.com/path?x=1&amp;y=2". Does not include "?".
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.QueryParams">
+            <summary>
+            Query parsed to name/value pairs.
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.Fragment">
+            <summary>
+            i.e. "frag" in "https://www.site.com/path?x=y#frag". Does not include "#".
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.IsRelative">
+            <summary>
+            True if URL does not start with a non-empty scheme. i.e. false for "https://www.site.com", true for "//www.site.com".
+            </summary>
+        </member>
+        <member name="P:Flurl.Url.IsSecureScheme">
+            <summary>
+            True if Url is absolute and scheme is https or wss.
+            </summary>
+        </member>
+        <member name="M:Flurl.Url.#ctor(System.String)">
+            <summary>
+            Constructs a Url object from a string.
+            </summary>
+            <param name="baseUrl">The URL to use as a starting point.</param>
+        </member>
+        <member name="M:Flurl.Url.#ctor(System.Uri)">
+            <summary>
+            Constructs a Url object from a System.Uri.
+            </summary>
+            <param name="uri">The System.Uri (required)</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="uri"/> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:Flurl.Url.Parse(System.String)">
+            <summary>
+            Parses a URL string into a Flurl.Url object.
+            </summary>
+        </member>
+        <member name="M:Flurl.Url.ParseQueryParams(System.String)">
+            <summary>
+            Parses a URL query to a QueryParamCollection.
+            </summary>
+            <param name="query">The URL query to parse.</param>
+        </member>
+        <member name="M:Flurl.Url.ParsePathSegments(System.String)">
+            <summary>
+            Splits the given path into segments, encoding illegal characters, "?", and "#".
+            </summary>
+            <param name="path">The path to split.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.Url.AppendPathSegment(System.Object,System.Boolean)">
+            <summary>
+            Appends a segment to the URL path, ensuring there is one and only one '/' character as a separator.
+            </summary>
+            <param name="segment">The segment to append</param>
+            <param name="fullyEncode">If true, URL-encodes reserved characters such as '/', '+', and '%'. Otherwise, only encodes strictly illegal characters (including '%' but only when not followed by 2 hex characters).</param>
+            <returns>the Url object with the segment appended</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="segment"/> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:Flurl.Url.AppendPathSegments(System.Object[])">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a seperator.
+            </summary>
+            <param name="segments">The segments to append</param>
+            <returns>the Url object with the segments appended</returns>
+        </member>
+        <member name="M:Flurl.Url.AppendPathSegments(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Appends multiple segments to the URL path, ensuring there is one and only one '/' character as a seperator.
+            </summary>
+            <param name="segments">The segments to append</param>
+            <returns>the Url object with the segments appended</returns>
+        </member>
+        <member name="M:Flurl.Url.RemovePathSegment">
+            <summary>
+            Removes the last path segment from the URL.
+            </summary>
+            <returns>The Url object.</returns>
+        </member>
+        <member name="M:Flurl.Url.RemovePath">
+            <summary>
+            Removes the entire path component of the URL, including the leading slash.
+            </summary>
+            <returns>The Url object.</returns>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParam(System.String,System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>The Url object with the query parameter added</returns>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParam(System.String,System.String,System.Boolean,Flurl.NullValueHandling)">
+            <summary>
+            Adds a parameter to the query, overwriting the value if name exists.
+            </summary>
+            <param name="name">Name of query parameter</param>
+            <param name="value">Value of query parameter</param>
+            <param name="isEncoded">Set to true to indicate the value is already URL-encoded</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>The Url object with the query parameter added</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParam(System.String)">
+            <summary>
+            Adds a parameter without a value to the query, removing any existing value.
+            </summary>
+            <param name="name">Name of query parameter</param>
+            <returns>The Url object with the query parameter added</returns>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParams(System.Object,Flurl.NullValueHandling)">
+            <summary>
+            Parses values (usually an anonymous object or dictionary) into name/value pairs and adds them to the query, overwriting any that already exist.
+            </summary>
+            <param name="values">Typically an anonymous object, ie: new { x = 1, y = 2 }</param>
+            <param name="nullValueHandling">Indicates how to handle null values. Defaults to Remove (any existing)</param>
+            <returns>The Url object with the query parameters added</returns>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParams(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Adds multiple parameters without values to the query.
+            </summary>
+            <param name="names">Names of query parameters.</param>
+            <returns>The Url object with the query parameter added</returns>
+        </member>
+        <member name="M:Flurl.Url.SetQueryParams(System.String[])">
+            <summary>
+            Adds multiple parameters without values to the query.
+            </summary>
+            <param name="names">Names of query parameters</param>
+            <returns>The Url object with the query parameter added.</returns>
+        </member>
+        <member name="M:Flurl.Url.RemoveQueryParam(System.String)">
+            <summary>
+            Removes a name/value pair from the query by name.
+            </summary>
+            <param name="name">Query string parameter name to remove</param>
+            <returns>The Url object with the query parameter removed</returns>
+        </member>
+        <member name="M:Flurl.Url.RemoveQueryParams(System.String[])">
+            <summary>
+            Removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>The Url object.</returns>
+        </member>
+        <member name="M:Flurl.Url.RemoveQueryParams(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Removes multiple name/value pairs from the query by name.
+            </summary>
+            <param name="names">Query string parameter names to remove</param>
+            <returns>The Url object with the query parameters removed</returns>
+        </member>
+        <member name="M:Flurl.Url.RemoveQuery">
+            <summary>
+            Removes the entire query component of the URL.
+            </summary>
+            <returns>The Url object.</returns>
+        </member>
+        <member name="M:Flurl.Url.SetFragment(System.String)">
+            <summary>
+            Set the URL fragment fluently.
+            </summary>
+            <param name="fragment">The part of the URL after #</param>
+            <returns>The Url object with the new fragment set</returns>
+        </member>
+        <member name="M:Flurl.Url.RemoveFragment">
+            <summary>
+            Removes the URL fragment including the #.
+            </summary>
+            <returns>The Url object with the fragment removed</returns>
+        </member>
+        <member name="M:Flurl.Url.ResetToRoot">
+            <summary>
+            Resets the URL to its root, including the scheme, any user info, host, and port (if specified).
+            </summary>
+            <returns>The Url object trimmed to its root.</returns>
+        </member>
+        <member name="M:Flurl.Url.Reset">
+            <summary>
+            Resets the URL to its original state as set in the constructor.
+            </summary>
+        </member>
+        <member name="M:Flurl.Url.Clone">
+            <summary>
+            Creates a copy of this Url.
+            </summary>
+        </member>
+        <member name="M:Flurl.Url.ToString(System.Boolean)">
+            <summary>
+            Converts this Url object to its string representation.
+            </summary>
+            <param name="encodeSpaceAsPlus">Indicates whether to encode spaces with the "+" character instead of "%20"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.Url.ToString">
+            <summary>
+            Converts this Url object to its string representation.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.Url.ToUri">
+            <summary>
+            Converts this Url object to System.Uri
+            </summary>
+            <returns>The System.Uri object</returns>
+        </member>
+        <member name="M:Flurl.Url.op_Implicit(Flurl.Url)~System.String">
+            <summary>
+            Implicit conversion from Url to String.
+            </summary>
+            <param name="url">The Url object</param>
+            <returns>The string</returns>
+        </member>
+        <member name="M:Flurl.Url.op_Implicit(System.String)~Flurl.Url">
+            <summary>
+            Implicit conversion from String to Url.
+            </summary>
+            <param name="url">The String representation of the URL</param>
+            <returns>The string</returns>
+        </member>
+        <member name="M:Flurl.Url.op_Implicit(System.Uri)~Flurl.Url">
+            <summary>
+            Implicit conversion from System.Uri to Flurl.Url.
+            </summary>
+            <returns>The string</returns>
+        </member>
+        <member name="M:Flurl.Url.Equals(System.Object)">
+            <summary>
+            True if obj is an instance of Url and its string representation is equal to this instance's string representation.
+            </summary>
+            <param name="obj">The object to compare to this instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.Url.GetHashCode">
+            <summary>
+            Returns the hashcode for this Url.
+            </summary>
+        </member>
+        <member name="M:Flurl.Url.Combine(System.String[])">
+            <summary>
+            Basically a Path.Combine for URLs. Ensures exactly one '/' separates each segment,
+            and exactly on '&amp;' separates each query parameter.
+            URL-encodes illegal characters but not reserved characters.
+            </summary>
+            <param name="parts">URL parts to combine.</param>
+        </member>
+        <member name="M:Flurl.Url.Decode(System.String,System.Boolean)">
+            <summary>
+            Decodes a URL-encoded string.
+            </summary>
+            <param name="s">The URL-encoded string.</param>
+            <param name="interpretPlusAsSpace">If true, any '+' character will be decoded to a space.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Flurl.Url.Encode(System.String,System.Boolean)">
+            <summary>
+            URL-encodes a string, including reserved characters such as '/' and '?'.
+            </summary>
+            <param name="s">The string to encode.</param>
+            <param name="encodeSpaceAsPlus">If true, spaces will be encoded as + signs. Otherwise, they'll be encoded as %20.</param>
+            <returns>The encoded URL.</returns>
+        </member>
+        <member name="M:Flurl.Url.EncodeIllegalCharacters(System.String,System.Boolean)">
+            <summary>
+            URL-encodes characters in a string that are neither reserved nor unreserved. Avoids encoding reserved characters such as '/' and '?'. Avoids encoding '%' if it begins a %-hex-hex sequence (i.e. avoids double-encoding).
+            </summary>
+            <param name="s">The string to encode.</param>
+            <param name="encodeSpaceAsPlus">If true, spaces will be encoded as + signs. Otherwise, they'll be encoded as %20.</param>
+            <returns>The encoded URL.</returns>
+        </member>
+        <member name="M:Flurl.Url.IsValid(System.String)">
+            <summary>
+            Checks if a string is a well-formed absolute URL.
+            </summary>
+            <param name="url">The string to check</param>
+            <returns>true if the string is a well-formed absolute URL</returns>
+        </member>
+        <member name="T:Flurl.Util.CommonExtensions">
+            <summary>
+            CommonExtensions for objects.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.ToKeyValuePairs(System.Object)">
+            <summary>
+            Returns a key-value-pairs representation of the object.
+            For strings, URL query string format assumed and pairs are parsed from that.
+            For objects that already implement IEnumerable&lt;KeyValuePair&gt;, the object itself is simply returned.
+            For all other objects, all publicly readable properties are extracted and returned as pairs.
+            </summary>
+            <param name="obj">The object to parse into key-value pairs</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="obj"/> is <see langword="null" />.</exception>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.ToInvariantString(System.Object)">
+            <summary>
+            Returns a string that represents the current object, using CultureInfo.InvariantCulture where possible.
+            Dates are represented in IS0 8601.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.SplitOnFirstOccurence(System.String,System.String)">
+            <summary>
+            Splits at the first occurrence of the given separator.
+            </summary>
+            <param name="s">The string to split.</param>
+            <param name="separator">The separator to split on.</param>
+            <returns>Array of at most 2 strings. (1 if separator is not found.)</returns>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.Merge``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            Merges the key/value pairs from d2 into d1, without overwriting those already set in d1.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.StripQuotes(System.String)">
+            <summary>
+            Strips any single quotes or double quotes from the beginning and end of a string.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.CommonExtensions.IsIP(System.String)">
+            <summary>
+            True if the given string is a valid IPv4 address.
+            </summary>
+        </member>
+        <member name="T:Flurl.Util.INameValueListBase`1">
+            <summary>
+            Defines common methods for INameValueList and IReadOnlyNameValueList.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueListBase`1.FirstOrDefault(System.String)">
+            <summary>
+            Returns the first Value of the given Name if one exists, otherwise null or default value.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueListBase`1.TryGetFirst(System.String,`0@)">
+            <summary>
+            Gets the first Value of the given Name, if one exists.
+            </summary>
+            <returns>true if any item of the given name is found, otherwise false.</returns>
+        </member>
+        <member name="M:Flurl.Util.INameValueListBase`1.GetAll(System.String)">
+            <summary>
+            Gets all Values of the given Name.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueListBase`1.Contains(System.String)">
+            <summary>
+            True if any items with the given Name exist.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueListBase`1.Contains(System.String,`0)">
+            <summary>
+            True if any item with the given Name and Value exists.
+            </summary>
+        </member>
+        <member name="T:Flurl.Util.INameValueList`1">
+            <summary>
+            Defines an ordered collection of Name/Value pairs where duplicate names are allowed but aren't typical.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueList`1.Add(System.String,`0)">
+            <summary>
+            Adds a new Name/Value pair.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueList`1.AddOrReplace(System.String,`0)">
+            <summary>
+            Replaces the first occurrence of the given Name with the given Value and removes any others,
+            or adds a new Name/Value pair if none exist.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.INameValueList`1.Remove(System.String)">
+            <summary>
+            Removes all items of the given Name.
+            </summary>
+            <returns>true if any item of the given name is found, otherwise false.</returns>
+        </member>
+        <member name="T:Flurl.Util.IReadOnlyNameValueList`1">
+            <summary>
+            Defines a read-only ordered collection of Name/Value pairs where duplicate names are allowed but aren't typical.
+            </summary>
+        </member>
+        <member name="T:Flurl.Util.NameValueList`1">
+            <summary>
+            An ordered collection of Name/Value pairs where duplicate names are allowed but aren't typical.
+            Useful for things where a dictionary would work great if not for those pesky edge cases (headers, cookies, etc).
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.#ctor(System.Boolean)">
+            <summary>
+            Instantiates a new empty NameValueList.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.#ctor(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,`0}},System.Boolean)">
+            <summary>
+            Instantiates a new NameValueList with the Name/Value pairs provided.
+            </summary>
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.Add(System.String,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.AddOrReplace(System.String,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.Remove(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.FirstOrDefault(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.TryGetFirst(System.String,`0@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.GetAll(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.Contains(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Flurl.Util.NameValueList`1.Contains(System.String,`0)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
