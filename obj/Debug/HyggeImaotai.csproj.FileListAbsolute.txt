@@ -1,0 +1,10 @@
+D:\Project\CsharpProject\hygge-imaotai\bin\Debug\HyggeImaotai.exe.config
+D:\Project\CsharpProject\hygge-imaotai\bin\Debug\HyggeImaotai.exe
+D:\Project\CsharpProject\hygge-imaotai\bin\Debug\HyggeImaotai.pdb
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.csproj.AssemblyReference.cache
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.csproj.SuggestedBindingRedirects.cache
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.Properties.Resources.resources
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.csproj.GenerateResource.cache
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.csproj.CoreCompileInputs.cache
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.exe
+D:\Project\CsharpProject\hygge-imaotai\obj\Debug\HyggeImaotai.pdb
