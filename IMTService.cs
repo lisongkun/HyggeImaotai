@@ -359,7 +359,7 @@ namespace hygge_imaotai
         /// <summary>
         /// 批量预约
         /// </summary>
-        public static void ReservationBatch()
+        public static async Task ReservationBatch()
         {
             var users = DB.Sqlite.Select<UserEntity>().Where(i =>
                     i.ExpireTime > DateTime.Now && !string.IsNullOrEmpty(i.Lat) && !string.IsNullOrEmpty(i.Lng) &&
@@ -370,7 +370,7 @@ namespace hygge_imaotai
                 try
                 {
                     Logger.Info($"「开始预约用户」{userEntity.Mobile}");
-                    Reservation(userEntity);
+                    await Reservation(userEntity);
                 }
                 catch (Exception e)
                 {
@@ -387,7 +387,7 @@ namespace hygge_imaotai
             }
         }
 
-        public static async void RefreshAll()
+        public static async Task RefreshAll()
         {
             _mtVersion = string.Empty;
             await GetMtVersion();

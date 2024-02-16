@@ -14,11 +14,10 @@ namespace hygge_imaotai.Jobs
         #endregion
 
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             Logger.Info($"「批量预约开始」 {DateTime.Now}");
-            return Task.Factory.StartNew(IMTService.ReservationBatch);
-           
+            await IMTService.ReservationBatch();
         }
     }
 
@@ -29,10 +28,10 @@ namespace hygge_imaotai.Jobs
 
 
         #endregion
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             Logger.Info($"「刷新数据」开始刷新版本号，预约item，门店shop列表  {DateTime.Now}");
-            return Task.Factory.StartNew(IMTService.RefreshAll);
+            await IMTService.RefreshAll();
         }
     }
 }
