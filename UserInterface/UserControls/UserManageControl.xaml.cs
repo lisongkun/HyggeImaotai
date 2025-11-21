@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 
-namespace hygge_imaotai.UserInterface.UserControls
+namespace HyggeIMaoTai.UserInterface.UserControls
 {
     /// <summary>
     /// UserManageControl.xaml 的交互逻辑

@@ -1,9 +1,9 @@
-﻿using hygge_imaotai.Entity;
-using System.Collections.ObjectModel;
-using hygge_imaotai.Repository;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// 日志用户控件的ViewModel

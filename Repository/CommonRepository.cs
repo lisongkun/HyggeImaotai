@@ -1,8 +1,8 @@
 ﻿using System.Data.SQLite;
 using System.IO;
-using hygge_imaotai.Entity;
+using HyggeIMaoTai.Entity;
 
-namespace hygge_imaotai.Repository
+namespace HyggeIMaoTai.Repository
 {
     /// <summary>
     /// 共用或基本的数据库操作

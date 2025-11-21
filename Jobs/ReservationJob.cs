@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using NLog;
 using Quartz;
 
-namespace hygge_imaotai.Jobs
+namespace HyggeIMaoTai.Jobs
 {
     public class ReservationJob : IJob
     {

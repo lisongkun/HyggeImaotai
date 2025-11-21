@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
-using hygge_imaotai.UserInterface.UserControls;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
+using HyggeIMaoTai.UserInterface.UserControls;
 
-namespace hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog
+namespace HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog
 {
     /// <summary>
     /// Interaction logic for SampleDialog.xaml

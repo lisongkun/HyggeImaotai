@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace hygge_imaotai.Repository
+namespace HyggeIMaoTai.Repository
 {
     public class DB
     {

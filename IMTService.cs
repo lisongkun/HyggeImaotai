@@ -7,16 +7,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
-using hygge_imaotai.UserInterface.Component;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
-using System.Threading;
 
-namespace hygge_imaotai
+namespace HyggeIMaoTai
 {
     public class IMTService
     {
@@ -32,6 +30,12 @@ namespace hygge_imaotai
         private static string _mtVersion = "";
         private const string AesKey = "qbhajinldepmucsonaaaccgypwuvcjaa";
         private const string AesIv = "2018534749963515";
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="timestamp"></param>
+        /// <returns></returns>
 
         private static string Signature(string content, long timestamp)
         {

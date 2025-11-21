@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows.Input;
 using FreeSql.DataAnnotations;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Repository;
-using hygge_imaotai.UserInterface.Component;
-using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Repository;
+using HyggeIMaoTai.UserInterface.Component;
+using HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai.Entity
+namespace HyggeIMaoTai.Entity
 {
     public class UserEntity : ViewModelBase
     {

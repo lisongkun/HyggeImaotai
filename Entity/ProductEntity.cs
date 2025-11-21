@@ -1,7 +1,7 @@
 ﻿using System;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 
-namespace hygge_imaotai.Entity
+namespace HyggeIMaoTai.Entity
 {
     public class ProductEntity:ViewModelBase
     {

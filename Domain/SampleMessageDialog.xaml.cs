@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// Interaction logic for SampleMessageDialog.xaml

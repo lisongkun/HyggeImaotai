@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// 门店列表Page的ViewModel

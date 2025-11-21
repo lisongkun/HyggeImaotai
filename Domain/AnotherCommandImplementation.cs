@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// No WPF project is complete without it's own version of this.

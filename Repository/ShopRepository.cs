@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai.Repository
+namespace HyggeIMaoTai.Repository
 {
     /// <summary>
     /// 对i_shop表的操作

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     public class NotEmptyValidationRule : ValidationRule
     {

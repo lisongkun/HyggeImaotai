@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace hygge_imaotai.UserInterface.Component
+namespace HyggeIMaoTai.UserInterface.Component
 {
     public class Pagination : Control
     {

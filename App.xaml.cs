@@ -2,17 +2,17 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Jobs;
-using hygge_imaotai.Repository;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Jobs;
+using HyggeIMaoTai.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Quartz;
 using Quartz.Impl;
 
 
-namespace hygge_imaotai
+namespace HyggeIMaoTai
 {
     /// <summary>
     /// Interaction logic for App.xaml

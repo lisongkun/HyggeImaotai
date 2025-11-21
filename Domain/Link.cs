@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     public static class Link
     {

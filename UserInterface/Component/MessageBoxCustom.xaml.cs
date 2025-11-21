@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace hygge_imaotai.UserInterface.Component
+namespace HyggeIMaoTai.UserInterface.Component
 {
     /// <summary>
     /// Interaction logic for MessageBoxCustom.xaml

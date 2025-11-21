@@ -7,12 +7,12 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 using MaterialDesignThemes.Wpf;
 
 
 
-namespace hygge_imaotai.UserInterface.Window
+namespace HyggeIMaoTai.UserInterface.Window
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

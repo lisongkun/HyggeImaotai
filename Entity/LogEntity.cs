@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Security.Principal;
 using FreeSql.DataAnnotations;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 
-namespace hygge_imaotai.Entity
+namespace HyggeIMaoTai.Entity
 {
     /// <summary>
     /// 日志的模型

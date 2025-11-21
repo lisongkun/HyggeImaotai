@@ -1,4 +1,4 @@
-﻿namespace hygge_imaotai.Entity
+﻿namespace HyggeIMaoTai.Entity
 {
     /// <summary>
     /// I茅台预约商品信息

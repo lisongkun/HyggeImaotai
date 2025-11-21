@@ -6,12 +6,12 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using hygge_imaotai.Entity;
-using hygge_imaotai.UserInterface.UserControl;
-using hygge_imaotai.UserInterface.UserControls;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.UserInterface.UserControl;
+using HyggeIMaoTai.UserInterface.UserControls;
 using MaterialDesignThemes.Wpf;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     public class MainWindowViewModel : ViewModelBase
     {

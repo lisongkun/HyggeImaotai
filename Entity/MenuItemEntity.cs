@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 using MaterialDesignThemes.Wpf;
 
-namespace hygge_imaotai.Entity
+namespace HyggeIMaoTai.Entity
 {
     public class DemoItem : ViewModelBase
     {

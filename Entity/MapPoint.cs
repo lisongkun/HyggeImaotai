@@ -1,4 +1,4 @@
-﻿namespace hygge_imaotai.Entity
+﻿namespace HyggeIMaoTai.Entity
 {
     public class MapPoint
     {

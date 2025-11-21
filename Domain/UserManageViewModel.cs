@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// 用户管理 - 搜索的condition

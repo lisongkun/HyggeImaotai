@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.UserInterface.Dialogs.AddAccountDialog;
-using hygge_imaotai.UserInterface.Dialogs.DirectAddAccountDialog;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.UserInterface.Dialogs.AddAccountDialog;
+using HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog;
 using MaterialDesignThemes.Wpf;
 
-namespace hygge_imaotai.UserInterface.Dialogs
+namespace HyggeIMaoTai.UserInterface.Dialogs
 {
     public class DialogsViewModel : ViewModelBase
     {

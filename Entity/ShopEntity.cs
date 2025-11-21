@@ -1,9 +1,9 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai.Entity
+namespace HyggeIMaoTai.Entity
 {
     /// <summary>
     /// 店铺的实体类

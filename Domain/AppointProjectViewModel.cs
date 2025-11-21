@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using hygge_imaotai.Entity;
+using HyggeIMaoTai.Entity;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     /// <summary>
     /// 预约项目页面对应的VM

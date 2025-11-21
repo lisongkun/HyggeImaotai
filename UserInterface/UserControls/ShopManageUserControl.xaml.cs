@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Windows;
 using Flurl.Http;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
-using hygge_imaotai.Repository;
+using HyggeIMaoTai.Domain;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Repository;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai.UserInterface.UserControls
+namespace HyggeIMaoTai.UserInterface.UserControls
 {
     /// <summary>
     /// StoreManageUserControl.xaml 的交互逻辑

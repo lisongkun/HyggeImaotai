@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace hygge_imaotai.Domain
+namespace HyggeIMaoTai.Domain
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using hygge_imaotai.Domain;
+using HyggeIMaoTai.Domain;
 
-namespace hygge_imaotai.UserInterface.UserControl
+namespace HyggeIMaoTai.UserInterface.UserControl
 {
     /// <summary>
     /// HomeUserControl.xaml 的交互逻辑

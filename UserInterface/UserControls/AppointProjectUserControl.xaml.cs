@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows;
 using Flurl.Http;
-using hygge_imaotai.Domain;
-using hygge_imaotai.Entity;
+using HyggeIMaoTai.Entity;
+using HyggeIMaoTai.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hygge_imaotai.UserInterface.UserControls
+namespace HyggeIMaoTai.UserInterface.UserControls
 {
     /// <summary>
     /// AppointProjectUserControl.xaml 的交互逻辑

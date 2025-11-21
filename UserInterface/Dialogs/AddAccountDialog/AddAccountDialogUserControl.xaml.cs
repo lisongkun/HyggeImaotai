@@ -2,10 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using hygge_imaotai.UserInterface.Component;
+using HyggeIMaoTai.UserInterface.Component;
 using NLog;
 
-namespace hygge_imaotai.UserInterface.Dialogs.AddAccountDialog
+namespace HyggeIMaoTai.UserInterface.Dialogs.AddAccountDialog
 {
     /// <summary>
     /// Interaction logic for SampleDialog.xaml
