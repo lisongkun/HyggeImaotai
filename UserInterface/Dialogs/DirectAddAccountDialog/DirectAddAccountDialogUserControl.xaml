@@ -100,13 +100,10 @@
         <StackPanel Grid.Row="11"
                 Margin="0,15,0,0"
                 Orientation="Horizontal">
-            <Button IsDefault="True" Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+            <Button IsDefault="True"
               x:Name="LoginButton"
               Click="LoginButton_OnClick"
               Style="{StaticResource MaterialDesignFlatButton}">
-                <Button.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>
                 登录
             </Button>
             <Button Margin="8,0,0,0"

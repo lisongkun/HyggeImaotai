@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using HyggeIMaoTai.Domain;
 using HyggeIMaoTai.Entity;
 using HyggeIMaoTai.Repository;
 using HyggeIMaoTai.UserInterface.UserControls;
+using MaterialDesignThemes.Wpf;
 
 namespace HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog
 {
@@ -17,7 +17,11 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog
         private readonly UserEntity _dataContext;
 
  
-
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="dataContext"></param>
+        /// <param name="isUpadte"></param>
         public DirectAddAccountDialogUserControl(UserEntity dataContext, bool isUpadte = false)
         {
             InitializeComponent();
@@ -28,6 +32,11 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog
             LoginButton.Content = isUpadte ? "更新" : "添加";
         }
 
+        /// <summary>
+        /// 登录按钮被单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
             // 判断经纬度是否符合规范
@@ -35,44 +44,44 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.DirectAddAccountDialog
             bool latIsFloat = Regex.IsMatch(_dataContext.Lat, @"^\d+(\.\d+)?$");
             if (!latIsFloat && !latIsInteger)
             {
-                MessageBox.Show("纬度不符合规范");
-                return;
+                MessageBox.Show("纬度不符合规范", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // 验证失败，不关闭对话框
             }
 
             bool lngIsInteger = Regex.IsMatch(_dataContext.Lng, @"^\d+$");
             bool lngIsFloat = Regex.IsMatch(_dataContext.Lng, @"^\d+(\.\d+)?$");
-            if (!latIsFloat && !latIsInteger)
+            if (!lngIsFloat && !lngIsInteger)
             {
-                MessageBox.Show("经度不符合规范");
-                return;
+                MessageBox.Show("经度不符合规范", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return; // 验证失败，不关闭对话框
             }
 
-
-            var foundUserEntity =
-                UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == _dataContext.Mobile);
+            // 检查用户是否已存在
+            var foundUserEntity = UserRepository.GetUserByMobile(_dataContext.Mobile);
+            
             if (foundUserEntity != null)
             {
-                // 此处执行更新操作o
-                // 更新寻找到的用户信息
-                DB.Sqlite.Update<UserEntity>()
-                    .Set(i => i.UserId,_dataContext.UserId)
-                    .Set(i => i.Token, _dataContext.Token)
-                    .Set(i => i.ItemCode, _dataContext.ItemCode)
-                    .Set(i => i.ProvinceName, _dataContext.ProvinceName)
-                    .Set(i => i.CityName, _dataContext.CityName)
-                    .Set(i => i.Lat, _dataContext.Lat)
-                    .Set(i => i.Lng, _dataContext.Lng)
-                    .Set(i => i.ShopType, _dataContext.ShopType)
-                    .Set(i => i.ExpireTime, _dataContext.ExpireTime)
-                    .Where(i => i.Mobile == _dataContext.Mobile).ExecuteAffrows();
+                // 执行更新操作
+                UserRepository.UpdateUser(_dataContext);
 
-                return;
+                // 刷新用户列表
+                UserManageControl.RefreshData(UserManageControl.UserListViewModel);
+                
+                MessageBox.Show("用户信息更新成功！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                // 执行插入操作
+                UserRepository.InsertUser(_dataContext);
+
+                // 刷新用户列表
+                UserManageControl.RefreshData(UserManageControl.UserListViewModel);
+                
+                MessageBox.Show("用户添加成功！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            DB.Sqlite.Insert(_dataContext).ExecuteAffrows();
-
-            // 刷新用户列表
-            UserManageControl.RefreshData(UserManageControl.UserListViewModel);
+            // 操作成功，关闭对话框
+            DialogHost.CloseDialogCommand.Execute(null, null);
         }
     }
 }
