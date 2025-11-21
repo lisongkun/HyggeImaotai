@@ -8,6 +8,7 @@ using HyggeIMaoTai.Domain;
 using HyggeIMaoTai.Entity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace HyggeIMaoTai.Repository
 {
@@ -16,8 +17,10 @@ namespace HyggeIMaoTai.Repository
     /// </summary>
     public class ShopRepository
     {
+        #region Properties
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        #endregion
         
-
         /// <summary>
         /// 获取预约的店铺id
         /// </summary>

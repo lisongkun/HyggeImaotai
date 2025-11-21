@@ -1,0 +1,26 @@
+<UserControl x:Class="HyggeIMaoTai.UserInterface.Component.LoadingDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="200">
+    <StackPanel Margin="24">
+        <ProgressBar 
+            Style="{StaticResource MaterialDesignCircularProgressBar}"
+            IsIndeterminate="True"
+            Width="50"
+            Height="50"
+            Margin="0,0,0,16"
+            Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+        <TextBlock 
+            x:Name="MessageTextBlock"
+            Text="正在加载..."
+            Foreground="{DynamicResource MaterialDesignBody}"
+            FontSize="14"
+            HorizontalAlignment="Center"
+            TextAlignment="Center"/>
+    </StackPanel>
+</UserControl>
+

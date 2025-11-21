@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Threading;
+﻿using System;
+using System.IO;
 using System.Windows;
-using Flurl.Http;
 using HyggeIMaoTai.Domain;
 using HyggeIMaoTai.Entity;
 using HyggeIMaoTai.Repository;
-using Newtonsoft.Json.Linq;
+using HyggeIMaoTai.Utils;
 
 namespace HyggeIMaoTai.UserInterface.UserControls
 {
@@ -21,6 +20,9 @@ namespace HyggeIMaoTai.UserInterface.UserControls
             RefreshData();
         }
 
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
         private void RefreshData()
         {
             var storeListViewModel = (ShopListViewModel)DataContext;
@@ -52,15 +54,38 @@ namespace HyggeIMaoTai.UserInterface.UserControls
         /// <param name="e"></param>
         private async void RefreshShopButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // 判断App.StoreListFile是否存在,存在则删除
-            if (File.Exists(App.StoreListFile))
+            RefreshShopButton.IsEnabled = false;
+            
+            try
             {
-                File.Delete(App.StoreListFile);
+                // 使用工具类显示加载对话框并执行异步操作
+                await DialogHelper.ShowLoadingDialogAsync(async () =>
+                {
+                    // 判断App.StoreListFile是否存在,存在则删除
+                    if (File.Exists(App.StoreListFile))
+                    {
+                        File.Delete(App.StoreListFile);
+                    }
+                    await IMTService.RefreshShop();
+                    RefreshData();
+                }, "正在刷新商店数据...");
             }
-            await IMTService.RefreshShop();
-            RefreshData();
+            catch (Exception ex)
+            {
+                // 错误已在 DialogHelper 中处理，这里可以添加额外的错误处理逻辑
+                // 如果需要自定义错误处理，可以使用带 onError 参数的重载方法
+            }
+            finally
+            {
+                RefreshShopButton.IsEnabled = true;
+            }
         }
 
+        /// <summary>
+        /// 重置按钮被单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ResetButton_OnClick(object sender, RoutedEventArgs e)
         {
             var storeListViewModel = (ShopListViewModel)DataContext;
@@ -71,6 +96,11 @@ namespace HyggeIMaoTai.UserInterface.UserControls
             storeListViewModel.CompanyName = "";
         }
 
+        /// <summary>
+        /// 搜索按钮被单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             RefreshData();
