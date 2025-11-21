@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -52,9 +53,14 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.AddAccountDialog
             }
         }
 
+        /// <summary>
+        /// 发送短信验证码被单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SendPhoneCodeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            string phone = _dataContext.Phone;
+            var phone = _dataContext.Phone;
             try
             {
                 var sendFlag = await service.SendCode(phone);
@@ -65,12 +71,17 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.AddAccountDialog
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                Logger.Error(exception, $"发送验证码失败!原因:{exception.Message}");
                 new MessageBoxCustom($"发送验证码失败!", MessageType.Error, MessageButtons.Ok).ShowDialog();
             }
         }
 
 
+        /// <summary>
+        /// 登录按钮被单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
             var phone = _dataContext.Phone;
@@ -82,7 +93,7 @@ namespace HyggeIMaoTai.UserInterface.Dialogs.AddAccountDialog
             }
             catch (Exception exception)
             {
-                Logger.Error($"用户登录失败!原因:{exception.Message}");
+                Logger.Error(exception, $"用户登录失败!原因:{exception.Message}");
                 new MessageBoxCustom($"用户登录失败!", MessageType.Error, MessageButtons.Ok).ShowDialog();
             }
         }

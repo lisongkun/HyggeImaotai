@@ -18,10 +18,9 @@ namespace HyggeIMaoTai
 {
     public class IMTService
     {
-
         #region Fields
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -30,13 +29,13 @@ namespace HyggeIMaoTai
         private static string _mtVersion = "";
         private const string AesKey = "qbhajinldepmucsonaaaccgypwuvcjaa";
         private const string AesIv = "2018534749963515";
+
         /// <summary>
         /// 签名
         /// </summary>
         /// <param name="content"></param>
         /// <param name="timestamp"></param>
         /// <returns></returns>
-
         private static string Signature(string content, long timestamp)
         {
             var text = Salt + content + timestamp;
@@ -47,6 +46,7 @@ namespace HyggeIMaoTai
             {
                 sb.Append($"{b:X2}");
             }
+
             return sb.ToString().ToLower();
         }
 
@@ -59,14 +59,27 @@ namespace HyggeIMaoTai
             if (!string.IsNullOrEmpty(_mtVersion)) return _mtVersion;
             var htmlSource = await "https://apps.apple.com/cn/app/i%E8%8C%85%E5%8F%B0/id1600482450"
                 .GetStringAsync();
+            
+            // 使用正则表达式匹配版本号，优先匹配原有格式
             var pattern = new Regex(@"new__latest__version\"">(.*?)<\/p>", RegexOptions.Singleline);
             var matcher = pattern.Match(htmlSource);
-            var replace = "";
-            if (!matcher.Success) return replace;
-            var mtVersion = matcher.Groups[1].Value;
-            replace = mtVersion.Replace("版本 ", "");
-            _mtVersion = replace;
-            return replace;
+            
+            // 兼容：如果原有格式未匹配到，尝试匹配新格式 <h4 class="svelte-13339ih">版本 1.8.5</h4>
+            if (!matcher.Success)
+            {
+                pattern = new Regex(@"<h4[^>]*>版本\s+(\d+\.\d+\.\d+)<\/h4>", RegexOptions.Singleline);
+                matcher = pattern.Match(htmlSource);
+            }
+            
+            if (matcher.Success && matcher.Groups.Count > 1)
+            {
+                // 清理版本号字符串，去除"版本 "前缀和空白字符
+                var mtVersion = matcher.Groups[1].Value.Trim().Replace("版本 ", "");
+                _mtVersion = mtVersion;
+                return mtVersion;
+            }
+            
+            throw new Exception("获取版本号失败：未找到版本信息");
         }
 
         /// <summary>
@@ -80,11 +93,11 @@ namespace HyggeIMaoTai
             var client = new HttpClient();
             var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             var values = new Dictionary<string, string>
-        {
-            { "mobile", phone },
-            { "md5", Signature(phone,timestamp) },
-            {"timestamp",timestamp+""}
-        };
+            {
+                { "mobile", phone },
+                { "md5", Signature(phone, timestamp) },
+                { "timestamp", timestamp + "" }
+            };
             var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
             client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "iOS;16.3;Apple;?unrecognized?");
@@ -130,11 +143,11 @@ namespace HyggeIMaoTai
             {
                 { "mobile", phone },
                 { "ydToken", "" },
-                {"vCode",code},
-                {"ydLogId",""},
-                {"md5",Signature(phone + code + "" + "",timestamp)},
-                {"timestamp",timestamp+""},
-                {"MT-APP-Version",await GetMtVersion()}
+                { "vCode", code },
+                { "ydLogId", "" },
+                { "md5", Signature(phone + code + "" + "", timestamp) },
+                { "timestamp", timestamp + "" },
+                { "MT-APP-Version", await GetMtVersion() }
             };
             var content = new StringContent(JsonConvert.SerializeObject(values), Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
@@ -162,7 +175,10 @@ namespace HyggeIMaoTai
             var responseString = await response.Content.ReadAsStringAsync();
             var responseJson = JObject.Parse(responseString);
             var responseCode = (string)responseJson["code"];
-            if (responseCode != "2000") throw new Exception(responseJson.TryGetValue("message", out var value) ? value.Value<string>() : responseString);
+            if (responseCode != "2000")
+                throw new Exception(responseJson.TryGetValue("message", out var value)
+                    ? value.Value<string>()
+                    : responseString);
             // 存储一下数据
             var foundUserEntity = UserManageViewModel.UserList.FirstOrDefault(user => user.Mobile == phone);
             if (foundUserEntity != null)
@@ -186,6 +202,7 @@ namespace HyggeIMaoTai
             {
                 await DB.Sqlite.Insert(new UserEntity(phone, responseJson)).ExecuteAffrowsAsync();
             }
+
             return true;
         }
 
@@ -201,12 +218,12 @@ namespace HyggeIMaoTai
             {
                 foreach (var item in items)
                 {
-                    var shopId = await ShopRepository.GetShopId(userEntity.ShopType, item, userEntity.ProvinceName, userEntity.CityName, userEntity.Lat, userEntity.Lng);
+                    var shopId = await ShopRepository.GetShopId(userEntity.ShopType, item, userEntity.ProvinceName,
+                        userEntity.CityName, userEntity.Lat, userEntity.Lng);
                     if (!string.IsNullOrEmpty(shopId))
                     {
                         await Reservation(userEntity, item, shopId);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -234,9 +251,9 @@ namespace HyggeIMaoTai
             var values = new Dictionary<string, object>
             {
                 { "itemInfoList", new List<Dictionary<string, object>>() { info } },
-                { "sessionId",await GetCurrentSessionId() },
-                {"shopId",shopId},
-                {"userId",user.UserId + ""}
+                { "sessionId", await GetCurrentSessionId() },
+                { "shopId", shopId },
+                { "userId", user.UserId + "" }
             };
             values.Add("actParam", EncryptAES_CBC(JsonConvert.SerializeObject(values).Replace("\\\"", "\"")));
             var requestBody = JsonConvert.SerializeObject(values);
@@ -292,9 +309,9 @@ namespace HyggeIMaoTai
                 {
                     logEntity.Response = await response.GetStringAsync();
                 }
+
                 await DB.Sqlite.Insert<LogEntity>(logEntity).ExecuteAffrowsAsync();
             }
-
         }
 
         /// <summary>
@@ -337,7 +354,7 @@ namespace HyggeIMaoTai
             var milliseconds = (long)timeSpan.TotalMilliseconds;
 
             var responseStr = await ("https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/" +
-                                    milliseconds)
+                                     milliseconds)
                 .GetStringAsync();
             var jObject = JObject.Parse(responseStr);
             if (jObject.GetValue("code").Value<int>() == 2000)
@@ -353,6 +370,7 @@ namespace HyggeIMaoTai
                         itemElement["content"].Value<string>(),
                         itemElement["picture"].Value<string>(), DateTime.Now));
                 }
+
                 App.WriteCache("productList.json", JsonConvert.SerializeObject(AppointProjectViewModel.ProductList));
                 App.WriteCache("mtSessionId.txt", App.MtSessionId);
             }
@@ -408,7 +426,8 @@ namespace HyggeIMaoTai
             var responseStr = await "https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get"
                 .GetStringAsync();
             var jObject = JObject.Parse(responseStr);
-            var shopsUrl = jObject.GetValue("data").Value<JObject>().GetValue("mtshops_pc").Value<JObject>().GetValue("url").Value<string>();
+            var shopsUrl = jObject.GetValue("data").Value<JObject>().GetValue("mtshops_pc").Value<JObject>()
+                .GetValue("url").Value<string>();
             var shopInnerJson = await shopsUrl.GetStringAsync();
 
             var shopInnerJObject = JObject.Parse(shopInnerJson);
