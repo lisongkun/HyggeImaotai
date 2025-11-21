@@ -87,14 +87,18 @@ namespace HyggeIMaoTai.Domain
         private void UpdateData(object parameter)
         {
             LogList.Clear();
-            DB.Sqlite.Select<LogEntity>()
-                .WhereIf(!string.IsNullOrEmpty(this.Mobile),
-                    i => i.MobilePhone.Contains(this.Mobile))
-                .WhereIf(!string.IsNullOrEmpty(this.SearchContent),
-                    i => i.Content.Contains(this.SearchContent))
-                .WhereIf(!string.IsNullOrEmpty(this.Status),
-                    i => i.Status.Contains(this.Status))
-                .Page((int)parameter, 10).ToList().ForEach(LogListViewModel.LogList.Add);
+            var pageIndex = (int)parameter;
+            var (logList, _) = LogRepository.GetLogList(
+                this.Mobile,
+                this.SearchContent,
+                this.Status,
+                pageIndex,
+                10);
+            
+            foreach (var log in logList)
+            {
+                LogListViewModel.LogList.Add(log);
+            }
         }
 
         #endregion

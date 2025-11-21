@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using HyggeIMaoTai.UserInterface.Component;
 using MaterialDesignThemes.Wpf;
 using NLog;
 

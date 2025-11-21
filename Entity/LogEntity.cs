@@ -79,11 +79,5 @@ namespace HyggeIMaoTai.Entity
         }
 
         #endregion
-
-        #region Functions
-
-        
-
-        #endregion
     }
 }

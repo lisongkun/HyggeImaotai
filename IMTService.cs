@@ -213,7 +213,6 @@ namespace HyggeIMaoTai
         public static async Task Reservation(UserEntity userEntity)
         {
             var items = userEntity.ItemCode.Split("@");
-
             try
             {
                 foreach (var item in items)
@@ -228,14 +227,8 @@ namespace HyggeIMaoTai
             }
             catch (Exception ex)
             {
-                await DB.Sqlite.Insert<LogEntity>(new LogEntity()
-                {
-                    CreateTime = DateTime.Now,
-                    MobilePhone = userEntity.Mobile,
-                    Content = $"[userId]:{userEntity.UserId}",
-                    Response = ex.Message,
-                    Status = "异常"
-                }).ExecuteAffrowsAsync();
+                Logger.Error(ex, $"用户{userEntity.Mobile}预约产生异常,错误原因:{ex.Message}");
+                await LogRepository.InsertExceptionLogAsync(userEntity.Mobile, userEntity.UserId.ToString(), ex.Message);
             }
         }
 
@@ -286,31 +279,17 @@ namespace HyggeIMaoTai
             {
                 var responseString = await response.GetStringAsync();
                 var responseJson = JObject.Parse(responseString);
-                await DB.Sqlite.Insert<LogEntity>(new LogEntity()
-                {
-                    CreateTime = DateTime.Now,
-                    MobilePhone = user.Mobile,
-                    Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
-                    Response = responseString,
-                    Status = responseJson["code"].Value<int>() == 2000 ? "预约成功" : "预约失败"
-                }).ExecuteAffrowsAsync();
+                var isSuccess = responseJson["code"].Value<int>() == 2000;
+                await LogRepository.InsertReservationLogAsync(user.Mobile, user.UserId.ToString(), itemId, responseString, isSuccess);
             }
             else
             {
-                var logEntity = new LogEntity()
-                {
-                    CreateTime = DateTime.Now,
-                    MobilePhone = user.Mobile,
-                    Content = $"[userId]:{user.UserId} [shopId]:{itemId}",
-                    Response = $"本次抢购会话已过期,请手动刷新一下商品列表和店铺列表后重试",
-                    Status = "预约失败"
-                };
+                var responseString = $"本次抢购会话已过期,请手动刷新一下商品列表和店铺列表后重试";
                 if (response.StatusCode != 404)
                 {
-                    logEntity.Response = await response.GetStringAsync();
+                    responseString = await response.GetStringAsync();
                 }
-
-                await DB.Sqlite.Insert<LogEntity>(logEntity).ExecuteAffrowsAsync();
+                await LogRepository.InsertReservationFailureLogAsync(user.Mobile, user.UserId.ToString(), itemId, responseString);
             }
         }
 
@@ -397,14 +376,7 @@ namespace HyggeIMaoTai
                 catch (Exception e)
                 {
                     Logger.Error($"用户{userEntity.Mobile}预约产生异常,错误原因:{e.Message}");
-                    DB.Sqlite.Insert(new LogEntity()
-                    {
-                        CreateTime = DateTime.Now,
-                        MobilePhone = userEntity.Mobile,
-                        Content = $"[userId]:{userEntity.UserId}",
-                        Response = e.Message,
-                        Status = "异常"
-                    }).ExecuteAffrows();
+                    LogRepository.InsertExceptionLog(userEntity.Mobile, userEntity.UserId.ToString(), e.Message);
                 }
             }
         }
